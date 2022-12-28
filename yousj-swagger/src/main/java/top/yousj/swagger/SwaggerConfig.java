@@ -10,6 +10,8 @@ import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.List;
+
 /**
  * @author yousj
  * @since 2022-12-28
@@ -22,11 +24,19 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Slf4j
 public class SwaggerConfig {
 
-    @Bean
-    public Docket docket() {
-        SwaggerGroups.SwaggerGroup swaggerGroup = new SwaggerGroups.SwaggerGroup();
-        swaggerGroup.setGroupName("a.全部");
-        return SwaggerBuilder.of(swaggerGroup);
+    public SwaggerConfig(List<Docket> dockets) {
+        dockets.forEach(e -> log.debug(" load swagger group [" + e.getGroupName() + "]"));
+    }
+
+    @Configuration
+    public static class DefaultDocket {
+
+        @Bean
+        public Docket docket() {
+            SwaggerGroups.SwaggerGroup swaggerGroup = new SwaggerGroups.SwaggerGroup();
+            swaggerGroup.setGroupName("a.全部");
+            return SwaggerBuilder.of(swaggerGroup);
+        }
     }
 
 }
