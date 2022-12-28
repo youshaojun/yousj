@@ -49,7 +49,7 @@
             <dependency>
                 <groupId>top.yousj</groupId>
                 <artifactId>yousj-log</artifactId>
-                <version>1.0.0</version>
+                <version>${project.parent.version}</version>
             </dependency>
 
             <dependency>
