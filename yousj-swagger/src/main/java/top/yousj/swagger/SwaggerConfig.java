@@ -10,8 +10,6 @@ import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.List;
-
 /**
  * @author yousj
  * @since 2022-12-28
@@ -23,10 +21,6 @@ import java.util.List;
 @Profile({"dev", "test"})
 @Slf4j
 public class SwaggerConfig {
-
-    public SwaggerConfig(List<Docket> dockets) {
-        dockets.forEach(e -> log.debug(" load swagger group [" + e.getGroupName() + "]"));
-    }
 
     @Bean
     public Docket docket() {

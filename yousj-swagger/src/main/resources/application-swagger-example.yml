@@ -1,1 +1,5 @@
-
+multi-swagger-group:
+  groups:
+    user-swagger-group-bean:
+      group-name: b.”√ªß
+      base-package: top.yousj.demo.test.controller.user
