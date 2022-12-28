@@ -6,6 +6,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.List;
 
+/**
+ * @author yousj
+ * @since 2022-12-28
+ */
 @Slf4j
 @Component
 public class LoadDocket {
