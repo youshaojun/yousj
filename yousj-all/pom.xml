@@ -8,7 +8,7 @@
     <parent>
         <groupId>top.yousj</groupId>
         <artifactId>yousj-parent</artifactId>
-        <version>1.0.0</version>
+        <version>${yousj.parent.version}</version>
     </parent>
 
     <artifactId>yousj-all</artifactId>
@@ -18,61 +18,61 @@
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-core</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-datasource</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-encrypt</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-excel</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-exception</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-log</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-redis</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-retransform</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-security</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>top.yousj</groupId>
             <artifactId>yousj-swagger</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${yousj.parent.version}</version>
         </dependency>
 
     </dependencies>

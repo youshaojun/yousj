@@ -14,7 +14,7 @@
 
     <groupId>top.yousj</groupId>
     <artifactId>yousj-parent</artifactId>
-    <version>1.0.0</version>
+    <version>${yousj.parent.version}</version>
     <name>yousj</name>
     <description>用于快速构建Java项目而整合的一些常用模块</description>
     <url>https://github.com/youshaojun/yousj</url>
@@ -35,12 +35,10 @@
     </modules>
 
     <properties>
+        <yousj.parent.version>1.0.0</yousj.parent.version>
         <java.version>11</java.version>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
-        <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <lombok.version>1.18.24</lombok.version>
@@ -74,39 +72,35 @@
         </developer>
     </developers>
 
+    <distributionManagement>
+        <repository>
+            <id>yousj</id>
+            <url>http://127.0.0.1:8931/repository/yousj-nexus/</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <compilerArgument>-Xlint:unchecked</compilerArgument>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>${maven-source-plugin.version}</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>yousj</id>
-                        <phase>package</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>

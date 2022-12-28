@@ -8,7 +8,7 @@
     <parent>
         <groupId>top.yousj</groupId>
         <artifactId>yousj-parent</artifactId>
-        <version>1.0.0</version>
+        <version>${yousj.parent.version}</version>
     </parent>
 
     <artifactId>yousj-excel</artifactId>
