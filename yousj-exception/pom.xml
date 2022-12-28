@@ -8,7 +8,7 @@
     <parent>
         <groupId>top.yousj</groupId>
         <artifactId>yousj-parent</artifactId>
-        <version>${yousj.parent.version}</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>yousj-exception</artifactId>

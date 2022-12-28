@@ -8,9 +8,34 @@
     <parent>
         <groupId>top.yousj</groupId>
         <artifactId>yousj-parent</artifactId>
-        <version>${yousj.parent.version}</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>yousj-swagger</artifactId>
+
+    <properties>
+        <knife4j-spring-boot-starter.version>3.0.2</knife4j-spring-boot-starter.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>top.yousj</groupId>
+            <artifactId>yousj-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knife4j-spring-boot-starter.version}</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

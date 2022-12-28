@@ -14,7 +14,7 @@
 
     <groupId>top.yousj</groupId>
     <artifactId>yousj-parent</artifactId>
-    <version>${yousj.parent.version}</version>
+    <version>1.0.0</version>
     <name>yousj</name>
     <description>用于快速构建Java项目而整合的一些常用模块</description>
     <url>https://github.com/youshaojun/yousj</url>
@@ -35,7 +35,6 @@
     </modules>
 
     <properties>
-        <yousj.parent.version>1.0.0</yousj.parent.version>
         <java.version>11</java.version>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
@@ -51,15 +50,14 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
