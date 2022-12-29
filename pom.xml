@@ -40,7 +40,7 @@
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
-        <maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
         <lombok.version>1.18.24</lombok.version>
     </properties>
 

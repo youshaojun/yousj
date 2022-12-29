@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author yousj
  * @since 2022-12-28
  */
-public class SwaggerBuilder {
+public class SwaggerDocket {
 
     public static Docket of(SwaggerGroups.SwaggerGroup swaggerGroup) {
         List<Response> responses = Arrays.stream(ResultCode.values())

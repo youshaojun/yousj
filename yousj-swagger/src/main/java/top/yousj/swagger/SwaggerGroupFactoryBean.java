@@ -17,7 +17,7 @@ public class SwaggerGroupFactoryBean implements FactoryBean<Docket> {
 
     @Override
     public Docket getObject() {
-        return SwaggerBuilder.of(swaggerGroup);
+        return SwaggerDocket.of(swaggerGroup);
     }
 
     @Override
