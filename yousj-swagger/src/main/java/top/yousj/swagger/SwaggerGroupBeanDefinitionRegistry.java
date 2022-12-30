@@ -19,29 +19,32 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Component
 public class SwaggerGroupBeanDefinitionRegistry implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
 
-    private Environment environment;
+	private Environment environment;
 
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-    }
+	@Override
+	public void setEnvironment(Environment environment) {
+		this.environment = environment;
+	}
 
-    @Override
-    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        Binder.get(environment).bind("multi-swagger-group", SwaggerGroups.class).ifBound(s ->
-                s.getGroups().values().forEach(e -> {
-                    BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(Docket.class);
-                    GenericBeanDefinition definition = (GenericBeanDefinition) builder.getRawBeanDefinition();
-                    definition.getConstructorArgumentValues().addGenericArgumentValue(e);
-                    definition.setBeanClass(SwaggerGroupFactoryBean.class);
-                    definition.setAutowireMode(GenericBeanDefinition.AUTOWIRE_BY_NAME);
-                    registry.registerBeanDefinition(e.getGroupName(), definition);
-                }));
-    }
+	@Override
+	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+		Binder.get(environment).bind("multi-swagger-group", SwaggerGroups.class).ifBound(s -> registerBeanDefinition(s, registry));
+	}
 
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
+	@Override
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
 
-    }
+	}
+
+	private void registerBeanDefinition(SwaggerGroups swaggerGroups, BeanDefinitionRegistry registry) {
+		for (SwaggerGroups.SwaggerGroup swaggerGroup : swaggerGroups.getGroups().values()) {
+			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(Docket.class);
+			GenericBeanDefinition definition = (GenericBeanDefinition) builder.getRawBeanDefinition();
+			definition.getConstructorArgumentValues().addGenericArgumentValue(swaggerGroup);
+			definition.setBeanClass(SwaggerGroupFactoryBean.class);
+			definition.setAutowireMode(GenericBeanDefinition.AUTOWIRE_BY_NAME);
+			registry.registerBeanDefinition(swaggerGroup.getGroupName(), definition);
+		}
+	}
 
 }
