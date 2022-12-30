@@ -5,7 +5,6 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
@@ -28,8 +27,7 @@ public class MultiRedisBeanDefinitionRegistry implements BeanDefinitionRegistryP
 
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
-		BindResult<MultiRedisConfig> bindResult = Binder.get(environment).bind("multi-redis", MultiRedisConfig.class);
-		bindResult.ifBound(multiRedisConfig -> registerBeanDefinition(multiRedisConfig, registry));
+		Binder.get(environment).bind("multi-redis", MultiRedisConfig.class).ifBound(multiRedisConfig -> registerBeanDefinition(multiRedisConfig, registry));
 	}
 
 	@Override
@@ -38,8 +36,7 @@ public class MultiRedisBeanDefinitionRegistry implements BeanDefinitionRegistryP
 	}
 
 	private void registerBeanDefinition(MultiRedisConfig multiRedisConfig, BeanDefinitionRegistry registry) {
-		Map<String, MultiRedisStandaloneConfiguration> multiRedisTemplateConfigs = multiRedisConfig.getRedisConfigs();
-		for (Map.Entry<String, MultiRedisStandaloneConfiguration> redisStandaloneConfiguration : multiRedisTemplateConfigs.entrySet()) {
+		for (Map.Entry<String, MultiRedisStandaloneConfiguration> redisStandaloneConfiguration : multiRedisConfig.getRedisConfigs().entrySet()) {
 			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(RedisTemplate.class);
 			GenericBeanDefinition definition = (GenericBeanDefinition) builder.getRawBeanDefinition();
 			definition.getConstructorArgumentValues().addGenericArgumentValue(redisStandaloneConfiguration.getValue());
