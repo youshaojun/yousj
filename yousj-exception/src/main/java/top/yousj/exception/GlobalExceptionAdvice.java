@@ -1,5 +1,6 @@
 package top.yousj.exception;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.Ordered;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import top.yousj.core.entity.R;
-import top.yousj.core.entity.ResultCode;
+import top.yousj.core.constant.ResultCode;
 import top.yousj.core.exception.BusinessException;
+import top.yousj.core.exception.ExceptionAdviceHandler;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -28,8 +32,11 @@ import java.util.stream.Collectors;
  * @since 2022-12-29
  */
 @Slf4j
+@RequiredArgsConstructor
 @RestControllerAdvice(annotations = {RestController.class, Controller.class})
 public class GlobalExceptionAdvice implements Ordered {
+
+	private final List<ExceptionAdviceHandler> exceptionAdviceHandlers;
 
 	@Override
 	public int getOrder() {
@@ -74,6 +81,14 @@ public class GlobalExceptionAdvice implements Ordered {
 			|| ex instanceof IllegalStateException
 		) {
 			return R.failure(ResultCode.PARAM_NOT_MATCH);
+		}
+		if (!exceptionAdviceHandlers.isEmpty()) {
+			for (ExceptionAdviceHandler exceptionAdviceHandler : exceptionAdviceHandlers) {
+				R<String> r = exceptionAdviceHandler.handle(ex);
+				if (Objects.nonNull(r)) {
+					return r;
+				}
+			}
 		}
 		log.error(ex.getMessage(), ex);
 		if (ex instanceof RuntimeException) {

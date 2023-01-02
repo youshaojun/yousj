@@ -1,4 +1,4 @@
-package top.yousj.core.entity;
+package top.yousj.core.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +10,10 @@ public enum ResultCode {
 	PARAM_NOT_MATCH(400, "参数不匹配！"),
 
 	UNAUTHORIZED(401, "请先登录！"),
+
+	USERNAME_NOT_FOUND(401, "账号或密码错误！"),
+
+	TOKEN_PARSER_FAIL(401, "token解析异常！"),
 
 	ACCESS_DENIED(403, "暂无权限！"),
 
