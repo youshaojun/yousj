@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<included>
+	<springProperty name="MAX_HISTORY" scope="context" source="logging.file.max-history" defaultValue="3" />
+	<springProperty name="MAX_FILE_SIZE" scope="context" source="logging.file.max-size" defaultValue="50MB" />
+	<include resource="top/yousj/log/logback/logback-base.xml" />
+	<springProfile name="local">
+		<logger name="org.springframework.web" level="DEBUG"/>
+		<logger name="top.yousj" level="DEBUG"/>
+	</springProfile>
+</included>
