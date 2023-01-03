@@ -6,6 +6,8 @@ import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,6 +16,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import top.yousj.redis.RedisTemplateFactory;
@@ -28,6 +31,7 @@ import java.util.*;
  */
 @Slf4j
 @EnableCaching
+@ConditionalOnClass(RedisOperations.class)
 public class CacheConfig {
 
 	@Value("${spring.application.name}")
@@ -37,6 +41,7 @@ public class CacheConfig {
 	private List<String> scanPackages;
 
 	@Bean
+	@ConditionalOnMissingBean
 	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
 		return new RedisCacheManager(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory), defaultRedisCacheConfiguration(), getCacheConfigurations());
 	}

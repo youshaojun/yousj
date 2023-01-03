@@ -1,7 +1,7 @@
 package top.yousj.core.exception;
 
 import lombok.Data;
-import top.yousj.core.entity.ResultCode;
+import top.yousj.core.constant.ResultCode;
 
 /**
  * @author yousj

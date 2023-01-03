@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <packaging>jar</packaging>
+	<packaging>jar</packaging>
 
-    <parent>
-        <groupId>top.yousj</groupId>
-        <artifactId>yousj-parent</artifactId>
-        <version>1.0.0</version>
-    </parent>
+	<parent>
+		<groupId>top.yousj</groupId>
+		<artifactId>yousj-parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
 
-    <artifactId>yousj-swagger</artifactId>
+	<artifactId>yousj-swagger</artifactId>
 
-    <properties>
-        <knife4j-spring-boot-starter.version>3.0.2</knife4j-spring-boot-starter.version>
-    </properties>
+	<properties>
+		<knife4j-spring-boot-starter.version>3.0.2</knife4j-spring-boot-starter.version>
+	</properties>
 
-    <dependencies>
+	<dependencies>
 
-        <dependency>
-            <groupId>top.yousj</groupId>
-            <artifactId>yousj-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>top.yousj</groupId>
+			<artifactId>yousj-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>${knife4j-spring-boot-starter.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>knife4j-spring-boot-starter</artifactId>
+			<version>${knife4j-spring-boot-starter.version}</version>
+		</dependency>
 
-    </dependencies>
+	</dependencies>
 
 </project>
