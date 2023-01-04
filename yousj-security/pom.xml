@@ -5,11 +5,11 @@
 
     <packaging>jar</packaging>
 
-    <parent>
-        <groupId>top.yousj</groupId>
-        <artifactId>yousj-parent</artifactId>
-        <version>1.0.0</version>
-    </parent>
+	<parent>
+		<groupId>top.yousj</groupId>
+		<artifactId>yousj-parent</artifactId>
+		<version>${revision}</version>
+	</parent>
 
     <artifactId>yousj-security</artifactId>
 
