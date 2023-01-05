@@ -1,0 +1,6 @@
+top:
+  yousj:
+    web:
+      log:
+        order: 1
+        pointcut: execution(* top.yousj.web.controller..*.*(..))

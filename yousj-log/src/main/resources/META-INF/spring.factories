@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+top.yousj.log.aop.WebLogPointConfig\
+top.yousj.log.aop.WebLogPointAdvice
