@@ -3,21 +3,25 @@ package top.yousj.core.constant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @author yousj
+ * @since 2023-01-05
+ */
 @Getter
 @AllArgsConstructor
 public enum FileTypeEnum {
 
-    DOC,
+	DOC,
 
-    DOCX,
+	DOCX,
 
-    PDF,
+	PDF,
 
-    HTML,
+	HTML,
 
-    XLS,
+	XLS,
 
-    XLSX,
-    ;
+	XLSX,
+	;
 
 }
