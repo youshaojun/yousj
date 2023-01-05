@@ -29,7 +29,7 @@
 		<module>yousj-exception</module>
 		<module>yousj-log</module>
 		<module>yousj-redis</module>
-		<module>yousj-retransform</module>
+		<module>yousj-reload</module>
 		<module>yousj-security</module>
 		<module>yousj-swagger</module>
 		<module>yousj-web</module>

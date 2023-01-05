@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.utils.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -27,23 +28,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtUtil jwtUtil;
 	private final UserDetailsService userDetailsService;
+	private final SecurityExceptionAdviceHandler securityExceptionAdviceHandler;
 
 	public static Set<String> IGNORE_URLS = Sets.newHashSet();
 
+	static {
+		// TODO 读取配置
+		IGNORE_URLS.add("/reload/updateClass");
+		IGNORE_URLS.add("/reload/updateMapperXml");
+	}
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-		if (IGNORE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
+		try {
+			if (IGNORE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
+				filterChain.doFilter(httpServletRequest, httpServletResponse);
+				return;
+			}
+			String jwtToken = JwtUtil.getJwtFromRequest(httpServletRequest);
+			if (StringUtils.isBlank(jwtToken)) throw new JwtException(StringUtils.EMPTY);
+			String subject = jwtUtil.paresJwtToken(jwtToken);
+			UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
-			return;
+		} catch (Exception e) {
+			securityExceptionAdviceHandler.handle(e);
 		}
-		String jwtToken = JwtUtil.getJwtFromRequest(httpServletRequest);
-		if (StringUtils.isBlank(jwtToken)) throw new JwtException(StringUtils.EMPTY);
-		String subject = jwtUtil.paresJwtToken(jwtToken);
-		UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		filterChain.doFilter(httpServletRequest, httpServletResponse);
 	}
 
 }

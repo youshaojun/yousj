@@ -60,7 +60,7 @@
 
 			<dependency>
 				<groupId>top.yousj</groupId>
-				<artifactId>yousj-retransform</artifactId>
+				<artifactId>yousj-reload</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
 
