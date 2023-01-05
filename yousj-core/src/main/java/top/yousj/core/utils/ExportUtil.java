@@ -47,6 +47,14 @@ public class ExportUtil {
 		}
 	}
 
+	public static File newFile(FileTypeEnum fileTypeEnum){
+		return new File(createPath(fileTypeEnum));
+	}
+
+	public static File newFile(String suffix){
+		return new File(createPath(suffix));
+	}
+
 	public static String createPath(FileTypeEnum fileTypeEnum) {
 		return createPath("/tmp", fileTypeEnum);
 	}
