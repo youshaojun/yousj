@@ -11,9 +11,9 @@ import top.yousj.excel.handler.ContentCellStylePostWriteHandler;
  * @author yousj
  * @since 2022-12-29
  */
-public class DefaultCellStyleStrategy {
+public class CellStyleStrategy {
 
-	private static AbstractCellStyleStrategy get() {
+	private static AbstractCellStyleStrategy create() {
 		WriteCellStyle headWriteCellStyle = new WriteCellStyle();
 		headWriteCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 		headWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
