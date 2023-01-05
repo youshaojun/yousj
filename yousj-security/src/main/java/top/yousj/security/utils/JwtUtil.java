@@ -6,9 +6,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.stereotype.Component;
+import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.utils.DateUtil;
 import top.yousj.redis.utils.RedisUtil;
 import top.yousj.security.properties.JwtProperties;
@@ -59,14 +59,14 @@ public class JwtUtil {
     }
 
 	public static String getJwtFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getParameter("token");
+		String bearerToken = request.getParameter(UaaConstant.TOKEN_HEADER);
 		if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			return bearerToken.substring(7);
 		}
 		if (StringUtils.isNotBlank(bearerToken)) {
 			return bearerToken;
 		}
-		bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+		bearerToken = request.getHeader(UaaConstant.AUTHORIZATION);
 		if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			return bearerToken.substring(7);
 		}
