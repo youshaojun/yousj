@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<packaging>jar</packaging>
-	
+
 	<parent>
 		<groupId>top.yousj</groupId>
 		<artifactId>yousj-parent</artifactId>
@@ -13,34 +13,22 @@
 
 	<artifactId>yousj-redis</artifactId>
 
-	<properties>
-		<jedis.client.version>3.3.0</jedis.client.version>
-		<redisson-spring-boot-starter.version>3.12.4</redisson-spring-boot-starter.version>
-		<org.reflections.version>0.9.11</org.reflections.version>
-	</properties>
-
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis-reactive</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			<version>${jedis.client.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.redisson</groupId>
 			<artifactId>redisson-spring-boot-starter</artifactId>
-			<version>${redisson-spring-boot-starter.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.redisson</groupId>
@@ -48,19 +36,14 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.redisson</groupId>
 			<artifactId>redisson-spring-data-21</artifactId>
-			<version>${redisson-spring-boot-starter.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
-			<version>${org.reflections.version}</version>
 		</dependency>
-
 	</dependencies>
 
 </project>

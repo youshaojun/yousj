@@ -13,18 +13,11 @@
 
 	<artifactId>yousj-excel</artifactId>
 
-	<properties>
-		<easyexcel.version>3.1.1</easyexcel.version>
-	</properties>
-
 	<dependencies>
-
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>easyexcel</artifactId>
-			<version>${easyexcel.version}</version>
 		</dependency>
-
 	</dependencies>
 
 </project>

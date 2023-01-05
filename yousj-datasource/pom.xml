@@ -13,15 +13,10 @@
 
     <artifactId>yousj-datasource</artifactId>
 
-	<properties>
-		<mybatis-plus-boot-starter.version>3.5.2</mybatis-plus-boot-starter.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>${mybatis-plus-boot-starter.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -13,24 +13,16 @@
 
 	<artifactId>yousj-swagger</artifactId>
 
-	<properties>
-		<knife4j-spring-boot-starter.version>3.0.2</knife4j-spring-boot-starter.version>
-	</properties>
-
 	<dependencies>
-
 		<dependency>
 			<groupId>top.yousj</groupId>
 			<artifactId>yousj-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.github.xiaoymin</groupId>
 			<artifactId>knife4j-spring-boot-starter</artifactId>
-			<version>${knife4j-spring-boot-starter.version}</version>
 		</dependency>
-
 	</dependencies>
 
 </project>

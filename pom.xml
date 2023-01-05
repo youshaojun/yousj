@@ -44,39 +44,93 @@
 		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
 		<maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
 		<lombok.version>1.18.24</lombok.version>
+
+		<pagehelper-spring-boot-starter.version>1.4.3</pagehelper-spring-boot-starter.version>
+		<mybatis-plus-boot-starter.version>3.5.2</mybatis-plus-boot-starter.version>
+		<knife4j-spring-boot-starter.version>3.0.2</knife4j-spring-boot-starter.version>
+		<easyexcel.version>3.1.1</easyexcel.version>
+		<redisson-spring-boot-starter.version>3.12.4</redisson-spring-boot-starter.version>
+		<org.reflections.version>0.9.11</org.reflections.version>
+		<jwt.version>0.9.1</jwt.version>
+
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper-spring-boot-starter</artifactId>
+				<version>${pagehelper-spring-boot-starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>${mybatis-plus-boot-starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.xiaoymin</groupId>
+				<artifactId>knife4j-spring-boot-starter</artifactId>
+				<version>${knife4j-spring-boot-starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>easyexcel</artifactId>
+				<version>${easyexcel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson-spring-boot-starter</artifactId>
+				<version>${redisson-spring-boot-starter.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.redisson</groupId>
+						<artifactId>redisson-spring-data-22</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson-spring-data-21</artifactId>
+				<version>${redisson-spring-boot-starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.reflections</groupId>
+				<artifactId>reflections</artifactId>
+				<version>${org.reflections.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>${jwt.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<developers>
 		<developer>
