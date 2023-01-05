@@ -76,18 +76,11 @@ public class RetransformController {
 	}
 
 	private static File uploadFile(byte[] file, String fileName) throws IOException {
-		FileOutputStream out = null;
-		try {
-			File targetFile = File.createTempFile(fileName, ".class", new File(System.getProperty("java.io.tmpdir")));
-			out = new FileOutputStream(targetFile.getAbsolutePath());
+		File targetFile = File.createTempFile(fileName, ".class", new File(System.getProperty("java.io.tmpdir")));
+		try (FileOutputStream out = new FileOutputStream(targetFile.getAbsolutePath())) {
 			out.write(file);
 			out.flush();
 			return targetFile;
-		} finally {
-			if (out != null) {
-				out.flush();
-				out.close();
-			}
 		}
 	}
 
