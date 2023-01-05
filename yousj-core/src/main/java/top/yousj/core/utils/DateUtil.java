@@ -1,7 +1,6 @@
 package top.yousj.core.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.text.SimpleDateFormat;
@@ -62,12 +61,12 @@ public class DateUtil {
 		return join(start, end, "至", "yyyy-MM-dd");
 	}
 
-	public static String join(Date start, Date end, String conjunction, String format) {
+	public static String join(Date start, Date end, String delimiter, String format) {
 		try {
 			if (Objects.isNull(end)) {
-				return DateFormatUtils.format(start, format);
+				return format(start, format);
 			}
-			return StringUtils.join(conjunction, Objects.isNull(start) ? "" : DateFormatUtils.format(start, format), DateFormatUtils.format(end, format));
+			return StringUtils.join(delimiter, Objects.isNull(start) ? "" : format(start, format), format(end, format));
 		} catch (Exception ignored) {
 		}
 		return StringUtils.EMPTY;
