@@ -8,6 +8,7 @@ import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
@@ -32,6 +33,7 @@ import java.util.*;
 @Slf4j
 @EnableCaching
 @ConditionalOnClass(RedisOperations.class)
+@ConditionalOnProperty(prefix = "cache.config", name = "scanPackages")
 public class CacheConfig {
 
 	@Value("${spring.application.name}")
@@ -61,7 +63,7 @@ public class CacheConfig {
 			if (Objects.isNull(cacheable) || cacheable.cacheNames().length == 0) {
 				continue;
 			}
-			// 通过cacheNames支持自定义过期策略(秒级) ==> xxx#ttl
+			// 通过cacheNames支持自定义过期策略(秒级) ==> @Cacheable(cacheNames = "searchCache#3600", key = "'searchCache_' + " + "#id")
 			String cacheName = cacheable.cacheNames()[0];
 			String[] split = cacheName.split("#");
 			if (split.length == 2) {
