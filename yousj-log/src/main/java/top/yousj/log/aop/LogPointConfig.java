@@ -12,12 +12,12 @@ import java.util.Optional;
  * @since 2023-01-04
  */
 @Slf4j
-public class WebLogPointConfig {
+public class LogPointConfig {
 
 	@Bean
 	@ConditionalOnProperty(prefix = "top.yousj.web.log", name = "pointcut")
 	@ConditionalOnMissingBean
-	public WebLogPointHandler webLogPointHandler() {
+	public LogPointHandler logPointHandler() {
 		return logMap -> Optional.ofNullable(logMap).ifPresent(e -> log.info(e.toString()));
 	}
 

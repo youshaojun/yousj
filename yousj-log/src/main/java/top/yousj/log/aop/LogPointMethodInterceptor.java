@@ -31,10 +31,10 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 @SuppressWarnings("all")
-public class WebLogPointMethodInterceptor implements MethodInterceptor {
+public class LogPointMethodInterceptor implements MethodInterceptor {
 
 	private final ObjectMapper objectMapper;
-	private final WebLogPointHandler webLogPointHandler;
+	private final LogPointHandler logPointHandler;
 
 	private static final String APP_USER_UID = "app_user_uid";
 
@@ -85,7 +85,7 @@ public class WebLogPointMethodInterceptor implements MethodInterceptor {
 				operateLog.setResMsg(r.getMsg());
 			}
 			operateLog.setResponseTiming(ChronoUnit.MILLIS.between(operateLog.getStartRequestTime().toInstant(), Instant.now()));
-			webLogPointHandler.handle(operateLog);
+			logPointHandler.handle(operateLog);
 		} catch (Exception ignored) {
 		}
 		return res;

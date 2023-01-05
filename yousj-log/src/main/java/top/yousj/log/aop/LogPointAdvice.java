@@ -13,15 +13,15 @@ import org.springframework.core.env.Environment;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class WebLogPointAdvice {
+public class LogPointAdvice {
 
 	private final Environment environment;
 
 	@Bean
 	@ConditionalOnProperty(prefix = "top.yousj.web.log", name = "pointcut")
-	public AspectJExpressionPointcutAdvisor webLogPointAdvisor(WebLogPointMethodInterceptor webLogPointMethodInterceptor) {
+	public AspectJExpressionPointcutAdvisor webLogPointAdvisor(LogPointMethodInterceptor logPointMethodInterceptor) {
 		AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
-		advisor.setAdvice(webLogPointMethodInterceptor);
+		advisor.setAdvice(logPointMethodInterceptor);
 		advisor.setOrder(environment.getProperty("top.yousj.web.log.order", Integer.class, -1));
 		advisor.setExpression(environment.getProperty("top.yousj.web.log.pointcut"));
 		return advisor;
