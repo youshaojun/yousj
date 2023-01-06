@@ -18,4 +18,6 @@ public class UaaConstant {
 
 	public static final String APP_NAME = "top_yousj_app_name";
 
+	public static final String APP_CHANNEL = "top_yousj_app_channel";
+
 }
