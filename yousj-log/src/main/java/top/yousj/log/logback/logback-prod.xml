@@ -5,6 +5,6 @@
 	<include resource="top/yousj/log/logback/logback-base.xml" />
 	<springProfile name="prod">
 		<logger name="org.springframework.web" level="ERROR"/>
-		<logger name="top.yousj" level="ERROR"/>
+		<logger name="top.yousj" level="INFO"/>
 	</springProfile>
 </included>
