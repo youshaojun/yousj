@@ -24,7 +24,7 @@
 		<module>yousj-bom</module>
 		<module>yousj-core</module>
 		<module>yousj-datasource</module>
-		<module>yousj-encrypt</module>
+		<module>yousj-crypto</module>
 		<module>yousj-excel</module>
 		<module>yousj-exception</module>
 		<module>yousj-log</module>

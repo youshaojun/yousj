@@ -11,6 +11,14 @@
 		<version>${revision}</version>
 	</parent>
 
-    <artifactId>yousj-encrypt</artifactId>
+    <artifactId>yousj-crypto</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>top.yousj</groupId>
+			<artifactId>yousj-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+	</dependencies>
 
 </project>
