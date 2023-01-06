@@ -1,5 +1,6 @@
 package top.yousj.log.aop;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * @author yousj
@@ -22,11 +23,16 @@ import java.util.Optional;
 public class LogPointAdvice {
 
 	private final Environment environment;
+	private final ObjectMapper objectMapper;
 
 	@Bean
 	@ConditionalOnMissingBean
 	public LogPointHandler logPointHandler() {
-		return logMap -> Optional.ofNullable(logMap).ifPresent(e -> log.info(e.toString()));
+		return logMap -> {
+			if (Objects.nonNull(logMap)) {
+				log.info(objectMapper.writeValueAsString(logMap));
+			}
+		};
 	}
 
 	@Bean
