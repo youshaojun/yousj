@@ -47,7 +47,7 @@ public class JwtUtil {
     public String paresJwtToken(String jwtToken) {
         String subject = getSubject(jwtToken);
         String key = jwtProperties.getSignKey() + subject;
-		RedisUtil.put(key, Optional.ofNullable(RedisUtil.get(key)).orElseThrow(() -> new AccountExpiredException(StringUtils.EMPTY)), jwtProperties.getExpire(), TimeUnit.MILLISECONDS);
+		RedisUtil.put(key, Optional.ofNullable(RedisUtil.get(key)).orElseThrow(() -> new AccountExpiredException(StrPool.EMPTY)), jwtProperties.getExpire(), TimeUnit.MILLISECONDS);
         return subject;
     }
 

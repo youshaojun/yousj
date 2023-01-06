@@ -4,15 +4,17 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import top.yousj.core.constant.ResultCode;
+import top.yousj.core.enums.ResultCode;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
@@ -26,8 +28,9 @@ import java.util.Set;
 import static top.yousj.security.config.CustomConfig.*;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
+@ConditionalOnBean(SecurityFilterChain.class)
+@AutoConfiguration(after = SecurityExceptionAdviceHandler.class)
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtUtil jwtUtil;

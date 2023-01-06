@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
-import top.yousj.core.constant.ResultCode;
+import org.springframework.security.web.SecurityFilterChain;
+import top.yousj.core.enums.ResultCode;
 import top.yousj.core.constant.StrPool;
 import top.yousj.core.entity.R;
 import top.yousj.core.exception.ExceptionAdviceHandler;
@@ -17,8 +18,8 @@ import top.yousj.core.exception.ExceptionAdviceHandler;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
-@Component
 @RequiredArgsConstructor
+@ConditionalOnBean(SecurityFilterChain.class)
 public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 
 	private final HttpServletResponse httpServletResponse;

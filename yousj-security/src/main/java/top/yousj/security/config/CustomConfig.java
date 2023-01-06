@@ -3,8 +3,10 @@ package top.yousj.security.config;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 @EnableScheduling
 @RequiredArgsConstructor
+@ConditionalOnBean(SecurityFilterChain.class)
 public class CustomConfig {
 
 	private final CustomConfigReloadHandler customConfigReloadHandler;

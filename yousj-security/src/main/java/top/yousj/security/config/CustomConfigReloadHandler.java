@@ -7,15 +7,12 @@ package top.yousj.security.config;
 public interface CustomConfigReloadHandler {
 
 	default void reloadAuthPermitUrls() {
-
 	}
 
 	default void reloadIgnoreUrls() {
-
 	}
 
 	default void reloadCommonIgnoreUrls() {
-
 	}
 
 }
