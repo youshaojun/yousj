@@ -73,11 +73,6 @@
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>top.yousj</groupId>
-			<artifactId>yousj-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
