@@ -2,6 +2,7 @@ package top.yousj.security.filter;
 
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +12,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import top.yousj.core.constant.ResultCode;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.exception.BusinessException;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
@@ -24,6 +26,7 @@ import java.util.Set;
 
 import static top.yousj.security.config.CustomConfig.*;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -59,7 +62,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 		} catch (Exception e) {
-			securityExceptionAdviceHandler.handle(e);
+			log.error(e.getMessage(), e);
+			securityExceptionAdviceHandler.write(ResultCode.SYSTEM_ERROR);
 		}
 	}
 
