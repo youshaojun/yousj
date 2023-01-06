@@ -3,7 +3,7 @@ package top.yousj.reload.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Profile;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import top.yousj.core.entity.R;
 import top.yousj.reload.service.JvmAttachClassReloadService;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,8 +25,19 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/reload")
-@Profile({"dev", "test"})
 public class ReloadClassController {
+
+	@Value("${spring.profiles.active}")
+	private String active;
+
+	@PostConstruct
+	public void check() {
+		if (!StringUtils.equalsAny(active, "dev", "test")) {
+			log.error("热更新功能只支持在开发和测试阶段使用!");
+			log.error("请将reload相关maven依赖置于正确的profile内!");
+			System.exit(-1);
+		}
+	}
 
 	@RequestMapping("/updateClass")
 	public R<String> updateClass(@RequestParam("classFile") MultipartFile classFile, String className) {
