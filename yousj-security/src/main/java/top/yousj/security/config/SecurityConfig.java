@@ -15,7 +15,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsUtils;
 import top.yousj.core.constant.ResultCode;
 import top.yousj.core.constant.UaaConstant;
-import top.yousj.core.exception.BusinessException;
+import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.filter.JwtAuthenticationFilter;
 import top.yousj.security.utils.SecurityUtil;
@@ -73,9 +73,7 @@ public class SecurityConfig {
 
 	public boolean hasPermission(HttpServletRequest request) {
 		String appName = request.getHeader(UaaConstant.APP_NAME);
-		if (Objects.isNull(appName)) {
-			throw new BusinessException("app name is null.");
-		}
+		ParamAssertUtil.notNull(appName, "app name is null.");
 		List<String> urls = SecurityUtil.getAuthorities();
 		Set<String> authPermitUrls = AUTH_PERMIT_URLS.get(appName);
 		if (!CollectionUtils.isEmpty(authPermitUrls) && authPermitUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request))) {

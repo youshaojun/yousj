@@ -14,14 +14,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import top.yousj.core.constant.ResultCode;
 import top.yousj.core.constant.UaaConstant;
-import top.yousj.core.exception.BusinessException;
+import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.utils.JwtUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 import java.util.Set;
 
 import static top.yousj.security.config.CustomConfig.*;
@@ -43,9 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				return;
 			}
 			String appName = httpServletRequest.getHeader(UaaConstant.APP_NAME);
-			if (Objects.isNull(appName)) {
-				throw new BusinessException("app name is null.");
-			}
+			ParamAssertUtil.notNull(appName, "app name is null.");
 			Set<String> ignoreUrls = IGNORE_URLS.get(appName);
 			if (ignoreUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
