@@ -39,11 +39,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;
 			}
-			String applicationName = httpServletRequest.getHeader(UaaConstant.APPLICATION_NAME);
-			if (Objects.isNull(applicationName)) {
-				throw new BusinessException("application name is null.");
+			String appName = httpServletRequest.getHeader(UaaConstant.APP_NAME);
+			if (Objects.isNull(appName)) {
+				throw new BusinessException("app name is null.");
 			}
-			Set<String> ignoreUrls = IGNORE_URLS.get(applicationName);
+			Set<String> ignoreUrls = IGNORE_URLS.get(appName);
 			if (ignoreUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;

@@ -72,12 +72,12 @@ public class SecurityConfig {
 	}
 
 	public boolean hasPermission(HttpServletRequest request) {
-		String applicationName = request.getHeader(UaaConstant.APPLICATION_NAME);
-		if (Objects.isNull(applicationName)) {
-			throw new BusinessException("application name is null.");
+		String appName = request.getHeader(UaaConstant.APP_NAME);
+		if (Objects.isNull(appName)) {
+			throw new BusinessException("app name is null.");
 		}
 		List<String> urls = SecurityUtil.getAuthorities();
-		Set<String> authPermitUrls = AUTH_PERMIT_URLS.get(applicationName);
+		Set<String> authPermitUrls = AUTH_PERMIT_URLS.get(appName);
 		if (!CollectionUtils.isEmpty(authPermitUrls) && authPermitUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request))) {
 			return true;
 		}
