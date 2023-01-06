@@ -6,6 +6,6 @@ package top.yousj.log.aop;
  */
 public interface LogPointHandler {
 
-	void handle(OperateLog operateLog);
+	void handle(RequestLog requestLog);
 
 }

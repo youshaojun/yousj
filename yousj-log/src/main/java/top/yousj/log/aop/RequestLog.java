@@ -9,7 +9,7 @@ import java.util.Date;
  * @since 2023-01-04
  */
 @Data
-public class OperateLog {
+public class RequestLog {
 
 	/**
 	 * 响应码
@@ -52,14 +52,14 @@ public class OperateLog {
 	private String requestMethod;
 
 	/**
-	 * agent
+	 * User-Agent
 	 */
-	private String remoteUserAgent;
+	private String userAgent;
 
 	/**
 	 * ip
 	 */
-	private String remoteIpAddr;
+	private String ip;
 
 	/**
 	 * 请求参数
@@ -69,11 +69,11 @@ public class OperateLog {
 	/**
 	 * 请求开始时间
 	 */
-	private Date startRequestTime;
+	private Date startTime;
 
 	/**
 	 * 接口耗时
 	 */
-	private Long responseTiming;
+	private Long elapsedTime;
 
 }

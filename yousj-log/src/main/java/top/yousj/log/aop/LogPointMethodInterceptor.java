@@ -38,20 +38,20 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 	@Override
 	public Object invoke(MethodInvocation pjp) throws Throwable {
 		ServletRequestAttributes attributes = null;
-		OperateLog operateLog = null;
+		RequestLog requestLog = null;
 		try {
 			attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 			if (attributes != null) {
-				operateLog = new OperateLog();
-				operateLog.setStartRequestTime(new Date());
+				requestLog = new RequestLog();
+				requestLog.setStartTime(new Date());
 				HttpServletRequest request = attributes.getRequest();
-				operateLog.setServerName(request.getServerName());
-				operateLog.setUri(request.getRequestURI());
-				operateLog.setClassName(pjp.getMethod().getDeclaringClass().getName());
-				operateLog.setMethodName(pjp.getMethod().getName());
-				operateLog.setRequestMethod(request.getMethod());
-				operateLog.setRemoteUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-				operateLog.setRemoteIpAddr(getIpAddr(request));
+				requestLog.setServerName(request.getServerName());
+				requestLog.setUri(request.getRequestURI());
+				requestLog.setClassName(pjp.getMethod().getDeclaringClass().getName());
+				requestLog.setMethodName(pjp.getMethod().getName());
+				requestLog.setRequestMethod(request.getMethod());
+				requestLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+				requestLog.setIp(getIpAddr(request));
 				Map<String, Object> requestParameterMap = new HashMap<>();
 				for (Object arg : pjp.getArguments()) {
 					if (arg == null
@@ -64,10 +64,10 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 					requestParameterMap.putAll(objectMapper.readValue(objectMapper.writeValueAsString(arg), Map.class));
 				}
 				requestParameterMap.putAll(request.getParameterMap());
-				operateLog.setRequestParams(objectMapper.writeValueAsString(requestParameterMap));
+				requestLog.setRequestParams(objectMapper.writeValueAsString(requestParameterMap));
 				String appUserUid = request.getHeader(UaaConstant.APP_USER_UID);
 				if (StringUtils.isNotBlank(appUserUid)) {
-					operateLog.setUid(Integer.valueOf(appUserUid));
+					requestLog.setUid(Integer.valueOf(appUserUid));
 				}
 			}
 		} catch (Exception ignored) {
@@ -77,13 +77,13 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 
 		try {
 			if (attributes != null) {
-				if (operateLog != null && res instanceof R) {
+				if (requestLog != null && res instanceof R) {
 					R r = (R) res;
-					operateLog.setResCode(r.getCode());
-					operateLog.setResMsg(r.getMsg());
+					requestLog.setResCode(r.getCode());
+					requestLog.setResMsg(r.getMsg());
 				}
-				operateLog.setResponseTiming(ChronoUnit.MILLIS.between(operateLog.getStartRequestTime().toInstant(), Instant.now()));
-				logPointHandler.handle(operateLog);
+				requestLog.setElapsedTime(ChronoUnit.MILLIS.between(requestLog.getStartTime().toInstant(), Instant.now()));
+				logPointHandler.handle(requestLog);
 			}
 		} catch (Exception ignored) {
 		}
