@@ -1,4 +1,4 @@
-package top.yousj.crpyto.advice;
+package top.yousj.crypto.advice;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -6,12 +6,14 @@ import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 import top.yousj.core.constant.StrPool;
-import top.yousj.crpyto.annotation.Decrypt;
-import top.yousj.crpyto.config.KeyPropertiesHolder;
-import top.yousj.crpyto.handler.CryptHandler;
+import top.yousj.crypto.annotation.Decrypt;
+import top.yousj.crypto.config.KeyPropertiesHolder;
+import top.yousj.crypto.handler.CryptHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
@@ -22,8 +24,8 @@ import java.lang.reflect.Type;
  * @author yousj
  * @since 2023-01-06
  */
-@ControllerAdvice
 @RequiredArgsConstructor
+@RestControllerAdvice(annotations = {Controller.class, RestController.class})
 public class DecryptReqAdvice extends RequestBodyAdviceAdapter {
 
 	private final KeyPropertiesHolder keyPropertiesHolder;

@@ -1,4 +1,4 @@
-package top.yousj.crpyto.config;
+package top.yousj.crypto.config;
 
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.utils.ParamAssertUtil;

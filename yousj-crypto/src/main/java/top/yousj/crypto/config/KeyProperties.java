@@ -1,4 +1,4 @@
-package top.yousj.crpyto.config;
+package top.yousj.crypto.config;
 
 import lombok.Data;
 

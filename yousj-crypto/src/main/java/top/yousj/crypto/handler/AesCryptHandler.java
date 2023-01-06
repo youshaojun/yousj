@@ -1,7 +1,7 @@
-package top.yousj.crpyto.handler;
+package top.yousj.crypto.handler;
 
 import top.yousj.core.utils.AESUtil;
-import top.yousj.crpyto.config.KeyProperties;
+import top.yousj.crypto.config.KeyProperties;
 
 /**
  * @author yousj
