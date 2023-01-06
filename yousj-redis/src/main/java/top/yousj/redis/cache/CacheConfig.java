@@ -6,6 +6,7 @@ import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -32,6 +33,7 @@ import java.util.*;
  */
 @Slf4j
 @EnableCaching
+@AutoConfiguration(after = RedisConnectionFactory.class)
 @ConditionalOnClass(RedisOperations.class)
 @ConditionalOnProperty(prefix = "cache.config", name = "scanPackages")
 public class CacheConfig {

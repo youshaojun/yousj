@@ -5,6 +5,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.client.codec.StringCodec;
 import org.redisson.config.Config;
 import org.redisson.config.TransportMode;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
@@ -19,6 +20,7 @@ import java.util.Optional;
  * @author yousj
  * @since 2022-12-29
  */
+@AutoConfiguration
 @EnableConfigurationProperties(RedisProperties.class)
 @ConditionalOnClass(RedisOperations.class)
 public class RedissonConfig {
