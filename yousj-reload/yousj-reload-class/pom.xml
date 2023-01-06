@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>top.yousj</groupId>
 		<artifactId>yousj-reload</artifactId>
-		<version>${revision}</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>yousj-reload-class</artifactId>

@@ -14,7 +14,7 @@
 
 	<groupId>top.yousj</groupId>
 	<artifactId>yousj-parent</artifactId>
-	<version>${revision}</version>
+	<version>1.0.0</version>
 	<name>yousj</name>
 	<description>用于快速构建Java项目而整合的一些常用模块</description>
 	<url>https://github.com/youshaojun/yousj</url>
@@ -36,7 +36,6 @@
 	</modules>
 
 	<properties>
-		<revision>1.0.0</revision>
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
