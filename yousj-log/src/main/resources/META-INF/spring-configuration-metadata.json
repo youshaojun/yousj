@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "top.yousj.web.log"
+    }
+  ],
+  "properties": [
+    {
+      "name": "top.yousj.web.log.order",
+      "type": "java.lang.Integer",
+      "defaultValue": -1,
+      "description": "排序"
+    },
+    {
+      "name": "top.yousj.web.log.pointcut",
+      "type": "java.lang.String",
+      "defaultValue": "",
+      "description": "切面el表达式"
+    }
+  ],
+  "hints": []
+}

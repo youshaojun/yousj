@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "multi-swagger-group",
+      "type": "top.yousj.swagger.SwaggerGroups",
+      "sourceType": "top.yousj.swagger.SwaggerGroups"
+    }
+  ],
+  "properties": [
+    {
+      "name": "multi-swagger-group.groups",
+      "type": "java.util.Map<java.lang.String,top.yousj.swagger.SwaggerGroups$SwaggerGroup>",
+      "sourceType": "top.yousj.swagger.SwaggerGroups",
+      "description": "swagger分组配置"
+    }
+  ],
+  "hints": []
+}

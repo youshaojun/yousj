@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "cache.config"
+    },
+    {
+      "name": "multi-redis",
+      "type": "top.yousj.redis.multi.MultiRedisConfig",
+      "sourceType": "top.yousj.redis.multi.MultiRedisConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "cache.config.scan-packages",
+      "type": "java.lang.String",
+      "defaultValue": "",
+      "description": "扫描开启自定义处理cache的包"
+    },
+    {
+      "name": "multi-redis.redis-configs",
+      "type": "java.util.Map<java.lang.String,top.yousj.redis.multi.MultiRedisStandaloneConfiguration>",
+      "sourceType": "top.yousj.redis.multi.MultiRedisConfig",
+      "description": "注入多实例RedisTemplate"
+    }
+  ],
+  "hints": []
+}

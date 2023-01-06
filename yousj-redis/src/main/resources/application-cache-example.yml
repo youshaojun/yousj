@@ -1,4 +1,3 @@
-# 扫描开启自定义处理cache的包
 cache:
   config:
-    scanPackages: top.yousj.web
+    scan-packages: top.yousj.web

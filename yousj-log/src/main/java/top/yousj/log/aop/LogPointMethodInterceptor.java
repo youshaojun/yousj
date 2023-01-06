@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,8 +28,8 @@ import java.util.Map;
  * @since 2023-01-05
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
+@ConditionalOnProperty(prefix = "top.yousj.web.log", name = "pointcut")
 public class LogPointMethodInterceptor implements MethodInterceptor {
 
 	private final ObjectMapper objectMapper;

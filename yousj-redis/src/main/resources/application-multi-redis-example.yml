@@ -1,9 +1,9 @@
 # 多redisTemplate实例配置, 根据名称注入
 # 默认配置 hostName: localhost; password: none; port: 6379; database: 0
 multi-redis:
-  redisConfigs:
+  redis-configs:
     redisTemplate0:
-      hostName: localhost
+      host-name: localhost
       password: 123456
       port: 6379
       database: 0
