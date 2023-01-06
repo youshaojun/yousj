@@ -30,17 +30,14 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@SuppressWarnings("all")
 public class LogPointMethodInterceptor implements MethodInterceptor {
 
 	private final ObjectMapper objectMapper;
 	private final LogPointHandler logPointHandler;
 
-	private static final String APP_USER_UID = "app_user_uid";
-
 	@Override
 	public Object invoke(MethodInvocation pjp) throws Throwable {
-		ServletRequestAttributes attributes;
+		ServletRequestAttributes attributes = null;
 		OperateLog operateLog = null;
 		try {
 			attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -79,13 +76,15 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 		Object res = pjp.proceed();
 
 		try {
-			if (operateLog != null && res instanceof R) {
-				R r = (R) res;
-				operateLog.setResCode(r.getCode());
-				operateLog.setResMsg(r.getMsg());
+			if (attributes != null) {
+				if (operateLog != null && res instanceof R) {
+					R r = (R) res;
+					operateLog.setResCode(r.getCode());
+					operateLog.setResMsg(r.getMsg());
+				}
+				operateLog.setResponseTiming(ChronoUnit.MILLIS.between(operateLog.getStartRequestTime().toInstant(), Instant.now()));
+				logPointHandler.handle(operateLog);
 			}
-			operateLog.setResponseTiming(ChronoUnit.MILLIS.between(operateLog.getStartRequestTime().toInstant(), Instant.now()));
-			logPointHandler.handle(operateLog);
 		} catch (Exception ignored) {
 		}
 		return res;

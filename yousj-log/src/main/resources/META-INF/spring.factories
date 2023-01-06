@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-top.yousj.log.aop.LogPointConfig\
 top.yousj.log.aop.LogPointAdvice
