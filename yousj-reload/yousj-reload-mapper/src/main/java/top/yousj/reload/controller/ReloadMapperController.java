@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import top.yousj.core.entity.R;
 import top.yousj.core.utils.ExportUtil;
+import top.yousj.core.utils.SpringUtil;
 import top.yousj.reload.service.MapperReloadService;
 
 import javax.annotation.PostConstruct;
@@ -32,12 +32,9 @@ public class ReloadMapperController {
 
 	private final MapperReloadService mapperReloadService;
 
-	@Value("${spring.profiles.active}")
-	private String active;
-
 	@PostConstruct
 	public void check() {
-		if (!StringUtils.equalsAny(active, "dev", "test")) {
+		if (!StringUtils.equalsAny(SpringUtil.getActiveProfile(), "dev", "test")) {
 			log.error("热更新功能只支持在开发和测试阶段使用!");
 			log.error("请将reload相关maven依赖置于正确的profile内!");
 			System.exit(-1);

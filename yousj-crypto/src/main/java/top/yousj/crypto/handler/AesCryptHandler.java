@@ -1,5 +1,6 @@
 package top.yousj.crypto.handler;
 
+import org.springframework.stereotype.Component;
 import top.yousj.core.utils.AESUtil;
 import top.yousj.crypto.config.KeyProperties;
 
@@ -7,6 +8,7 @@ import top.yousj.crypto.config.KeyProperties;
  * @author yousj
  * @since 2023-01-06
  */
+@Component
 public class AesCryptHandler implements CryptHandler {
 
 	@Override

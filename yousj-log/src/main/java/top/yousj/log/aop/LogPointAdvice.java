@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
+import top.yousj.core.utils.SpringUtil;
 
 import java.util.Objects;
 
@@ -22,7 +22,6 @@ import java.util.Objects;
 @ConditionalOnProperty(prefix = "top.yousj.web.log", name = "pointcut")
 public class LogPointAdvice {
 
-	private final Environment environment;
 	private final ObjectMapper objectMapper;
 
 	@Bean
@@ -39,8 +38,8 @@ public class LogPointAdvice {
 	public AspectJExpressionPointcutAdvisor webLogPointAdvisor(LogPointMethodInterceptor logPointMethodInterceptor) {
 		AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
 		advisor.setAdvice(logPointMethodInterceptor);
-		advisor.setOrder(environment.getProperty("top.yousj.web.log.order", Integer.class, -1));
-		advisor.setExpression(environment.getProperty("top.yousj.web.log.pointcut"));
+		advisor.setOrder(Objects.requireNonNull(SpringUtil.getProperty("top.yousj.web.log.order", Integer.class, -1)));
+		advisor.setExpression(SpringUtil.getProperty("top.yousj.web.log.pointcut"));
 		return advisor;
 	}
 

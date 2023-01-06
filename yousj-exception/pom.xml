@@ -13,14 +13,4 @@
 
     <artifactId>yousj-exception</artifactId>
 
-	<dependencies>
-
-		<dependency>
-			<groupId>top.yousj</groupId>
-			<artifactId>yousj-core</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-
-	</dependencies>
-
 </project>

@@ -5,6 +5,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import top.yousj.core.utils.SpringUtil;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -13,12 +14,10 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
 
 	private static RedisTemplate<String, Object> redisTemplate;
-	private static String appName;
 
 	@Autowired
 	public RedisUtil(RedisTemplate<String, Object> redisTemplate, Environment environment) {
 		RedisUtil.redisTemplate = redisTemplate;
-		RedisUtil.appName = simple(environment.getProperty("spring.application.name"));
 	}
 
 	public static <T> T get(String key) {
@@ -71,7 +70,7 @@ public class RedisUtil {
 	}
 
 	public static String withKey(String key) {
-		return appName + key;
+		return SpringUtil.getApplicationName() + key;
 	}
 
 }

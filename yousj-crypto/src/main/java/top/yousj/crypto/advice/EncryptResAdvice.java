@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import top.yousj.core.utils.SpringUtil;
 import top.yousj.crypto.annotation.Encrypt;
 import top.yousj.crypto.config.KeyPropertiesHolder;
 import top.yousj.crypto.handler.CryptHandler;
@@ -39,11 +40,10 @@ public class EncryptResAdvice implements ResponseBodyAdvice<Object> {
 	@SneakyThrows
 	@Override
 	public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-		Class<? extends CryptHandler> cryptHandlerClazz = methodParameter.getMethodAnnotation(Encrypt.class).handler();
-		CryptHandler cryptHandlerInstance = cryptHandlerClazz.getDeclaredConstructor().newInstance();
 		if (Objects.isNull(body)) {
 			return null;
 		}
-		return cryptHandlerInstance.encrypt(objectMapper.writeValueAsString(body), keyPropertiesHolder.getKeyProperties(httpServletRequest));
+		CryptHandler cryptHandler = SpringUtil.getBean(methodParameter.getMethodAnnotation(Encrypt.class).handler());
+		return cryptHandler.encrypt(objectMapper.writeValueAsString(body), keyPropertiesHolder.getKeyProperties(httpServletRequest));
 	}
 }

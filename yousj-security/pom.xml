@@ -28,11 +28,6 @@
 		</dependency>
 		<dependency>
 			<groupId>top.yousj</groupId>
-			<artifactId>yousj-core</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>top.yousj</groupId>
 			<artifactId>yousj-redis</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

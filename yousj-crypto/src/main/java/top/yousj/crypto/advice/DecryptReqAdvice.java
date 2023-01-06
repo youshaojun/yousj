@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 import top.yousj.core.constant.StrPool;
+import top.yousj.core.utils.SpringUtil;
 import top.yousj.crypto.annotation.Decrypt;
 import top.yousj.crypto.config.KeyPropertiesHolder;
 import top.yousj.crypto.handler.CryptHandler;
@@ -42,11 +43,10 @@ public class DecryptReqAdvice extends RequestBodyAdviceAdapter {
 			@SneakyThrows
 			@Override
 			public InputStream getBody() {
-				Class<? extends CryptHandler> cryptHandlerClazz = methodParameter.getMethodAnnotation(Decrypt.class).handler();
-				CryptHandler cryptHandlerInstance = cryptHandlerClazz.getDeclaredConstructor().newInstance();
 				byte[] body = new byte[inputMessage.getBody().available()];
 				inputMessage.getBody().read(body);
-				String decryptBody = cryptHandlerInstance.decrypt(new String(body, StrPool.CHARSET_NAME), keyPropertiesHolder.getKeyProperties(request));
+				CryptHandler cryptHandler = SpringUtil.getBean(methodParameter.getMethodAnnotation(Decrypt.class).handler());
+				String decryptBody = cryptHandler.decrypt(new String(body, StrPool.CHARSET_NAME), keyPropertiesHolder.getKeyProperties(request));
 				return new ByteArrayInputStream(decryptBody.getBytes(StrPool.CHARSET_NAME));
 			}
 
