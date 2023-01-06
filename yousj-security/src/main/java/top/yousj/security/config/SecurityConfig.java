@@ -84,6 +84,4 @@ public class SecurityConfig {
 		return urls.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request));
 	}
 
-
-
 }
