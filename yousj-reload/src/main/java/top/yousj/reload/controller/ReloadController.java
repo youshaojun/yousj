@@ -30,7 +30,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/reload")
 @Profile({"dev", "test"})
-public class RetransformController {
+public class ReloadController {
 
 	private final MapperReloadService mapperReloadService;
 
