@@ -1,4 +1,4 @@
-package top.yousj.core.entity;
+package top.yousj.datasource.entity;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;

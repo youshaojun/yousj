@@ -1,4 +1,4 @@
-package top.yousj.core.entity;
+package top.yousj.datasource.entity;
 
 import lombok.Data;
 
