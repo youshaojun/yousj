@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import top.yousj.core.entity.R;
-import top.yousj.core.constant.ResultCode;
+import top.yousj.core.enums.ResultCode;
 import top.yousj.core.exception.BusinessException;
 import top.yousj.core.exception.ExceptionAdviceHandler;
 

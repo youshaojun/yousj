@@ -2,7 +2,7 @@ package top.yousj.core.utils;
 
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import top.yousj.core.constant.FileTypeEnum;
+import top.yousj.core.enums.FileTypeEnum;
 import top.yousj.core.constant.StrPool;
 
 import javax.servlet.ServletOutputStream;

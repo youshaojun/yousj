@@ -1,4 +1,4 @@
-package top.yousj.core.constant;
+package top.yousj.core.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

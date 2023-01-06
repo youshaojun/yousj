@@ -1,4 +1,4 @@
-package top.yousj.crpyto.utils;
+package top.yousj.core.utils;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +27,6 @@ public class RSAUtil {
 		generateRsaKey(2048);
 	}
 
-	/**
-	 * 生成RSA 公私钥,可选长度为1025,2048位.
-	 */
 	public static void generateRsaKey(int keySize) {
 		try {
 			KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(StrPool.CRYPTO_RSA);

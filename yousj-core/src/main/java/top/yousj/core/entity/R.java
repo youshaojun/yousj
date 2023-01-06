@@ -3,7 +3,7 @@ package top.yousj.core.entity;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import top.yousj.core.constant.ResultCode;
+import top.yousj.core.enums.ResultCode;
 
 /**
  * 统一返回

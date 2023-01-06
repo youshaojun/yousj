@@ -1,4 +1,4 @@
-package top.yousj.crpyto.utils;
+package top.yousj.core.utils;
 
 import lombok.SneakyThrows;
 import top.yousj.core.constant.StrPool;
