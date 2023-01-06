@@ -1,7 +1,6 @@
 package top.yousj.reload.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Profile;
@@ -10,15 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import top.yousj.core.entity.R;
-import top.yousj.core.utils.ExportUtil;
 import top.yousj.reload.service.JvmAttachClassReloadService;
-import top.yousj.reload.service.MapperReloadService;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 /**
@@ -30,9 +25,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/reload")
 @Profile({"dev", "test"})
-public class ReloadController {
-
-	private final MapperReloadService mapperReloadService;
+public class ReloadClassController {
 
 	@RequestMapping("/updateClass")
 	public R<String> updateClass(@RequestParam("classFile") MultipartFile classFile, String className) {
@@ -64,17 +57,6 @@ public class ReloadController {
 			return R.failure("无法解析文件");
 		}
 		return R.ok("更新成功");
-	}
-
-	@SneakyThrows
-	@RequestMapping("/updateMapperXml")
-	public R<String> updateMapperXml(@RequestParam("mapperXmlFile") MultipartFile mapperXmlFile) {
-		String originalFilename = mapperXmlFile.getOriginalFilename();
-		String suffix = org.apache.commons.lang3.StringUtils.substringAfterLast(originalFilename, ".");
-		File file = ExportUtil.newFile(suffix);
-		Files.copy(mapperXmlFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		mapperReloadService.reloadXml(file);
-		return R.ok();
 	}
 
 	private static File uploadFile(byte[] file, String fileName) throws IOException {

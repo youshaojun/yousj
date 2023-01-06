@@ -7,26 +7,17 @@
 
 	<parent>
 		<groupId>top.yousj</groupId>
-		<artifactId>yousj-parent</artifactId>
+		<artifactId>yousj-reload</artifactId>
 		<version>${revision}</version>
 	</parent>
 
-	<artifactId>yousj-reload</artifactId>
-
-	<modules>
-		<module>yousj-reload-class</module>
-		<module>yousj-reload-mapper</module>
-	</modules>
+	<artifactId>yousj-reload-mapper</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>top.yousj</groupId>
-			<artifactId>yousj-core</artifactId>
+			<artifactId>yousj-datasource</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.bytebuddy</groupId>
-			<artifactId>byte-buddy-agent</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -60,7 +60,13 @@
 
 			<dependency>
 				<groupId>top.yousj</groupId>
-				<artifactId>yousj-reload</artifactId>
+				<artifactId>yousj-reload-class</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>top.yousj</groupId>
+				<artifactId>yousj-reload-mapper</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
 
