@@ -18,7 +18,7 @@ public class RedisUtil {
 	@Autowired
 	public RedisUtil(RedisTemplate<String, Object> redisTemplate, Environment environment) {
 		RedisUtil.redisTemplate = redisTemplate;
-		RedisUtil.appName = environment.getProperty("spring.application.name") + ":";
+		RedisUtil.appName = simple(environment.getProperty("spring.application.name"));
 	}
 
 	public static <T> T get(String key) {
@@ -64,6 +64,10 @@ public class RedisUtil {
 
 	public static void delHash(String key, String hashKey) {
 		redisTemplate.opsForHash().delete(withKey(key), hashKey);
+	}
+
+	public static String simple(String key) {
+		return key + ":";
 	}
 
 	public static String withKey(String key) {

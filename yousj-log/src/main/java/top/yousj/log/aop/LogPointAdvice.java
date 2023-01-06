@@ -6,6 +6,7 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.Optional;
  * @since 2023-01-04
  */
 @Slf4j
+@Configuration
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "top.yousj.web.log", name = "pointcut")
 public class LogPointAdvice {

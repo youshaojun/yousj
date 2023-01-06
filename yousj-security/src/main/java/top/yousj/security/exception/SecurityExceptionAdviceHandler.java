@@ -5,6 +5,7 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -18,6 +19,7 @@ import top.yousj.core.exception.ExceptionAdviceHandler;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
+@Configuration
 @RequiredArgsConstructor
 @ConditionalOnBean(SecurityFilterChain.class)
 public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {

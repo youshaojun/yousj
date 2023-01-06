@@ -1,7 +1,7 @@
 package top.yousj.security.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +40,7 @@ import static top.yousj.security.config.CustomConfig.*;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @ConditionalOnBean(SecurityFilterChain.class)
-@AutoConfiguration(after = SecurityExceptionAdviceHandler.class)
+@AutoConfigureAfter(SecurityExceptionAdviceHandler.class)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 

@@ -6,14 +6,14 @@ import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
@@ -27,15 +27,18 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.*;
 
+import static top.yousj.redis.utils.RedisUtil.simple;
+
 /**
  * @author yousj
  * @since 2022-12-29
  */
 @Slf4j
 @EnableCaching
-@AutoConfiguration(after = RedisConnectionFactory.class)
+@Configuration
+@AutoConfigureAfter(RedisConnectionFactory.class)
 @ConditionalOnClass(RedisOperations.class)
-@ConditionalOnProperty(prefix = "cache.config", name = "scanPackages")
+@ConditionalOnProperty(prefix = "cache.config", name = "scan-packages")
 public class CacheConfig {
 
 	@Value("${spring.application.name}")
@@ -45,7 +48,6 @@ public class CacheConfig {
 	private List<String> scanPackages;
 
 	@Bean
-	@ConditionalOnMissingBean
 	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
 		return new RedisCacheManager(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory), defaultRedisCacheConfiguration(), getCacheConfigurations());
 	}
@@ -87,10 +89,6 @@ public class CacheConfig {
 			.computePrefixWith((cacheName) -> prefixKey == null ? prefixKeyWith + (CacheConstant.COMMON) : prefixKeyWith + prefixKey)
 			.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string()))
 			.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisTemplateFactory.getValueSerializer()));
-	}
-
-	private String simple(String key) {
-		return key + ":";
 	}
 
 }

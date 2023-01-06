@@ -7,6 +7,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @since 2023-01-05
  */
 @Slf4j
+@Configuration
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "top.yousj.web.log", name = "pointcut")
 public class LogPointMethodInterceptor implements MethodInterceptor {
