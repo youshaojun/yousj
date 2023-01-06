@@ -1,9 +1,8 @@
 package top.yousj.security.config;
 
-import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,34 +11,36 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsUtils;
 import top.yousj.core.constant.ResultCode;
+import top.yousj.core.constant.UaaConstant;
+import top.yousj.core.exception.BusinessException;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.filter.JwtAuthenticationFilter;
 import top.yousj.security.utils.SecurityUtil;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
+import static top.yousj.security.config.CustomConfig.*;
 
 /**
  * @author yousj
  * @since 2023-01-02
  */
+@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@ConditionalOnMissingBean(SecurityFilterChain.class)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfigAutoConfigure {
+public class SecurityConfig {
 
 	private final SecurityExceptionAdviceHandler securityExceptionAdviceHandler;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final UserDetailsService userDetailsService;
 
-	public static Set<String> AUTH_PERMIT_URLS = Sets.newHashSet();
-
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			// 关闭cors, csrf
 			.cors().and().csrf().disable()
@@ -51,7 +52,7 @@ public class SecurityConfigAutoConfigure {
 			.authorizeRequests()
 			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 			// 其余资源走自定义权限认证
-			.anyRequest().access("@securityConfigAutoConfigure.hasPermission(request)")
+			.anyRequest().access("@securityConfig.hasPermission(request)")
 			.and()
 			// 禁用session, 使用token方式认证
 			.sessionManagement().sessionFixation().migrateSession().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -71,9 +72,18 @@ public class SecurityConfigAutoConfigure {
 	}
 
 	public boolean hasPermission(HttpServletRequest request) {
+		String applicationName = request.getHeader(UaaConstant.APPLICATION_NAME);
+		if (Objects.isNull(applicationName)) {
+			throw new BusinessException("application name is null.");
+		}
 		List<String> urls = SecurityUtil.getAuthorities();
-		return AUTH_PERMIT_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request))
-			|| urls.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request));
+		Set<String> authPermitUrls = AUTH_PERMIT_URLS.get(applicationName);
+		if (!CollectionUtils.isEmpty(authPermitUrls) && authPermitUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request))) {
+			return true;
+		}
+		return urls.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request));
 	}
+
+
 
 }

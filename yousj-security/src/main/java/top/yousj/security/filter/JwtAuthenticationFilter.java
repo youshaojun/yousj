@@ -1,6 +1,5 @@
 package top.yousj.security.filter;
 
-import com.google.common.collect.Sets;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -12,15 +11,18 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import top.yousj.core.constant.UaaConstant;
+import top.yousj.core.exception.BusinessException;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.utils.JwtUtil;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.Objects;
 import java.util.Set;
+
+import static top.yousj.security.config.CustomConfig.*;
 
 @Component
 @RequiredArgsConstructor
@@ -30,23 +32,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final UserDetailsService userDetailsService;
 	private final SecurityExceptionAdviceHandler securityExceptionAdviceHandler;
 
-	public static Set<String> IGNORE_URLS = Sets.newHashSet();
-
-	static {
-		// TODO 读取配置
-		IGNORE_URLS.add("/reload/updateClass");
-		IGNORE_URLS.add("/reload/updateMapperXml");
-	}
-
 	@Override
-	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) {
 		try {
-			if (IGNORE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
+			if (COMMON_IGNORE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
+				filterChain.doFilter(httpServletRequest, httpServletResponse);
+				return;
+			}
+			String applicationName = httpServletRequest.getHeader(UaaConstant.APPLICATION_NAME);
+			if (Objects.isNull(applicationName)) {
+				throw new BusinessException("application name is null.");
+			}
+			Set<String> ignoreUrls = IGNORE_URLS.get(applicationName);
+			if (ignoreUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;
 			}
 			String jwtToken = JwtUtil.getJwtFromRequest(httpServletRequest);
-			if (StringUtils.isBlank(jwtToken)) throw new JwtException(StringUtils.EMPTY);
+			if (StringUtils.isBlank(jwtToken)) {
+				throw new JwtException(StringUtils.EMPTY);
+			}
 			String subject = jwtUtil.paresJwtToken(jwtToken);
 			UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
