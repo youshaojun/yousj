@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import top.yousj.core.constant.ResultCode;
+import top.yousj.core.constant.StrPool;
 import top.yousj.core.entity.R;
 import top.yousj.core.exception.ExceptionAdviceHandler;
 
@@ -39,7 +40,7 @@ public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 
 	@SneakyThrows
 	public void write(ResultCode resultCode) {
-		httpServletResponse.setCharacterEncoding("utf-8");
+		httpServletResponse.setCharacterEncoding(StrPool.CHARSET_NAME);
 		httpServletResponse.setStatus(HttpStatus.OK.value());
 		httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		PrintWriter writer = httpServletResponse.getWriter();

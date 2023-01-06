@@ -2,13 +2,13 @@ package top.yousj.core.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import top.yousj.core.constant.StrPool;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
-
 
 /**
  * 日期工具
@@ -73,10 +73,10 @@ public class DateUtil {
 			if (Objects.isNull(end)) {
 				return format(start, format);
 			}
-			return StringUtils.join(delimiter, Objects.isNull(start) ? "" : format(start, format), format(end, format));
+			return StringUtils.join(delimiter, Objects.isNull(start) ? StrPool.EMPTY : format(start, format), format(end, format));
 		} catch (Exception ignored) {
 		}
-		return StringUtils.EMPTY;
+		return StrPool.EMPTY;
 	}
 
 }

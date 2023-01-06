@@ -3,6 +3,7 @@ package top.yousj.core.utils;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import top.yousj.core.constant.FileTypeEnum;
+import top.yousj.core.constant.StrPool;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -38,29 +39,29 @@ public class ExportUtil {
 	@SneakyThrows
 	public static void download(byte[] bytes, String fileName, String suffix, HttpServletResponse res) {
 		try (ServletOutputStream stream = res.getOutputStream()) {
-			res.setCharacterEncoding("utf-8");
+			res.setCharacterEncoding(StrPool.CHARSET_NAME);
 			res.setContentType("application/octet-stream");
 			res.addHeader("Content-Length", "" + bytes.length);
-			res.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "utf-8") + (Objects.nonNull(suffix) ? "." + suffix : ""));
+			res.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, StrPool.CHARSET_NAME) + (Objects.nonNull(suffix) ? "." + suffix : StrPool.EMPTY));
 			stream.write(bytes);
 			stream.flush();
 		}
 	}
 
-	public static File newFile(FileTypeEnum fileTypeEnum){
+	public static File newFile(FileTypeEnum fileTypeEnum) {
 		return new File(createPath(fileTypeEnum));
 	}
 
-	public static File newFile(String suffix){
+	public static File newFile(String suffix) {
 		return new File(createPath(suffix));
 	}
 
 	public static String createPath(FileTypeEnum fileTypeEnum) {
-		return createPath("/tmp", fileTypeEnum);
+		return createPath(StrPool.TMP, fileTypeEnum);
 	}
 
 	public static String createPath(String suffix) {
-		return createPath("/tmp", suffix);
+		return createPath(StrPool.TMP, suffix);
 	}
 
 	public static String createPath(String dir, FileTypeEnum fileTypeEnum) {

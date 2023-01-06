@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.stereotype.Component;
+import top.yousj.core.constant.StrPool;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.utils.DateUtil;
 import top.yousj.redis.utils.RedisUtil;
@@ -60,14 +61,14 @@ public class JwtUtil {
 
 	public static String getJwtFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getParameter(UaaConstant.TOKEN_HEADER);
-		if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith("Bearer ")) {
+		if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith(StrPool.BEARER)) {
 			return bearerToken.substring(7);
 		}
 		if (StringUtils.isNotBlank(bearerToken)) {
 			return bearerToken;
 		}
 		bearerToken = request.getHeader(UaaConstant.AUTHORIZATION);
-		if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith("Bearer ")) {
+		if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith(StrPool.BEARER)) {
 			return bearerToken.substring(7);
 		}
 		return bearerToken;
