@@ -4,31 +4,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.SecurityFilterChain;
 import top.yousj.core.enums.ResultCode;
 import top.yousj.core.constant.StrPool;
 import top.yousj.core.entity.R;
+import top.yousj.core.exception.BusinessException;
 import top.yousj.core.exception.ExceptionAdviceHandler;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.Objects;
 
 @Configuration
 @RequiredArgsConstructor
-@ConditionalOnBean(SecurityFilterChain.class)
 public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 
-	private final HttpServletResponse httpServletResponse;
 	private final ObjectMapper objectMapper;
 
 	@Override
 	public R<String> handle(Exception ex) {
+		if (ex instanceof BusinessException) {
+			return R.failure(((BusinessException) ex).getCode(), ex.getMessage());
+		}
 		if (ex instanceof AccountExpiredException) {
 			return R.failure(ResultCode.UNAUTHORIZED);
 		}
@@ -42,12 +44,13 @@ public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 	}
 
 	@SneakyThrows
-	public void write(ResultCode resultCode) {
-		httpServletResponse.setCharacterEncoding(StrPool.CHARSET_NAME);
-		httpServletResponse.setStatus(HttpStatus.OK.value());
-		httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		PrintWriter writer = httpServletResponse.getWriter();
-		writer.write(objectMapper.writeValueAsString(R.failure(resultCode)));
+	public void write(HttpServletResponse response, Exception ex) {
+		response.setCharacterEncoding(StrPool.CHARSET_NAME);
+		response.setStatus(HttpStatus.OK.value());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		PrintWriter writer = response.getWriter();
+		R<String> r = handle(ex);
+		writer.write(objectMapper.writeValueAsString(Objects.nonNull(r) ? r : R.failure(ResultCode.SYSTEM_ERROR)));
 		writer.flush();
 		writer.close();
 	}

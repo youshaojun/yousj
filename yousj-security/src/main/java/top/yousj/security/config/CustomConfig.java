@@ -3,10 +3,9 @@ package top.yousj.security.config;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Map;
 import java.util.Set;
@@ -16,9 +15,9 @@ import java.util.concurrent.TimeUnit;
  * @author yousj
  * @since 2023-01-06
  */
+@Configuration
 @EnableScheduling
 @RequiredArgsConstructor
-@ConditionalOnBean(SecurityFilterChain.class)
 public class CustomConfig {
 
 	private final CustomConfigReloadHandler customConfigReloadHandler;
@@ -32,6 +31,19 @@ public class CustomConfig {
 	static {
 		COMMON_IGNORE_URLS.add("/reload/updateClass");
 		COMMON_IGNORE_URLS.add("/reload/updateMapperXml");
+		COMMON_IGNORE_URLS.add("/actuator/**");
+		COMMON_IGNORE_URLS.add("/favicon.ico");
+		COMMON_IGNORE_URLS.add("/doc.html");
+		COMMON_IGNORE_URLS.add("/swagger-ui.html");
+		COMMON_IGNORE_URLS.add("/css/**");
+		COMMON_IGNORE_URLS.add("/js/**");
+		COMMON_IGNORE_URLS.add("/docs/**");
+		COMMON_IGNORE_URLS.add("/webjars/**");
+		COMMON_IGNORE_URLS.add("/v2/**");
+		COMMON_IGNORE_URLS.add("/v3/**");
+		COMMON_IGNORE_URLS.add("/swagger-resources/**");
+		COMMON_IGNORE_URLS.add("/swagger-ui/**");
+		COMMON_IGNORE_URLS.add("/druid/**");
 	}
 
 	@Scheduled(fixedDelay = 5, timeUnit = TimeUnit.MINUTES)

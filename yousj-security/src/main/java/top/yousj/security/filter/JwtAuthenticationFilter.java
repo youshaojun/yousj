@@ -4,18 +4,14 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import top.yousj.core.enums.ResultCode;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
@@ -24,6 +20,7 @@ import top.yousj.security.utils.JwtUtil;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.Set;
 
 import static top.yousj.security.config.CustomConfig.*;
@@ -31,8 +28,6 @@ import static top.yousj.security.config.CustomConfig.*;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-@ConditionalOnBean(SecurityFilterChain.class)
-@AutoConfigureAfter(SecurityExceptionAdviceHandler.class)
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtUtil jwtUtil;
@@ -48,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 			String appName = httpServletRequest.getHeader(UaaConstant.APP_NAME);
 			ParamAssertUtil.notNull(appName, "app name can't be null.");
-			Set<String> ignoreUrls = IGNORE_URLS.get(appName);
+			Set<String> ignoreUrls = IGNORE_URLS.getOrDefault(appName, Collections.emptySet());
 			if (ignoreUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);
 				return;
@@ -65,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			securityExceptionAdviceHandler.write(ResultCode.SYSTEM_ERROR);
+			securityExceptionAdviceHandler.write(httpServletResponse, e);
 		}
 	}
 
