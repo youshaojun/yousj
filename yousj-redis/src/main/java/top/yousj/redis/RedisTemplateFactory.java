@@ -18,13 +18,13 @@ public class RedisTemplateFactory {
 
 	public static RedisTemplate<String, Object> create(RedisConnectionFactory redisConnectionFactory) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-		redisTemplate.setConnectionFactory(redisConnectionFactory);
 		RedisSerializer<String> keySerializer = RedisSerializer.string();
 		redisTemplate.setKeySerializer(keySerializer);
 		redisTemplate.setHashKeySerializer(keySerializer);
 		Jackson2JsonRedisSerializer<Object> valueSerializer = getValueSerializer();
 		redisTemplate.setValueSerializer(valueSerializer);
 		redisTemplate.setHashValueSerializer(valueSerializer);
+		redisTemplate.setConnectionFactory(redisConnectionFactory);
 		redisTemplate.afterPropertiesSet();
 		return redisTemplate;
 	}

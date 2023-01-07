@@ -1,21 +1,39 @@
 package top.yousj.core.utils;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
 @Component
-public class SpringUtil {
+public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextAware, EnvironmentAware {
 
+	private static ConfigurableListableBeanFactory beanFactory;
 	private static ApplicationContext applicationContext;
+	private static Environment environment;
 
-	@Autowired
-	public SpringUtil(ApplicationContext applicationContext) throws BeansException {
+	@Override
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+		SpringUtil.beanFactory = beanFactory;
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) {
 		SpringUtil.applicationContext = applicationContext;
 	}
+
+	@Override
+	public void setEnvironment(Environment environment) {
+		SpringUtil.environment = environment;
+	}
+
 
 	/**
 	 * 获取{@link ApplicationContext}
@@ -27,6 +45,15 @@ public class SpringUtil {
 	}
 
 	/**
+	 * 获取{@link ListableBeanFactory}，可能为{@link ConfigurableListableBeanFactory} 或 {@link ApplicationContextAware}
+	 *
+	 * @return {@link ListableBeanFactory}
+	 */
+	public static ListableBeanFactory getBeanFactory() {
+		return null == beanFactory ? applicationContext : beanFactory;
+	}
+
+	/**
 	 * 通过name获取 Bean
 	 *
 	 * @param <T>  Bean类型
@@ -35,7 +62,7 @@ public class SpringUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String name) {
-		return (T) applicationContext.getBean(name);
+		return (T) getBeanFactory().getBean(name);
 	}
 
 	/**
@@ -46,7 +73,7 @@ public class SpringUtil {
 	 * @return Bean对象
 	 */
 	public static <T> T getBean(Class<T> clazz) {
-		return applicationContext.getBean(clazz);
+		return getBeanFactory().getBean(clazz);
 	}
 
 	/**
@@ -58,7 +85,7 @@ public class SpringUtil {
 	 * @return Bean对象
 	 */
 	public static <T> T getBean(String name, Class<T> clazz) {
-		return applicationContext.getBean(name, clazz);
+		return getBeanFactory().getBean(name, clazz);
 	}
 
 	/**
@@ -69,7 +96,7 @@ public class SpringUtil {
 	 * @return 类型对应的bean，key是bean注册的name，value是Bean
 	 */
 	public static <T> Map<String, T> getBeansOfType(Class<T> type) {
-		return applicationContext.getBeansOfType(type);
+		return getBeanFactory().getBeansOfType(type);
 	}
 
 	/**
@@ -79,7 +106,7 @@ public class SpringUtil {
 	 * @return bean名称
 	 */
 	public static String[] getBeanNamesForType(Class<?> type) {
-		return applicationContext.getBeanNamesForType(type);
+		return getBeanFactory().getBeanNamesForType(type);
 	}
 
 	/**
@@ -89,14 +116,11 @@ public class SpringUtil {
 	 * @return 属性值
 	 */
 	public static String getProperty(String key) {
-		return getProperty(key, String.class, null);
+		return environment.getProperty(key);
 	}
 
 	public static <T> T getProperty(String key, Class<T> clazz, T defaultValue) {
-		if (null == applicationContext) {
-			return null;
-		}
-		return applicationContext.getEnvironment().getProperty(key, clazz, defaultValue);
+		return environment.getProperty(key, clazz, defaultValue);
 	}
 
 	/**
@@ -113,21 +137,17 @@ public class SpringUtil {
 	 *
 	 * @return 当前的环境配置
 	 */
-	public static String[] getActiveProfiles() {
-		if (null == applicationContext) {
-			return null;
-		}
-		return applicationContext.getEnvironment().getActiveProfiles();
+	public static String[] getProfiles() {
+		return environment.getActiveProfiles();
 	}
 
 	/**
-	 * 获取当前的环境配置，当有多个环境配置时，只获取第一个
+	 * 获取当前激活环境
 	 *
-	 * @return 当前的环境配置
+	 * @return 当前激活环境
 	 */
 	public static String getActiveProfile() {
-		final String[] activeProfiles = getActiveProfiles();
-		return activeProfiles != null ? activeProfiles[0] : null;
+		return environment.getProperty("spring.profiles.active");
 	}
 
 }

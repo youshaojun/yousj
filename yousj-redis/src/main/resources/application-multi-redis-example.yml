@@ -1,5 +1,5 @@
 multi-redis:
-  redis-configs:
+  configs:
     redisTemplate0:
       hostName: localhost
       password: 123456

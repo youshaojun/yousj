@@ -36,7 +36,7 @@ public class MultiRedisBeanDefinitionRegistry implements BeanDefinitionRegistryP
 	}
 
 	private void registerBeanDefinition(MultiRedisConfig multiRedisConfig, BeanDefinitionRegistry registry) {
-		for (Map.Entry<String, MultiRedisStandaloneConfiguration> redisStandaloneConfiguration : multiRedisConfig.getRedisConfigs().entrySet()) {
+		for (Map.Entry<String, MultiRedisStandaloneConfiguration> redisStandaloneConfiguration : multiRedisConfig.getConfigs().entrySet()) {
 			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(RedisTemplate.class);
 			GenericBeanDefinition definition = (GenericBeanDefinition) builder.getRawBeanDefinition();
 			definition.getConstructorArgumentValues().addGenericArgumentValue(redisStandaloneConfiguration.getValue());

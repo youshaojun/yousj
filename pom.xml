@@ -51,6 +51,7 @@
 		<redisson-spring-boot-starter.version>3.12.4</redisson-spring-boot-starter.version>
 		<org.reflections.version>0.9.11</org.reflections.version>
 		<jwt.version>0.9.1</jwt.version>
+		<jedis.version>3.8.0</jedis.version>
 
 	</properties>
 

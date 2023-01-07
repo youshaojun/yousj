@@ -16,6 +16,6 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "multi-redis")
 public class MultiRedisConfig {
 
-    private Map<String, MultiRedisStandaloneConfiguration> redisConfigs;
+    private Map<String, MultiRedisStandaloneConfiguration> configs;
 
 }

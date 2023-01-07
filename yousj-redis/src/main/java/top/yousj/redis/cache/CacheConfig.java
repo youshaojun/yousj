@@ -21,7 +21,9 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.redis.RedisTemplateFactory;
+import top.yousj.redis.utils.RedisUtil;
 
 import java.lang.reflect.Method;
 import java.time.Duration;
@@ -30,6 +32,12 @@ import java.util.*;
 import static top.yousj.redis.utils.RedisUtil.simple;
 
 /**
+ * 通过key支持自定义过期策略(秒级)
+ * 添加缓存 @Cacheable(cacheNames = "searchCacheGroup", key = "'searchCache#3600#_' + " + "#id")
+ * 删除缓存 @CacheEvict(cacheNames = "searchCacheGroup", allEntries = true)
+ * 按cacheNames进行分组缓存, 同一个分组内过期时间相同
+ * 按cacheNames进行分组删除缓存, 同一分组内全部删除
+ *
  * @author yousj
  * @since 2022-12-29
  */
@@ -44,7 +52,7 @@ public class CacheConfig {
 	@Value("${spring.application.name}")
 	private String applicationName;
 
-	@Value("#{'${cache.config.scanPackages}'.split(',')}")
+	@Value("#{'${cache.config.scan-packages}'.split(',')}")
 	private List<String> scanPackages;
 
 	@Bean
@@ -64,15 +72,17 @@ public class CacheConfig {
 		}
 		for (Method method : methods) {
 			Cacheable cacheable = method.getAnnotation(Cacheable.class);
-			if (Objects.isNull(cacheable) || cacheable.cacheNames().length == 0) {
+			if (Objects.isNull(cacheable)) {
 				continue;
 			}
-			// 通过cacheNames支持自定义过期策略(秒级) ==> @Cacheable(cacheNames = "searchCache#3600", key = "'searchCache_' + " + "#id")
-			String cacheName = cacheable.cacheNames()[0];
-			String[] split = cacheName.split("#");
-			if (split.length == 2) {
-				cacheConfigurations.put(cacheName, generateRedisCacheConfiguration(Duration.ofSeconds(Long.valueOf(split[1])), simple(CacheConstant.CUSTOM)));
+			String key = cacheable.key();
+			ParamAssertUtil.notBlank(key, "key is not be blank. ");
+			String[] split = key.replace("'", "").split("#");
+			if (split.length < 2) {
+				continue;
 			}
+			Duration ttl = Duration.ofSeconds(Long.valueOf(split[1]));
+			Arrays.stream(cacheable.cacheNames()).forEach(group -> cacheConfigurations.put(group, generateRedisCacheConfiguration(ttl, simple(CacheConstant.CUSTOM))));
 		}
 		return cacheConfigurations;
 	}
@@ -86,7 +96,7 @@ public class CacheConfig {
 		return RedisCacheConfiguration.defaultCacheConfig()
 			.entryTtl(entryTtl == null ? Duration.ofHours(1L) : entryTtl)
 			.disableCachingNullValues()
-			.computePrefixWith((cacheName) -> prefixKey == null ? prefixKeyWith + (CacheConstant.COMMON) : prefixKeyWith + prefixKey)
+			.computePrefixWith((cacheName) -> prefixKey == null ? prefixKeyWith + RedisUtil.simple(CacheConstant.COMMON) : prefixKeyWith + prefixKey)
 			.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string()))
 			.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisTemplateFactory.getValueSerializer()));
 	}

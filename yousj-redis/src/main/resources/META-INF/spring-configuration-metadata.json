@@ -17,7 +17,7 @@
       "description": "扫描开启自定义处理cache的包"
     },
     {
-      "name": "multi-redis.redis-configs",
+      "name": "multi-redis.configs",
       "type": "java.util.Map<java.lang.String,top.yousj.redis.multi.MultiRedisStandaloneConfiguration>",
       "sourceType": "top.yousj.redis.multi.MultiRedisConfig",
       "description": "多redisTemplate实例配置, 根据名称注入 默认配置 hostName: localhost; password: none; port: 6379; database: 0"

@@ -20,7 +20,9 @@ public class MultiRedisTemplateFactoryBean implements FactoryBean<RedisTemplate<
 
 	@Override
 	public RedisTemplate<String, Object> getObject() {
-		return RedisTemplateFactory.create(new JedisConnectionFactory(this.standaloneConfiguration));
+		JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(this.standaloneConfiguration);
+		jedisConnectionFactory.afterPropertiesSet();
+		return RedisTemplateFactory.create(jedisConnectionFactory);
 	}
 
 	@Override
