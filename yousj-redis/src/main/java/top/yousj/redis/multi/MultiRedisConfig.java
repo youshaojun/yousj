@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "multi-redis")
+@ConfigurationProperties(prefix = "top.yousj.multi-redis")
 public class MultiRedisConfig {
 
     private Map<String, MultiRedisStandaloneConfiguration> configs;

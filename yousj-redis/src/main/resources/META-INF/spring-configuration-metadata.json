@@ -1,23 +1,25 @@
 {
   "groups": [
     {
-      "name": "cache.config"
+      "name": "top.yousj.redis.config",
+      "description": "Spring缓存支持自定义过期时间配置"
     },
     {
-      "name": "multi-redis",
+      "name": "top.yousj.multi-redis",
       "type": "top.yousj.redis.multi.MultiRedisConfig",
-      "sourceType": "top.yousj.redis.multi.MultiRedisConfig"
+      "sourceType": "top.yousj.redis.multi.MultiRedisConfig",
+      "description": "多redisTemplate实例配置"
     }
   ],
   "properties": [
     {
-      "name": "cache.config.scan-packages",
+      "name": "top.yousj.redis.config.scan-packages",
       "type": "java.lang.String",
       "defaultValue": "",
       "description": "扫描开启自定义处理cache的包"
     },
     {
-      "name": "multi-redis.configs",
+      "name": "top.yousj.multi-redis.configs",
       "type": "java.util.Map<java.lang.String,top.yousj.redis.multi.MultiRedisStandaloneConfiguration>",
       "sourceType": "top.yousj.redis.multi.MultiRedisConfig",
       "description": "多redisTemplate实例配置, 根据名称注入 默认配置 hostName: localhost; password: none; port: 6379; database: 0"

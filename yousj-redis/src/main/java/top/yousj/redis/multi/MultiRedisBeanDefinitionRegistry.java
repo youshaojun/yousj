@@ -27,7 +27,7 @@ public class MultiRedisBeanDefinitionRegistry implements BeanDefinitionRegistryP
 
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
-		Binder.get(environment).bind("multi-redis", MultiRedisConfig.class).ifBound(multiRedisConfig -> registerBeanDefinition(multiRedisConfig, registry));
+		Binder.get(environment).bind("top.yousj.multi-redis", MultiRedisConfig.class).ifBound(multiRedisConfig -> registerBeanDefinition(multiRedisConfig, registry));
 	}
 
 	@Override

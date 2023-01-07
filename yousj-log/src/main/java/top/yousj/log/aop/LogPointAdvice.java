@@ -19,7 +19,7 @@ import java.util.Objects;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "top.yousj.web.log", name = "pointcut")
+@ConditionalOnProperty(prefix = "top.yousj.log.aop", name = "pointcut")
 public class LogPointAdvice {
 
 	private final ObjectMapper objectMapper;
@@ -38,8 +38,8 @@ public class LogPointAdvice {
 	public AspectJExpressionPointcutAdvisor webLogPointAdvisor(LogPointMethodInterceptor logPointMethodInterceptor) {
 		AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
 		advisor.setAdvice(logPointMethodInterceptor);
-		advisor.setOrder(Objects.requireNonNull(SpringUtil.getProperty("top.yousj.web.log.order", Integer.class, -1)));
-		advisor.setExpression(SpringUtil.getProperty("top.yousj.web.log.pointcut"));
+		advisor.setOrder(Objects.requireNonNull(SpringUtil.getProperty("top.yousj.log.aop.order", Integer.class, -1)));
+		advisor.setExpression(SpringUtil.getProperty("top.yousj.log.aop.pointcut"));
 		return advisor;
 	}
 

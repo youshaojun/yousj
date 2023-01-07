@@ -31,7 +31,7 @@ import java.util.Map;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "top.yousj.web.log", name = "pointcut")
+@ConditionalOnProperty(prefix = "top.yousj.log.aop", name = "pointcut")
 public class LogPointMethodInterceptor implements MethodInterceptor {
 
 	private final ObjectMapper objectMapper;

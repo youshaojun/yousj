@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "top.yousj.security.jwt",
+      "description": "jwt配置"
+    }
+  ],
+  "properties": [
+    {
+      "name": "top.yousj.security.jwt.expire",
+      "type": "java.lang.Long",
+      "defaultValue": 86400000,
+      "description": "过期时间"
+    },
+    {
+      "name": "top.yousj.security.jwt.signKey",
+      "type": "java.lang.String",
+      "defaultValue": "jwt_secret:",
+      "description": "jwt签名key"
+    }
+  ],
+  "hints": []
+}

@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 2023-01-02
  */
 @Data
-@ConfigurationProperties(prefix = "security.jwt")
+@ConfigurationProperties(prefix = "top.yousj.security.jwt")
 public class JwtProperties {
     private Long expire = 86400000L;
     private String signKey = "jwt_secret:";

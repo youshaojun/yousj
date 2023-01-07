@@ -1,23 +1,29 @@
 package top.yousj.redis.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 import top.yousj.core.utils.SpringUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Component
 public class RedisUtil {
 
 	private static RedisTemplate<String, Object> redisTemplate;
+	private static StringRedisTemplate stringRedisTemplate;
 
 	@Autowired
-	public RedisUtil(RedisTemplate<String, Object> redisTemplate, Environment environment) {
+	public RedisUtil(RedisTemplate<String, Object> redisTemplate, StringRedisTemplate stringRedisTemplate) {
 		RedisUtil.redisTemplate = redisTemplate;
+		RedisUtil.stringRedisTemplate = stringRedisTemplate;
 	}
 
 	public static <T> T get(String key) {
@@ -71,6 +77,58 @@ public class RedisUtil {
 
 	public static String withKey(String key) {
 		return SpringUtil.getApplicationName() + key;
+	}
+
+	public static String getSearchRecordKey(Integer uid) {
+		return withKey(simple("search:record:" + uid));
+	}
+
+	public void setSearchRecord(Integer uid, String searchStr) {
+		setSearchRecord(uid, searchStr, 10);
+	}
+
+	/**
+	 * 保存用户搜索历史
+	 *
+	 * @param uid       用户id
+	 * @param searchStr 搜索信息
+	 */
+	public void setSearchRecord(Integer uid, String searchStr, int max) {
+		try {
+			ZSetOperations<String, String> zSetOperations = stringRedisTemplate.opsForZSet();
+			String key = getSearchRecordKey(uid);
+			zSetOperations.add(key, searchStr, System.currentTimeMillis());
+			Long size = zSetOperations.size(key);
+			if (Objects.nonNull(size) && size > max) {
+				zSetOperations.reverseRangeWithScores(key, 0L, size - max - 1L);
+			}
+		} catch (Exception ignored) {
+		}
+	}
+
+	public List<String> getSearchRecord(Integer uid) {
+		return getSearchRecord(uid, 10);
+	}
+
+	/**
+	 * 用户搜索历史
+	 */
+	public List<String> getSearchRecord(Integer uid, int max) {
+		List<String> searchRecordList = new ArrayList<>();
+		try {
+			Set<ZSetOperations.TypedTuple<String>> set = stringRedisTemplate.opsForZSet().reverseRangeWithScores(getSearchRecordKey(uid), 0L, max - 1L);
+			if (Objects.isNull(set)) return searchRecordList;
+			set.forEach(e -> searchRecordList.add(e.getValue()));
+		} catch (Exception ignored) {
+		}
+		return searchRecordList;
+	}
+
+	/**
+	 * 删除用户搜索历史
+	 */
+	public void deleteSearchRecord(Integer uid) {
+		stringRedisTemplate.delete(getSearchRecordKey(uid));
 	}
 
 }

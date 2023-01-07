@@ -46,13 +46,13 @@ import static top.yousj.redis.utils.RedisUtil.simple;
 @Configuration
 @AutoConfigureAfter(RedisConnectionFactory.class)
 @ConditionalOnClass(RedisOperations.class)
-@ConditionalOnProperty(prefix = "cache.config", name = "scan-packages")
+@ConditionalOnProperty(prefix = "top.yousj.redis.config", name = "scan-packages")
 public class CacheConfig {
 
 	@Value("${spring.application.name}")
 	private String applicationName;
 
-	@Value("#{'${cache.config.scan-packages}'.split(',')}")
+	@Value("#{'${top.yousj.redis.config.scan-packages}'.split(',')}")
 	private List<String> scanPackages;
 
 	@Bean
