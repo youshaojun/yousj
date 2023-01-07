@@ -6,9 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import top.yousj.core.utils.SpringUtil;
+import top.yousj.core.properties.TopYousjProperties;
 
 import java.util.Objects;
 
@@ -19,10 +20,12 @@ import java.util.Objects;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
+@EnableConfigurationProperties(TopYousjProperties.class)
 @ConditionalOnProperty(prefix = "top.yousj.log.aop", name = "pointcut")
 public class LogPointAdvice {
 
 	private final ObjectMapper objectMapper;
+	private final TopYousjProperties topYousjProperties;
 
 	@Bean
 	@ConditionalOnMissingBean
@@ -38,8 +41,9 @@ public class LogPointAdvice {
 	public AspectJExpressionPointcutAdvisor webLogPointAdvisor(LogPointMethodInterceptor logPointMethodInterceptor) {
 		AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
 		advisor.setAdvice(logPointMethodInterceptor);
-		advisor.setOrder(Objects.requireNonNull(SpringUtil.getProperty("top.yousj.log.aop.order", Integer.class, -1)));
-		advisor.setExpression(SpringUtil.getProperty("top.yousj.log.aop.pointcut"));
+		TopYousjProperties.Log.Aop aopProperties = topYousjProperties.getLog().getAop();
+		advisor.setOrder(aopProperties.getOrder());
+		advisor.setExpression(aopProperties.getPointcut());
 		return advisor;
 	}
 

@@ -1,10 +1,6 @@
 {
   "groups": [
     {
-      "name": "top.yousj.redis.config",
-      "description": "Spring缓存支持自定义过期时间配置"
-    },
-    {
       "name": "top.yousj.multi-redis",
       "type": "top.yousj.redis.multi.MultiRedisConfig",
       "sourceType": "top.yousj.redis.multi.MultiRedisConfig",
@@ -12,12 +8,6 @@
     }
   ],
   "properties": [
-    {
-      "name": "top.yousj.redis.config.scan-packages",
-      "type": "java.lang.String",
-      "defaultValue": "",
-      "description": "扫描开启自定义处理cache的包"
-    },
     {
       "name": "top.yousj.multi-redis.configs",
       "type": "java.util.Map<java.lang.String,top.yousj.redis.multi.MultiRedisStandaloneConfiguration>",

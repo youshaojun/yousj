@@ -1,12 +1,14 @@
-multi-redis:
-  configs:
-    redisTemplate0:
-      hostName: localhost
-      password: 123456
-      port: 6379
-      database: 0
-    redisTemplate1:
-      hostName: localhost
-      password: 123456
-      port: 6379
-      database: 1
+top:
+  yousj:
+    multi-redis:
+      configs:
+        redisTemplate0:
+          hostName: localhost
+          password: 123456
+          port: 6379
+          database: 0
+        redisTemplate1:
+          hostName: localhost
+          password: 123456
+          port: 6379
+          database: 1
