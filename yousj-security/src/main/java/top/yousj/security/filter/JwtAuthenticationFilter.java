@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				return;
 			}
 			String appName = httpServletRequest.getHeader(UaaConstant.APP_NAME);
-			ParamAssertUtil.notNull(appName, "app name is null.");
+			ParamAssertUtil.notNull(appName, "app name can't be null.");
 			Set<String> ignoreUrls = IGNORE_URLS.get(appName);
 			if (ignoreUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
 				filterChain.doFilter(httpServletRequest, httpServletResponse);

@@ -15,7 +15,7 @@ public interface KeyPropertiesHolder {
 
 	default KeyProperties getKeyProperties(HttpServletRequest request) {
 		String channel = request.getHeader(UaaConstant.APP_CHANNEL);
-		ParamAssertUtil.notNull(channel, "channel is null.");
+		ParamAssertUtil.notNull(channel, "channel can't be null.");
 		return getKeyProperties(channel);
 	}
 

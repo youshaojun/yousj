@@ -98,7 +98,7 @@ public class SecurityConfig {
 
 	public boolean hasPermission(HttpServletRequest request) {
 		String appName = request.getHeader(UaaConstant.APP_NAME);
-		ParamAssertUtil.notNull(appName, "app name is null.");
+		ParamAssertUtil.notNull(appName, "app name can't be null.");
 		List<String> urls = SecurityUtil.getAuthorities();
 		Set<String> authPermitUrls = AUTH_PERMIT_URLS.get(appName);
 		if (!CollectionUtils.isEmpty(authPermitUrls) && authPermitUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request))) {
