@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsUtils;
 import top.yousj.core.constant.UaaConstant;
-import top.yousj.core.enums.ResultCode;
 import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.filter.JwtAuthenticationFilter;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.Set;
 
 import static top.yousj.security.config.CustomConfig.AUTH_PERMIT_URLS;
-import static top.yousj.security.config.CustomConfig.COMMON_IGNORE_URLS;
 
 @Component
 @RequiredArgsConstructor

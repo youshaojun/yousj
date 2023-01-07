@@ -15,7 +15,6 @@ import top.yousj.core.entity.R;
 import top.yousj.core.exception.BusinessException;
 import top.yousj.core.exception.ExceptionAdviceHandler;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.Objects;
