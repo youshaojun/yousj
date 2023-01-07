@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+top.yousj.crypto.advice.DecryptReqAdvice,\
+top.yousj.crypto.advice.EncryptResAdvice

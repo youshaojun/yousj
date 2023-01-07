@@ -2,6 +2,7 @@ package top.yousj.crypto.advice;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
@@ -11,12 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 import top.yousj.core.constant.StrPool;
-import top.yousj.core.utils.SpringUtil;
 import top.yousj.crypto.annotation.Decrypt;
-import top.yousj.crypto.config.KeyPropertiesHolder;
-import top.yousj.crypto.handler.CryptHandler;
+import top.yousj.crypto.utils.AdviceCryptUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -27,10 +25,10 @@ import java.lang.reflect.Type;
  */
 @RequiredArgsConstructor
 @RestControllerAdvice(annotations = {Controller.class, RestController.class})
+@ConditionalOnProperty(prefix = "top.yousj.crypto", name = "decrypt.enable", havingValue = "true", matchIfMissing = true)
 public class DecryptReqAdvice extends RequestBodyAdviceAdapter {
 
-	private final KeyPropertiesHolder keyPropertiesHolder;
-	private final HttpServletRequest request;
+	private final AdviceCryptUtil adviceCryptUtil;
 
 	@Override
 	public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -45,8 +43,8 @@ public class DecryptReqAdvice extends RequestBodyAdviceAdapter {
 			public InputStream getBody() {
 				byte[] body = new byte[inputMessage.getBody().available()];
 				inputMessage.getBody().read(body);
-				CryptHandler cryptHandler = SpringUtil.getBean(methodParameter.getMethodAnnotation(Decrypt.class).handler());
-				String decryptBody = cryptHandler.decrypt(new String(body, StrPool.CHARSET_NAME), keyPropertiesHolder.getKeyProperties(request));
+				Decrypt decrypt = methodParameter.getMethodAnnotation(Decrypt.class);
+				String decryptBody = adviceCryptUtil.handle(decrypt.handler(), false, decrypt.onlyData(), body);
 				return new ByteArrayInputStream(decryptBody.getBytes(StrPool.CHARSET_NAME));
 			}
 

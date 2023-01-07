@@ -13,4 +13,6 @@ public @interface Decrypt {
 
 	Class<? extends CryptHandler> handler() default AesCryptHandler.class;
 
+	boolean onlyData() default false;
+
 }
