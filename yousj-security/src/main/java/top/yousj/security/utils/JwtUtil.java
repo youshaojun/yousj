@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.stereotype.Component;
@@ -25,13 +26,17 @@ import java.util.concurrent.TimeUnit;
  * @since 2023-01-02
  */
 @Component
-@RequiredArgsConstructor
 @EnableConfigurationProperties(JwtProperties.class)
 public class JwtUtil {
 
-    private final JwtProperties jwtProperties;
+    private static JwtProperties jwtProperties;
 
-    public String createJwtToken(String username) {
+    @Autowired
+    public JwtUtil(JwtProperties jwtProperties){
+		JwtUtil.jwtProperties = jwtProperties;
+	}
+
+    public static String createJwtToken(String username) {
         Date date = new Date();
         JwtBuilder builder = Jwts.builder()
                 .setSubject(username)
@@ -44,18 +49,18 @@ public class JwtUtil {
         return jwtToken;
     }
 
-    public String paresJwtToken(String jwtToken) {
+    public static String paresJwtToken(String jwtToken) {
         String subject = getSubject(jwtToken);
         String key = jwtProperties.getSignKey() + subject;
 		RedisUtil.put(key, Optional.ofNullable(RedisUtil.get(key)).orElseThrow(() -> new AccountExpiredException(StrPool.EMPTY)), jwtProperties.getExpire(), TimeUnit.MILLISECONDS);
         return subject;
     }
 
-    public String getSubject(String jwtToken) {
+    public static String getSubject(String jwtToken) {
         return Jwts.parser().setSigningKey(jwtProperties.getSignKey()).parseClaimsJws(jwtToken).getBody().getSubject();
     }
 
-    public Boolean removeToken(String subject) {
+    public static Boolean removeToken(String subject) {
         return RedisUtil.del(jwtProperties.getSignKey() + subject);
     }
 

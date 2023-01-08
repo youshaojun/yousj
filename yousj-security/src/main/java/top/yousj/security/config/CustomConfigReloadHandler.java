@@ -7,6 +7,12 @@ package top.yousj.security.config;
 public interface CustomConfigReloadHandler {
 
 	/**
+	 * {@link CustomConfig#ALL_URLS}
+	 */
+	default void reloadAllUrls() {
+	}
+
+	/**
 	 * {@link CustomConfig#AUTH_PERMIT_URLS}
 	 */
 	default void reloadAuthPermitUrls() {

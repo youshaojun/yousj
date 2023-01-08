@@ -9,8 +9,14 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 @Component
 public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextAware, EnvironmentAware {
@@ -148,6 +154,19 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
 	 */
 	public static String getActiveProfile() {
 		return environment.getProperty("spring.profiles.active");
+	}
+
+	public static Set<String> getMappingUrls() {
+		Set<String> urls = new HashSet<>();
+		getMapping().forEach((k, v) -> urls.addAll(Objects.requireNonNull(k.getPatternsCondition()).getPatterns()));
+		return urls;
+	}
+
+	/**
+	 * 获取所有url映射
+	 */
+	public static Map<RequestMappingInfo, HandlerMethod> getMapping() {
+		return getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class).getHandlerMethods();
 	}
 
 }

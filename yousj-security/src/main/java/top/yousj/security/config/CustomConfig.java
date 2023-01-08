@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration(proxyBeanMethods = false)
 public class CustomConfig {
 
-	private final CustomConfigReloadHandler customConfigReloadHandler;
+	public static Map<String, Set<String>> ALL_URLS = Maps.newConcurrentMap();
 
 	public static Map<String, Set<String>> AUTH_PERMIT_URLS = Maps.newConcurrentMap();
 
@@ -46,8 +46,11 @@ public class CustomConfig {
 		COMMON_IGNORE_URLS.add("/druid/**");
 	}
 
+	private final CustomConfigReloadHandler customConfigReloadHandler;
+
 	@Scheduled(fixedDelay = 5, timeUnit = TimeUnit.MINUTES)
 	public void reloadConfig() {
+		customConfigReloadHandler.reloadAllUrls();
 		customConfigReloadHandler.reloadAuthPermitUrls();
 		customConfigReloadHandler.reloadIgnoreUrls();
 		customConfigReloadHandler.reloadCommonIgnoreUrls();

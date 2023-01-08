@@ -9,8 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static top.yousj.security.config.CustomConfig.*;
+import top.yousj.security.filter.JwtAuthenticationFilter;
 
 /**
  * @author yousj
@@ -31,9 +30,12 @@ public class SecurityFilterChainConfigAutoConfigure {
 		return http.build();
 	}
 
+	/**
+	 * 放行所有请求交给 {@link JwtAuthenticationFilter} 和 {@link HttpSecurityConfig#hasPermission(javax.servlet.http.HttpServletRequest)}
+	 */
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring().antMatchers(COMMON_IGNORE_URLS.toArray(new String[0]));
+		return web -> web.ignoring().antMatchers("/**");
 	}
 
 }

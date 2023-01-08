@@ -76,7 +76,7 @@ public class RedisUtil {
 	}
 
 	public static String withKey(String key) {
-		return SpringUtil.getApplicationName() + key;
+		return simple(SpringUtil.getApplicationName()) + key;
 	}
 
 	public static String getSearchRecordKey(Integer uid) {

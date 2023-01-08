@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsUtils;
 import top.yousj.core.constant.UaaConstant;
-import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.filter.JwtAuthenticationFilter;
 import top.yousj.security.utils.SecurityUtil;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 
-import static top.yousj.security.config.CustomConfig.AUTH_PERMIT_URLS;
+import static top.yousj.security.config.CustomConfig.*;
 
 @Component
 @RequiredArgsConstructor
@@ -59,10 +58,8 @@ public class HttpSecurityConfig {
 	}
 
 	public boolean hasPermission(HttpServletRequest request) {
-		String appName = request.getHeader(UaaConstant.APP_NAME);
-		ParamAssertUtil.notNull(appName, "app name can't be null.");
 		List<String> urls = SecurityUtil.getAuthorities();
-		Set<String> authPermitUrls = AUTH_PERMIT_URLS.get(appName);
+		Set<String> authPermitUrls = AUTH_PERMIT_URLS.get(request.getHeader(UaaConstant.APP_NAME));
 		if (!CollectionUtils.isEmpty(authPermitUrls) && authPermitUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request))) {
 			return true;
 		}

@@ -13,6 +13,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import top.yousj.core.constant.UaaConstant;
+import top.yousj.core.enums.ResultCode;
+import top.yousj.core.exception.BusinessException;
 import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.utils.JwtUtil;
@@ -30,37 +32,40 @@ import static top.yousj.security.config.CustomConfig.*;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	private final JwtUtil jwtUtil;
 	private final UserDetailsService userDetailsService;
 	private final SecurityExceptionAdviceHandler securityExceptionAdviceHandler;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
 		try {
-			if (COMMON_IGNORE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
-				filterChain.doFilter(httpServletRequest, httpServletResponse);
+			if (COMMON_IGNORE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url, request.getMethod()).matches(request))) {
+				filterChain.doFilter(request, response);
 				return;
 			}
-			String appName = httpServletRequest.getHeader(UaaConstant.APP_NAME);
+			String appName = request.getHeader(UaaConstant.APP_NAME);
 			ParamAssertUtil.notNull(appName, "app name can't be null.");
+			Set<String> allUrls = ALL_URLS.get(appName);
+			ParamAssertUtil.notEmpty(allUrls, "please initialize ALL_URLS.");
+			if (allUrls.stream().noneMatch(url -> new AntPathRequestMatcher(url, request.getMethod()).matches(request))) {
+				throw new BusinessException(ResultCode.NOT_FOUND);
+			}
 			Set<String> ignoreUrls = IGNORE_URLS.getOrDefault(appName, Collections.emptySet());
-			if (ignoreUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url, httpServletRequest.getMethod()).matches(httpServletRequest))) {
-				filterChain.doFilter(httpServletRequest, httpServletResponse);
+			if (ignoreUrls.stream().anyMatch(url -> new AntPathRequestMatcher(url, request.getMethod()).matches(request))) {
+				filterChain.doFilter(request, response);
 				return;
 			}
-			String jwtToken = JwtUtil.getJwtFromRequest(httpServletRequest);
+			String jwtToken = JwtUtil.getJwtFromRequest(request);
 			if (StringUtils.isBlank(jwtToken)) {
 				throw new JwtException(StringUtils.EMPTY);
 			}
-			String subject = jwtUtil.paresJwtToken(jwtToken);
+			String subject = JwtUtil.paresJwtToken(jwtToken);
 			UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			filterChain.doFilter(httpServletRequest, httpServletResponse);
+			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			securityExceptionAdviceHandler.write(httpServletResponse, e);
+			securityExceptionAdviceHandler.write(response, e);
 		}
 	}
 
