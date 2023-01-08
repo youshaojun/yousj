@@ -48,7 +48,7 @@
 │          │              └─interceptor
 │          └─resources
 │              └─META-INF
-├─yousj-excel easyexcel
+├─yousj-excel easyexcel[实验]
 │  └─src
 │      └─main
 │          └─java
@@ -104,7 +104,7 @@
 │  │                      └─maven
 │  │                          └─cn.langpy
 │  │                              └─ko-time-retrans
-│  └─yousj-reload-mapper 热部署mapper
+│  └─yousj-reload-mapper 热部署mapper[实验]
 │      └─src
 │          └─main
 │              └─java
