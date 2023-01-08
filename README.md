@@ -4,20 +4,38 @@
 <details>
 <summary>展开查看</summary>
 <pre><code>.
-├─yousj-all 所有
-├─yousj-bom bom
-├─yousj-core 通用工具
+├─yousj-all
+├─yousj-bom
+├─yousj-core 核心工具
 │  └─src
 │      └─main
-│          └─java
-│              └─top
-│                  └─yousj
-│                      └─core
-│                          ├─constant
-│                          ├─entity
-│                          ├─exception
-│                          └─utils
-├─yousj-datasource 数据库相关
+│          ├─java
+│          │  └─top
+│          │      └─yousj
+│          │          └─core
+│          │              ├─constant
+│          │              ├─entity
+│          │              ├─enums
+│          │              ├─exception
+│          │              ├─properties
+│          │              └─utils
+│          └─resources
+│              └─META-INF
+├─yousj-crypto 加解密
+│  └─src
+│      └─main
+│          ├─java
+│          │  └─top
+│          │      └─yousj
+│          │          └─crypto
+│          │              ├─advice
+│          │              ├─annotation
+│          │              ├─config
+│          │              ├─handler
+│          │              └─utils
+│          └─resources
+│              └─META-INF
+├─yousj-datasource 数据库
 │  └─src
 │      └─main
 │          ├─java
@@ -26,13 +44,11 @@
 │          │          └─datasource
 │          │              ├─config
 │          │              ├─convert
+│          │              ├─entity
 │          │              └─interceptor
 │          └─resources
-├─yousj-encrypt 加解密相关
-│  └─src
-│      └─main
-│          └─resources
-├─yousj-excel excel相关
+│              └─META-INF
+├─yousj-excel easyexcel
 │  └─src
 │      └─main
 │          └─java
@@ -42,14 +58,14 @@
 │                          ├─handler
 │                          ├─strategy
 │                          └─utils
-├─yousj-exception 异常处理相关
+├─yousj-exception 异常处理
 │  └─src
 │      └─main
 │          └─java
 │              └─top
 │                  └─yousj
 │                      └─exception
-├─yousj-log 日志处理相关
+├─yousj-log 日志
 │  └─src
 │      └─main
 │          ├─java
@@ -60,7 +76,7 @@
 │          │              └─logback
 │          └─resources
 │              └─META-INF
-├─yousj-redis redis相关
+├─yousj-redis 缓存
 │  └─src
 │      └─main
 │          ├─java
@@ -69,35 +85,50 @@
 │          │          └─redis
 │          │              ├─cache
 │          │              ├─multi
-│          │              ├─redisson
 │          │              └─utils
 │          └─resources
 │              └─META-INF
-├─yousj-reload 热加载相关[class热部署参考](https://gitee.com/huoyo/ko-time)
+├─yousj-reload 热部署
+│  ├─yousj-reload-class 热部署class[参考ko-time](https://gitee.com/huoyo/ko-time)
+│  │  └─src
+│  │      └─main
+│  │          ├─java
+│  │          │  └─top
+│  │          │      └─yousj
+│  │          │          └─reload
+│  │          │              ├─controller
+│  │          │              └─service
+│  │          └─resources
+│  │              └─retrans
+│  │                  └─META-INF
+│  │                      └─maven
+│  │                          └─cn.langpy
+│  │                              └─ko-time-retrans
+│  └─yousj-reload-mapper 热部署mapper
+│      └─src
+│          └─main
+│              └─java
+│                  └─top
+│                      └─yousj
+│                          └─reload
+│                              ├─controller
+│                              └─service
+├─yousj-security 权限控制
 │  └─src
 │      └─main
 │          ├─java
 │          │  └─top
 │          │      └─yousj
-│          │          └─reload
-│          │              ├─controller
-│          │              └─service
+│          │          └─security
+│          │              ├─annotation
+│          │              ├─config
+│          │              ├─exception
+│          │              ├─filter
+│          │              ├─properties
+│          │              └─utils
 │          └─resources
-│              ├─META-INF
-│              └─retrans
-├─yousj-security auth相关
-│  └─src
-│      └─main
-│          └─java
-│              └─top
-│                  └─yousj
-│                      └─security
-│                          ├─config
-│                          ├─exception
-│                          ├─filter
-│                          ├─properties
-│                          └─utils
-├─yousj-swagger doc相关
+│              └─META-INF
+├─yousj-swagger 文档
 │  └─src
 │      └─main
 │          ├─java
@@ -105,13 +136,16 @@
 │          │      └─yousj
 │          │          └─swagger
 │          └─resources
-└─yousj-web web相关
+│              └─META-INF
+└─yousj-web
     └─src
         └─main
-            └─java
-                └─top
-                    └─yousj
-                        └─web
-                            └─config
+            ├─java
+            │  └─top
+            │      └─yousj
+            │          └─web
+            │              └─config
+            └─resources
+                └─META-INF
 </code></pre>
 </details>
