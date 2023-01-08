@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UaaConstant {
 
-	public static final String TOKEN_HEADER = "token";
+	public static final String TOKEN_HEADER = "Token";
 
 	public static final String AUTHORIZATION = "Authorization";
 
-	public static final String APP_PREFIX = "top-yousj-app-";
+	public static final String APP_PREFIX = "Top-Yousj-App-";
 
-	public static final String APP_UID = APP_PREFIX + "uid";
+	public static final String APP_UID = APP_PREFIX + "User-Id";
 
-	public static final String APP_NAME = APP_PREFIX + "name";
+	public static final String APP_NAME = APP_PREFIX + "Name";
 
-	public static final String APP_CHANNEL = APP_PREFIX + "channel";
+	public static final String APP_CHANNEL = APP_PREFIX + "Channel";
 
 }
