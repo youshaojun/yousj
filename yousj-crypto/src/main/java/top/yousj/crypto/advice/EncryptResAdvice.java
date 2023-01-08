@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import top.yousj.core.constant.PropertyConstant;
 import top.yousj.crypto.annotation.Encrypt;
 import top.yousj.crypto.utils.AdviceCryptUtil;
 
@@ -21,7 +22,7 @@ import top.yousj.crypto.utils.AdviceCryptUtil;
  */
 @RequiredArgsConstructor
 @RestControllerAdvice(annotations = {Controller.class, RestController.class})
-@ConditionalOnProperty(prefix = "top.yousj.crypto", name = "encrypt.enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = PropertyConstant.CRYPTO, name = "encrypt.enable", havingValue = "true", matchIfMissing = true)
 public class EncryptResAdvice implements ResponseBodyAdvice<Object> {
 
 	private final AdviceCryptUtil adviceCryptUtil;

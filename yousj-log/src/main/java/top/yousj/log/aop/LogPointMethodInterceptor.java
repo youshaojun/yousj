@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import top.yousj.core.constant.PropertyConstant;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.entity.R;
 
@@ -31,7 +32,7 @@ import java.util.Map;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "top.yousj.log.aop", name = "pointcut")
+@ConditionalOnProperty(prefix = PropertyConstant.LOG, name = "aop.pointcut")
 public class LogPointMethodInterceptor implements MethodInterceptor {
 
 	private final ObjectMapper objectMapper;
@@ -67,7 +68,7 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 				}
 				requestParameterMap.putAll(request.getParameterMap());
 				requestLog.setRequestParams(objectMapper.writeValueAsString(requestParameterMap));
-				String appUserUid = request.getHeader(UaaConstant.APP_USER_UID);
+				String appUserUid = request.getHeader(UaaConstant.APP_UID);
 				if (StringUtils.isNotBlank(appUserUid)) {
 					requestLog.setUid(Integer.valueOf(appUserUid));
 				}

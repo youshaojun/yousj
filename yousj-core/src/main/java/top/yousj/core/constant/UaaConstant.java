@@ -14,10 +14,12 @@ public class UaaConstant {
 
 	public static final String AUTHORIZATION = "Authorization";
 
-	public static final String APP_USER_UID = "top_yousj_app_user_uid";
+	public static final String APP_PREFIX = "top-yousj-app-";
 
-	public static final String APP_NAME = "top_yousj_app_name";
+	public static final String APP_UID = APP_PREFIX + "uid";
 
-	public static final String APP_CHANNEL = "top_yousj_app_channel";
+	public static final String APP_NAME = APP_PREFIX + "name";
+
+	public static final String APP_CHANNEL = APP_PREFIX + "channel";
 
 }

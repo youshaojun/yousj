@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import top.yousj.core.constant.PropertyConstant;
 import top.yousj.core.properties.TopYousjProperties;
 
 import java.util.Objects;
@@ -21,7 +22,7 @@ import java.util.Objects;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(TopYousjProperties.class)
-@ConditionalOnProperty(prefix = "top.yousj.log.aop", name = "pointcut")
+@ConditionalOnProperty(prefix = PropertyConstant.LOG, name = "aop.pointcut")
 public class LogPointAdvice {
 
 	private final ObjectMapper objectMapper;

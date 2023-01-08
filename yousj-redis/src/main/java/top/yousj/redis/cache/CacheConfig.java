@@ -22,6 +22,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import top.yousj.core.constant.PropertyConstant;
 import top.yousj.core.properties.TopYousjProperties;
 import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.core.utils.SpringUtil;
@@ -51,7 +52,7 @@ import static top.yousj.redis.utils.RedisUtil.simple;
 @AutoConfigureAfter(RedisConnectionFactory.class)
 @ConditionalOnClass(RedisOperations.class)
 @EnableConfigurationProperties(TopYousjProperties.class)
-@ConditionalOnProperty(prefix = "top.yousj.redis", name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = PropertyConstant.REDIS, name = "enable", havingValue = "true", matchIfMissing = true)
 public class CacheConfig {
 
 	private final TopYousjProperties topYousjProperties;
