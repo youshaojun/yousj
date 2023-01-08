@@ -26,7 +26,7 @@ public class CustomConfig {
 
 	public static Map<String, Set<String>> IGNORE_URLS = Maps.newConcurrentMap();
 
-	public static Set<String> COMMON_IGNORE_URLS = Sets.newHashSet();
+	public static Set<String> COMMON_IGNORE_URLS = Sets.newConcurrentHashSet();
 
 	static {
 		COMMON_IGNORE_URLS.add("/reload/updateClass");
