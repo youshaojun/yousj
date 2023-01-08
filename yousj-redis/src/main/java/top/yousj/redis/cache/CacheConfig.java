@@ -47,7 +47,7 @@ import static top.yousj.redis.utils.RedisUtil.simple;
  */
 @Slf4j
 @EnableCaching
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 @AutoConfigureAfter(RedisConnectionFactory.class)
 @ConditionalOnClass(RedisOperations.class)

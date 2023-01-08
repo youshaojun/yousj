@@ -13,7 +13,7 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import top.yousj.redis.RedisTemplateFactory;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass({RedisOperations.class})
 @AutoConfigureBefore({RedisAutoConfiguration.class})
 @EnableConfigurationProperties({RedisProperties.class})

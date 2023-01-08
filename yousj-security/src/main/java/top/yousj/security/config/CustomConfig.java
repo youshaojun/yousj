@@ -15,9 +15,9 @@ import java.util.concurrent.TimeUnit;
  * @author yousj
  * @since 2023-01-06
  */
-@Configuration
 @EnableScheduling
 @RequiredArgsConstructor
+@Configuration(proxyBeanMethods = false)
 public class CustomConfig {
 
 	private final CustomConfigReloadHandler customConfigReloadHandler;

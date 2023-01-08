@@ -19,7 +19,7 @@ import java.util.Objects;
  * @since 2023-01-04
  */
 @Slf4j
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 @EnableConfigurationProperties(TopYousjProperties.class)
 @ConditionalOnProperty(prefix = PropertyConstant.LOG, name = "aop.pointcut")

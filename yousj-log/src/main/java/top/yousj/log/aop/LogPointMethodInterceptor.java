@@ -30,7 +30,7 @@ import java.util.Map;
  * @since 2023-01-05
  */
 @Slf4j
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = PropertyConstant.LOG, name = "aop.pointcut")
 public class LogPointMethodInterceptor implements MethodInterceptor {

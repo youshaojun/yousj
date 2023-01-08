@@ -16,7 +16,7 @@ import static top.yousj.security.config.CustomConfig.*;
  * @author yousj
  * @since 2023-01-02
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
 @RequiredArgsConstructor
 @ConditionalOnMissingBean(WebSecurityConfigurerAdapterImport.class)

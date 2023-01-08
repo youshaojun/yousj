@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-top.yousj.datasource.config.MybatisConfig
+top.yousj.datasource.config.MybatisInterceptorConfig,\
+top.yousj.datasource.config.MybatisPlusInterceptorConfig
