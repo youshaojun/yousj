@@ -1,2 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-top.yousj.web.config.WebConfigurer
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=
