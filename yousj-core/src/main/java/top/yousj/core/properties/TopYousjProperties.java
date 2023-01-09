@@ -29,6 +29,11 @@ public class TopYousjProperties {
 	 */
 	private Redis redis;
 
+	/**
+	 * security配置
+	 */
+	private Security security;
+
 	@Data
 	public static class Crypto {
 
@@ -92,6 +97,31 @@ public class TopYousjProperties {
 		 * 扫描开启支持自定义过期时间的spring cache的包
 		 */
 		private List<String> scanPackages;
+
+	}
+
+	@Data
+	public static class Security {
+
+		/**
+		 * jwt配置
+		 */
+		private Jwt jwt;
+
+		@Data
+		public static class Jwt {
+
+			/**
+			 * 过期时间
+			 */
+			private Long expire = 86400000L;
+
+			/**
+			 * jwt签名key
+			 */
+			private String signKey = "jwt_secret:";
+
+		}
 
 	}
 

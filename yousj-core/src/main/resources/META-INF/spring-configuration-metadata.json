@@ -41,6 +41,18 @@
       "type": "top.yousj.core.properties.TopYousjProperties$Redis",
       "sourceType": "top.yousj.core.properties.TopYousjProperties",
       "description": "redis配置"
+    },
+    {
+      "name": "top.yousj.security",
+      "type": "top.yousj.core.properties.TopYousjProperties$Security",
+      "sourceType": "top.yousj.core.properties.TopYousjProperties",
+      "description": "security配置"
+    },
+    {
+      "name": "top.yousj.security.jwt",
+      "type": "top.yousj.core.properties.TopYousjProperties$Security$Jwt",
+      "sourceType": "top.yousj.core.properties.TopYousjProperties$Security",
+      "description": "jwt配置"
     }
   ],
   "properties": [
@@ -83,6 +95,19 @@
       "type": "java.util.List<java.lang.String>",
       "description": "支持Spring Cache的包",
       "sourceType": "top.yousj.core.properties.TopYousjProperties$Redis"
+    },
+    {
+      "name": "top.yousj.security.jwt.expire",
+      "type": "java.lang.Long",
+      "description": "过期时间",
+      "sourceType": "top.yousj.core.properties.TopYousjProperties$Security$Jwt",
+      "defaultValue": -1
+    },
+    {
+      "name": "top.yousj.security.jwt.signKey",
+      "type": "java.lang.String",
+      "description": "jwt签名key",
+      "sourceType": "top.yousj.core.properties.TopYousjProperties$Security$Jwt"
     }
   ],
   "hints": []

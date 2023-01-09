@@ -3,7 +3,6 @@ package top.yousj.security.utils;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -11,9 +10,9 @@ import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.stereotype.Component;
 import top.yousj.core.constant.StrPool;
 import top.yousj.core.constant.UaaConstant;
+import top.yousj.core.properties.TopYousjProperties;
 import top.yousj.core.utils.DateUtil;
 import top.yousj.redis.utils.RedisUtil;
-import top.yousj.security.properties.JwtProperties;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -26,13 +25,13 @@ import java.util.concurrent.TimeUnit;
  * @since 2023-01-02
  */
 @Component
-@EnableConfigurationProperties(JwtProperties.class)
+@EnableConfigurationProperties(TopYousjProperties.class)
 public class JwtUtil {
 
-    private static JwtProperties jwtProperties;
+    private static TopYousjProperties.Security.Jwt jwtProperties;
 
     @Autowired
-    public JwtUtil(JwtProperties jwtProperties){
+    public JwtUtil(TopYousjProperties.Security.Jwt jwtProperties){
 		JwtUtil.jwtProperties = jwtProperties;
 	}
 
