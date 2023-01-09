@@ -10,17 +10,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.util.FieldUtils;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import top.yousj.core.constant.UaaConstant;
+import top.yousj.core.enums.ResultCode;
+import top.yousj.security.config.CustomMatchRequestHandler;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.utils.JwtUtil;
+import top.yousj.security.utils.SecurityUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import static top.yousj.security.config.CustomConfig.*;
 
 @Slf4j
 @Component
@@ -48,9 +50,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			setUserIdHeader(response, userDetails);
+			if (!hasPermission(request)) {
+				securityExceptionAdviceHandler.write(response, ResultCode.ACCESS_DENIED);
+				return;
+			}
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			securityExceptionAdviceHandler.write(response, e);
+			securityExceptionAdviceHandler.write(response, securityExceptionAdviceHandler.handle(e));
 		}
 	}
 
@@ -59,6 +65,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			response.setHeader(UaaConstant.APP_UID, String.valueOf(FieldUtils.getFieldValue(userDetails, "id")));
 		} catch (Exception ignored) {
 		}
+	}
+
+	private boolean hasPermission(HttpServletRequest request) {
+		if (customMatchRequestHandler.matchAuthPermitUrls(request)) {
+			return true;
+		}
+		return SecurityUtil.getAuthorities().stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request));
 	}
 
 }

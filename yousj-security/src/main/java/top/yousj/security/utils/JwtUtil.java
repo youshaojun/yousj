@@ -31,8 +31,8 @@ public class JwtUtil {
     private static TopYousjProperties.Security.Jwt jwtProperties;
 
     @Autowired
-    public JwtUtil(TopYousjProperties.Security.Jwt jwtProperties){
-		JwtUtil.jwtProperties = jwtProperties;
+    public JwtUtil(TopYousjProperties topYousjProperties){
+		JwtUtil.jwtProperties = topYousjProperties.getSecurity().getJwt();
 	}
 
     public static String createJwtToken(String username) {

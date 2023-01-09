@@ -7,8 +7,9 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import top.yousj.core.enums.ResultCode;
@@ -33,10 +34,13 @@ public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 		if (ex instanceof BusinessException) {
 			return R.failure(((BusinessException) ex).getCode(), ex.getMessage());
 		}
-		if(ex instanceof BadCredentialsException || ex instanceof UsernameNotFoundException){
+		if (ex instanceof BadCredentialsException || ex instanceof UsernameNotFoundException) {
 			return R.failure(ResultCode.USERNAME_NOT_FOUND);
 		}
-		if (ex instanceof AccountExpiredException) {
+		if (ex instanceof AccessDeniedException) {
+			return R.failure(ResultCode.ACCESS_DENIED);
+		}
+		if (ex instanceof AuthenticationException) {
 			return R.failure(ResultCode.UNAUTHORIZED);
 		}
 		if (ex instanceof JwtException) {
@@ -45,16 +49,16 @@ public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 		return null;
 	}
 
+	public void write(HttpServletResponse response, ResultCode resultCode) {
+		write(response, R.failure(resultCode));
+	}
+
 	@SneakyThrows
-	public void write(HttpServletResponse response, Exception ex) {
+	public void write(HttpServletResponse response, R<String> r) {
 		response.setCharacterEncoding(StrPool.CHARSET_NAME);
 		response.setStatus(HttpStatus.OK.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		PrintWriter writer = response.getWriter();
-		R<String> r = handle(ex);
-		if (Objects.isNull(r)) {
-			log.error(ex.getMessage(), ex);
-		}
 		writer.write(objectMapper.writeValueAsString(Objects.nonNull(r) ? r : R.failure(ResultCode.SYSTEM_ERROR)));
 		writer.flush();
 		writer.close();

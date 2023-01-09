@@ -14,5 +14,6 @@ public class PropertyConstant {
 	public static final String LOG = PREFIX + "log";
 	public static final String CRYPTO = PREFIX + "crypto";
 	public static final String REDIS = PREFIX + "redis";
+	public static final String SECURITY = PREFIX + "security";
 
 }

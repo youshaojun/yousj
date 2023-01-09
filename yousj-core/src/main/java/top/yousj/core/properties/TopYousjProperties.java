@@ -17,29 +17,29 @@ public class TopYousjProperties {
 	/**
 	 * 请求响应加解密配置
 	 */
-	private Crypto crypto;
+	private Crypto crypto = new Crypto();
 
 	/**
 	 * web日志切面配置
 	 */
-	private Log log;
+	private Log log = new Log();
 
 	/**
 	 * redis配置
 	 */
-	private Redis redis;
+	private Redis redis = new Redis();
 
 	/**
 	 * security配置
 	 */
-	private Security security;
+	private Security security = new Security();
 
 	@Data
 	public static class Crypto {
 
-		private Decrypt decrypt;
+		private Decrypt decrypt = new Decrypt();
 
-		private Encrypt encrypt;
+		private Encrypt encrypt = new Encrypt();
 
 		@Data
 		public static class Decrypt {
@@ -69,7 +69,7 @@ public class TopYousjProperties {
 		/**
 		 * web日志切面
 		 */
-		private Aop aop;
+		private Aop aop = new Aop();
 
 		@Data
 		public static class Aop {
@@ -106,7 +106,7 @@ public class TopYousjProperties {
 		/**
 		 * jwt配置
 		 */
-		private Jwt jwt;
+		private Jwt jwt = new Jwt();
 
 		@Data
 		public static class Jwt {

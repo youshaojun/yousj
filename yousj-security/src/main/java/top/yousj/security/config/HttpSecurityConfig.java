@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
+import top.yousj.core.entity.R;
+import top.yousj.core.enums.ResultCode;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.filter.JwtAuthenticationFilter;
 
@@ -30,7 +32,9 @@ public class HttpSecurityConfig {
 			.authorizeRequests()
 			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 			// 其余资源走自定义权限认证
-			.anyRequest().access("@rbacAuthorityService.hasPermission(request,authentication)")
+			// 关于动态加载配置(过于复杂) https://docs.spring.io/spring-security/site/docs/4.2.4.RELEASE/reference/htmlsingle/#appendix-faq-dynamic-url-metadata
+			// 全部由JwtAuthenticationFilter处理, 可动态加载配置
+			// .anyRequest().access("@rbacAuthorityService.hasPermission(request,authentication)")
 			.and()
 			// 禁用session, 使用token方式认证
 			.sessionManagement().sessionFixation().migrateSession().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -42,9 +46,9 @@ public class HttpSecurityConfig {
 			// 自定义认证异常处理
 			.exceptionHandling()
 			// 已认证用户权限认证异常处理
-			.accessDeniedHandler(((req, res, e) -> securityExceptionAdviceHandler.write(res, e)))
+			.accessDeniedHandler(((req, res, e) -> securityExceptionAdviceHandler.write(res, ResultCode.ACCESS_DENIED)))
 			// 未认证用户权限认证异常处理
-			.authenticationEntryPoint(((req, res, e) -> securityExceptionAdviceHandler.write(res, e)));
+			.authenticationEntryPoint(((req, res, e) -> securityExceptionAdviceHandler.write(res, ResultCode.UNAUTHORIZED)));
 	}
 
 

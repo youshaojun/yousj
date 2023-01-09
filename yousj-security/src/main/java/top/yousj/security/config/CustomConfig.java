@@ -74,16 +74,8 @@ public class CustomConfig {
 
 	}
 
-	public interface CustomMatchRequestHandler {
-
-		boolean matchAuthPermitUrls(HttpServletRequest request);
-
-		boolean matchIgnoreUrls(HttpServletRequest request);
-
-	}
-
 	@Bean
-	@ConditionalOnMissingBean(CustomMatchRequestHandler.class)
+	@ConditionalOnMissingBean
 	public CustomMatchRequestHandler aloneCustomHandler() {
 		return new CustomMatchRequestHandler() {
 

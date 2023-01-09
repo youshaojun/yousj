@@ -3,6 +3,7 @@ package top.yousj.security.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import top.yousj.security.filter.JwtAuthenticationFilter;
 
 /**
  * SpringBoot低版本兼容
@@ -13,11 +14,12 @@ public class WebSecurityConfigurerAdapterImport extends WebSecurityConfigurerAda
 
 	private final HttpSecurityConfig httpSecurityConfig;
 
+	/**
+	 * 放行所有请求, 认证由 {@link JwtAuthenticationFilter} 处理
+	 */
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.antMatchers("/**")
-			.permitAll();
+		http.authorizeRequests().antMatchers("/**").permitAll();
 		httpSecurityConfig.apply(http);
 	}
 
