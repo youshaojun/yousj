@@ -114,20 +114,19 @@
 │                              ├─controller
 │                              └─service
 ├─yousj-security 权限控制
-│  └─src
-│      └─main
-│          ├─java
-│          │  └─top
-│          │      └─yousj
-│          │          └─security
-│          │              ├─annotation
-│          │              ├─config
-│          │              ├─exception
-│          │              ├─filter
-│          │              ├─properties
-│          │              └─utils
-│          └─resources
-│              └─META-INF
+│  ├─src
+│  │  └─main
+│  │      ├─java
+│  │      │  └─top
+│  │      │      └─yousj
+│  │      │          └─security
+│  │      │              ├─annotation
+│  │      │              ├─config
+│  │      │              ├─exception
+│  │      │              ├─filter
+│  │      │              └─utils
+│  │      └─resources
+│  │          └─META-INF
 ├─yousj-swagger 文档
 │  └─src
 │      └─main
