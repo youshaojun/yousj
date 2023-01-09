@@ -28,6 +28,24 @@ public class CustomConfig {
 
 	public static Set<String> COMMON_IGNORE_URLS = Sets.newConcurrentHashSet();
 
+	static {
+		COMMON_IGNORE_URLS.add("/reload/updateClass");
+		COMMON_IGNORE_URLS.add("/reload/updateMapperXml");
+		COMMON_IGNORE_URLS.add("/actuator/**");
+		COMMON_IGNORE_URLS.add("/favicon.ico");
+		COMMON_IGNORE_URLS.add("/doc.html");
+		COMMON_IGNORE_URLS.add("/swagger-ui.html");
+		COMMON_IGNORE_URLS.add("/css/**");
+		COMMON_IGNORE_URLS.add("/js/**");
+		COMMON_IGNORE_URLS.add("/docs/**");
+		COMMON_IGNORE_URLS.add("/webjars/**");
+		COMMON_IGNORE_URLS.add("/v2/**");
+		COMMON_IGNORE_URLS.add("/v3/**");
+		COMMON_IGNORE_URLS.add("/swagger-resources/**");
+		COMMON_IGNORE_URLS.add("/swagger-ui/**");
+		COMMON_IGNORE_URLS.add("/druid/**");
+	}
+
 	/**
 	 * 单项目自定义path过滤
 	 */
