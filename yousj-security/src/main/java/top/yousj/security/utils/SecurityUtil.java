@@ -17,13 +17,6 @@ import java.util.stream.Collectors;
 public class SecurityUtil {
 
 	/**
-	 * 当前用户
-	 */
-	public static <T> T getCurrentUser() {
-		return (T) getAuthentication().getPrincipal();
-	}
-
-	/**
 	 * 权限集合
 	 */
 	public static List<String> getAuthorities() {
