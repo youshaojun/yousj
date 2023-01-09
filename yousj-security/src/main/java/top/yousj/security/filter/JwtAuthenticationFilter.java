@@ -8,9 +8,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.util.FieldUtils;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import top.yousj.core.constant.UaaConstant;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.utils.JwtUtil;
 
@@ -45,9 +47,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+			setUserIdHeader(response, userDetails);
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			securityExceptionAdviceHandler.write(response, e);
+		}
+	}
+
+	private void setUserIdHeader(HttpServletResponse response, UserDetails userDetails) {
+		try {
+			response.setHeader(UaaConstant.APP_UID, String.valueOf(FieldUtils.getFieldValue(userDetails, "id")));
+		} catch (Exception ignored) {
 		}
 	}
 

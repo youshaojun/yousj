@@ -5,16 +5,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.filter.JwtAuthenticationFilter;
-import top.yousj.security.utils.SecurityUtil;
-
-import javax.servlet.http.HttpServletRequest;
-
-import static top.yousj.security.config.CustomConfig.*;
 
 @Component
 @RequiredArgsConstructor
@@ -23,7 +17,6 @@ public class HttpSecurityConfig {
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final UserDetailsService userDetailsService;
 	private final SecurityExceptionAdviceHandler securityExceptionAdviceHandler;
-	private final CustomMatchRequestHandler customMatchRequestHandler;
 
 	public void apply(HttpSecurity http) throws Exception {
 		http
@@ -37,7 +30,7 @@ public class HttpSecurityConfig {
 			.authorizeRequests()
 			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 			// 其余资源走自定义权限认证
-			.anyRequest().access("@httpSecurityConfig.hasPermission(request)")
+			.anyRequest().access("@rbacAuthorityService.hasPermission(request,authentication)")
 			.and()
 			// 禁用session, 使用token方式认证
 			.sessionManagement().sessionFixation().migrateSession().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -54,11 +47,5 @@ public class HttpSecurityConfig {
 			.authenticationEntryPoint(((req, res, e) -> securityExceptionAdviceHandler.write(res, e)));
 	}
 
-	public boolean hasPermission(HttpServletRequest request) {
-		if (customMatchRequestHandler.matchAuthPermitUrls(request)) {
-			return true;
-		}
-		return SecurityUtil.getAuthorities().stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request));
-	}
 
 }

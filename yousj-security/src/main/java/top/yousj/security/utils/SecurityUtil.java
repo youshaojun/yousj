@@ -27,9 +27,7 @@ public class SecurityUtil {
 	 * 权限集合
 	 */
 	public static List<String> getAuthorities() {
-		return getAuthentication().getAuthorities().stream()
-			.map(GrantedAuthority::getAuthority)
-			.collect(Collectors.toList());
+		return getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 	}
 
 	private static Authentication getAuthentication() {
