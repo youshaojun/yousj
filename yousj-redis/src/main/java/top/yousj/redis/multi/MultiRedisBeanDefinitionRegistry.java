@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
+import top.yousj.core.constant.PropertyConstant;
 
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class MultiRedisBeanDefinitionRegistry implements BeanDefinitionRegistryP
 
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
-		Binder.get(environment).bind("top.yousj.multi-redis", MultiRedisConfig.class).ifBound(multiRedisConfig -> registerBeanDefinition(multiRedisConfig, registry));
+		Binder.get(environment).bind(PropertyConstant.MULTI_REDIS, MultiRedisConfig.class).ifBound(multiRedisConfig -> registerBeanDefinition(multiRedisConfig, registry));
 	}
 
 	@Override

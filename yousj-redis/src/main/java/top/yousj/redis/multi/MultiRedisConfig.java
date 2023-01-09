@@ -3,9 +3,9 @@ package top.yousj.redis.multi;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import top.yousj.core.constant.PropertyConstant;
 
 import java.util.Map;
-
 
 /**
  * @author yousj
@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "top.yousj.multi-redis")
+@ConfigurationProperties(prefix = PropertyConstant.MULTI_REDIS)
 public class MultiRedisConfig {
 
     private Map<String, MultiRedisStandaloneConfiguration> configs;

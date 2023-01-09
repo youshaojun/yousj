@@ -11,6 +11,7 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import springfox.documentation.spring.web.plugins.Docket;
+import top.yousj.core.constant.PropertyConstant;
 
 /**
  * @author yousj
@@ -28,7 +29,7 @@ public class SwaggerGroupBeanDefinitionRegistry implements BeanDefinitionRegistr
 
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-		Binder.get(environment).bind("multi-swagger-group", SwaggerGroups.class).ifBound(s -> registerBeanDefinition(s, registry));
+		Binder.get(environment).bind(PropertyConstant.SWAGGER, SwaggerGroups.class).ifBound(s -> registerBeanDefinition(s, registry));
 	}
 
 	@Override
