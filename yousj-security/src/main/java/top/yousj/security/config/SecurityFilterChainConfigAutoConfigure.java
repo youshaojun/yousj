@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import top.yousj.security.filter.JwtAuthenticationFilter;
+import top.yousj.security.service.RbacAuthorityService;
 
 /**
  * @author yousj
@@ -31,7 +32,7 @@ public class SecurityFilterChainConfigAutoConfigure {
 	}
 
 	/**
-	 * 放行所有请求交给 {@link JwtAuthenticationFilter} 和 {@link HttpSecurityConfig#hasPermission(javax.servlet.http.HttpServletRequest)}
+	 * 放行所有请求交给 {@link JwtAuthenticationFilter} 和 {@link RbacAuthorityService#hasPermission(javax.servlet.http.HttpServletRequest)}
 	 */
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
