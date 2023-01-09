@@ -1,5 +1,7 @@
 package top.yousj.security.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
  * @author yousj
  * @since 2023-01-02
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SecurityUtil {
 
 	/**

@@ -1,5 +1,7 @@
 package top.yousj.core.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -21,6 +23,7 @@ import java.security.spec.X509EncodedKeySpec;
  * RSA非对称加密
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RSAUtil {
 
 	public static void main(String[] args) {

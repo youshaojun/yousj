@@ -1,5 +1,7 @@
 package top.yousj.core.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import top.yousj.core.constant.StrPool;
 
@@ -10,6 +12,7 @@ import java.util.Base64;
 /**
  * AES对称加密
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AESUtil {
 
 	@SneakyThrows

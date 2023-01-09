@@ -1,5 +1,7 @@
 package top.yousj.core.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import top.yousj.core.constant.StrPool;
@@ -16,6 +18,7 @@ import java.util.Objects;
  * @author yousj
  * @since 2023-01-05
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateUtil {
 
 	private static final String[] PATTERN = {"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy/MM/dd", "yyyy/MM/dd HH:mm", "yyyy/MM/dd HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "yyyy年MM月dd日", "yyyyMMdd"};

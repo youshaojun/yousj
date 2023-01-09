@@ -1,5 +1,7 @@
 package top.yousj.core.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import top.yousj.core.enums.FileTypeEnum;
@@ -20,6 +22,7 @@ import java.util.UUID;
  * @author yousj
  * @since 2023-01-05
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExportUtil {
 
 	public static void download(String path, String fileName, FileTypeEnum fileTypeEnum, HttpServletResponse res) {

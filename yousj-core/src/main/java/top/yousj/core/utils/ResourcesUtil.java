@@ -1,5 +1,7 @@
 package top.yousj.core.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -14,6 +16,7 @@ import java.util.Objects;
  * @author yousj
  * @since 2023-01-05
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourcesUtil {
 
 	@SneakyThrows
