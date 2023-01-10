@@ -6,7 +6,7 @@
 <pre><code>.
 ├─yousj-all
 ├─yousj-bom
-├─yousj-core 核心工具
+├─yousj-core 常用工具
 │  └─src
 │      └─main
 │          ├─java
@@ -17,7 +17,6 @@
 │          │              ├─entity
 │          │              ├─enums
 │          │              ├─exception
-│          │              ├─properties
 │          │              └─utils
 │          └─resources
 │              └─META-INF
@@ -30,12 +29,13 @@
 │          │          └─crypto
 │          │              ├─advice
 │          │              ├─annotation
-│          │              ├─config
+│          │              ├─constant
 │          │              ├─handler
+│          │              ├─properties
 │          │              └─utils
 │          └─resources
 │              └─META-INF
-├─yousj-datasource 数据库
+├─yousj-datasource 数据源
 │  └─src
 │      └─main
 │          ├─java
@@ -48,7 +48,7 @@
 │          │              └─interceptor
 │          └─resources
 │              └─META-INF
-├─yousj-excel easyexcel[实验]
+├─yousj-excel easyexcel[待验证]
 │  └─src
 │      └─main
 │          └─java
@@ -58,7 +58,7 @@
 │                          ├─handler
 │                          ├─strategy
 │                          └─utils
-├─yousj-exception 异常处理
+├─yousj-exception
 │  └─src
 │      └─main
 │          └─java
@@ -73,7 +73,9 @@
 │          │      └─yousj
 │          │          └─log
 │          │              ├─aop
-│          │              └─logback
+│          │              ├─constant
+│          │              ├─logback
+│          │              └─properties
 │          └─resources
 │              └─META-INF
 ├─yousj-redis 缓存
@@ -83,13 +85,20 @@
 │          │  └─top
 │          │      └─yousj
 │          │          └─redis
+│          │              ├─annotation
 │          │              ├─cache
+│          │              ├─constant
 │          │              ├─multi
+│          │              ├─properties
 │          │              └─utils
 │          └─resources
 │              └─META-INF
 ├─yousj-reload 热部署
-│  ├─yousj-reload-class 热部署class[参考ko-time](https://gitee.com/huoyo/ko-time)
+│  ├─src
+│  │  └─main
+│  │      └─resources
+│  │          └─META-INF
+│  ├─yousj-reload-class 热部署class[参考](https://gitee.com/huoyo/ko-time)
 │  │  └─src
 │  │      └─main
 │  │          ├─java
@@ -104,7 +113,7 @@
 │  │                      └─maven
 │  │                          └─cn.langpy
 │  │                              └─ko-time-retrans
-│  └─yousj-reload-mapper 热部署mapper[实验]
+│  └─yousj-reload-mapper 热部署class[待验证]
 │      └─src
 │          └─main
 │              └─java
@@ -113,27 +122,33 @@
 │                          └─reload
 │                              ├─controller
 │                              └─service
-├─yousj-security 权限控制
-│  ├─src
-│  │  └─main
-│  │      ├─java
-│  │      │  └─top
-│  │      │      └─yousj
-│  │      │          └─security
-│  │      │              ├─annotation
-│  │      │              ├─config
-│  │      │              ├─exception
-│  │      │              ├─filter
-│  │      │              └─utils
-│  │      └─resources
-│  │          └─META-INF
-├─yousj-swagger 文档
+├─yousj-security [认证授权]
+│  └─src
+│      └─main
+│          ├─java
+│          │  └─top
+│          │      └─yousj
+│          │          └─security
+│          │              ├─annotation
+│          │              ├─config
+│          │              ├─constant
+│          │              ├─exception
+│          │              ├─filter
+│          │              ├─properties
+│          │              └─utils
+│          └─resources
+│              └─META-INF
+├─yousj-swagger [swagger文档]
 │  └─src
 │      └─main
 │          ├─java
 │          │  └─top
 │          │      └─yousj
 │          │          └─swagger
+│          │              ├─config
+│          │              ├─constant
+│          │              ├─entity
+│          │              └─spring
 │          └─resources
 │              └─META-INF
 └─yousj-web
@@ -146,5 +161,6 @@
             │              └─config
             └─resources
                 └─META-INF
+
 </code></pre>
 </details>
