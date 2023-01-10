@@ -1,6 +1,7 @@
-package top.yousj.redis.multi;
+package top.yousj.redis.annotation;
 
 import org.springframework.context.annotation.Import;
+import top.yousj.redis.multi.MultiRedisBeanDefinitionRegistry;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

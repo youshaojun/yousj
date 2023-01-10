@@ -24,6 +24,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.core.utils.SpringUtil;
 import top.yousj.redis.RedisTemplateFactory;
+import top.yousj.redis.constant.CacheConstant;
 import top.yousj.redis.constant.PropertyConstant;
 import top.yousj.redis.properties.RedisProperties;
 

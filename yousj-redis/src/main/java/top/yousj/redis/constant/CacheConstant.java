@@ -1,4 +1,4 @@
-package top.yousj.redis.cache;
+package top.yousj.redis.constant;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
