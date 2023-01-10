@@ -18,7 +18,7 @@ public class MybatisInterceptorConfig {
 	@Bean
 	@Profile({"dev", "test"})
 	public PerformanceInterceptor performanceInterceptor() {
-		return new PerformanceInterceptor();
+		return new PerformanceInterceptor().setWriteInLog(true);
 	}
 
 }
