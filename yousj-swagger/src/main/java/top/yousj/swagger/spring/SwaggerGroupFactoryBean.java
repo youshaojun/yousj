@@ -1,7 +1,9 @@
-package top.yousj.swagger;
+package top.yousj.swagger.spring;
 
 import org.springframework.beans.factory.FactoryBean;
 import springfox.documentation.spring.web.plugins.Docket;
+import top.yousj.swagger.config.SwaggerDocket;
+import top.yousj.swagger.entity.SwaggerGroups;
 
 /**
  * @author yousj

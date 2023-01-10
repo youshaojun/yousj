@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
-import top.yousj.core.constant.PropertyConstant;
+import top.yousj.redis.constant.PropertyConstant;
 
 import java.util.Map;
 

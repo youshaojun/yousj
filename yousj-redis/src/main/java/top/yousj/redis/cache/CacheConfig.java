@@ -9,7 +9,6 @@ import org.reflections.util.ConfigurationBuilder;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
@@ -22,12 +21,11 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import top.yousj.core.constant.PropertyConstant;
-import top.yousj.core.properties.TopYousjProperties;
 import top.yousj.core.utils.ParamAssertUtil;
 import top.yousj.core.utils.SpringUtil;
 import top.yousj.redis.RedisTemplateFactory;
-import top.yousj.redis.utils.RedisUtil;
+import top.yousj.redis.constant.PropertyConstant;
+import top.yousj.redis.properties.RedisProperties;
 
 import java.lang.reflect.Method;
 import java.time.Duration;
@@ -51,11 +49,10 @@ import static top.yousj.redis.utils.RedisUtil.simple;
 @RequiredArgsConstructor
 @AutoConfigureAfter(RedisConnectionFactory.class)
 @ConditionalOnClass(RedisOperations.class)
-@EnableConfigurationProperties(TopYousjProperties.class)
 @ConditionalOnProperty(prefix = PropertyConstant.REDIS, name = "enable", havingValue = "true", matchIfMissing = true)
 public class CacheConfig {
 
-	private final TopYousjProperties topYousjProperties;
+	private final RedisProperties redisProperties;
 
 	@Bean
 	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
@@ -67,7 +64,7 @@ public class CacheConfig {
 		cacheConfigurations.put(CacheConstant.LONG, generateRedisCacheConfiguration(Duration.ofDays(1L), simple(CacheConstant.LONG)));
 		cacheConfigurations.put(CacheConstant.SHORT, generateRedisCacheConfiguration(Duration.ofMinutes(10L), simple(CacheConstant.SHORT)));
 		Set<Method> methods = new HashSet<>();
-		List<String> scanPackages = topYousjProperties.getRedis().getScanPackages();
+		List<String> scanPackages = redisProperties.getScanPackages();
 		ParamAssertUtil.notEmpty(scanPackages, "scan packages can't be empty.");
 		for (String scanPackage : scanPackages) {
 			methods.addAll(new Reflections(new ConfigurationBuilder()
@@ -100,7 +97,7 @@ public class CacheConfig {
 		return RedisCacheConfiguration.defaultCacheConfig()
 			.entryTtl(entryTtl == null ? Duration.ofHours(1L) : entryTtl)
 			.disableCachingNullValues()
-			.computePrefixWith((cacheName) -> prefixKey == null ? prefixKeyWith + RedisUtil.simple(CacheConstant.COMMON) : prefixKeyWith + prefixKey)
+			.computePrefixWith((cacheName) -> prefixKey == null ? prefixKeyWith + simple(CacheConstant.COMMON) : prefixKeyWith + prefixKey)
 			.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string()))
 			.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisTemplateFactory.getValueSerializer()));
 	}

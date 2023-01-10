@@ -1,0 +1,32 @@
+{
+  "groups": [
+    {
+      "name": "top.yousj.log",
+      "type": "top.yousj.log.properties.LogProperties",
+      "sourceType": "top.yousj.log.properties.LogProperties",
+      "description": "日志配置"
+    },
+    {
+      "name": "top.yousj.log.aop",
+      "type": "top.yousj.log.properties.LogProperties$Aop",
+      "sourceType": "top.yousj.log.properties.LogProperties",
+      "description": "日志切面配置"
+    }
+  ],
+  "properties": [
+    {
+      "name": "top.yousj.log.aop.order",
+      "type": "java.lang.Integer",
+      "description": "日志切面顺序",
+      "sourceType": "top.yousj.log.properties.LogProperties$Aop",
+      "defaultValue": -1
+    },
+    {
+      "name": "top.yousj.log.aop.pointcut",
+      "type": "java.lang.String",
+      "description": "日志切面el表达式",
+      "sourceType": "top.yousj.log.properties.LogProperties$Aop"
+    }
+  ],
+  "hints": []
+}

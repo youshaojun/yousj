@@ -1,7 +1,9 @@
-package top.yousj.core.constant;
+package top.yousj.security.constant;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import static top.yousj.core.constant.PropertyConstant.PREFIX;
 
 /**
  * @author yousj
@@ -10,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PropertyConstant {
 
-	public static final String PREFIX = "top.yousj.";
+	public static final String SECURITY = PREFIX + "security";
 
 }

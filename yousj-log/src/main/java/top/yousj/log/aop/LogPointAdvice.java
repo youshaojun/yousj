@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import top.yousj.core.constant.PropertyConstant;
-import top.yousj.core.properties.TopYousjProperties;
+import top.yousj.log.constant.PropertyConstant;
+import top.yousj.log.properties.LogProperties;
 
 import java.util.Objects;
 
@@ -21,12 +21,12 @@ import java.util.Objects;
 @Slf4j
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
-@EnableConfigurationProperties(TopYousjProperties.class)
+@EnableConfigurationProperties(LogProperties.class)
 @ConditionalOnProperty(prefix = PropertyConstant.LOG, name = "aop.pointcut")
 public class LogPointAdvice {
 
 	private final ObjectMapper objectMapper;
-	private final TopYousjProperties topYousjProperties;
+	private final LogProperties logProperties;
 
 	@Bean
 	@ConditionalOnMissingBean
@@ -42,7 +42,7 @@ public class LogPointAdvice {
 	public AspectJExpressionPointcutAdvisor webLogPointAdvisor(LogPointMethodInterceptor logPointMethodInterceptor) {
 		AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
 		advisor.setAdvice(logPointMethodInterceptor);
-		TopYousjProperties.Log.Aop aopProperties = topYousjProperties.getLog().getAop();
+		LogProperties.Aop aopProperties = logProperties.getAop();
 		advisor.setOrder(aopProperties.getOrder());
 		advisor.setExpression(aopProperties.getPointcut());
 		return advisor;

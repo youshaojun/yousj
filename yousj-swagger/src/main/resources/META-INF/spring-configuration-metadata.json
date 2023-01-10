@@ -2,14 +2,14 @@
   "groups": [
     {
       "name": "top.yousj.multi-swagger-group",
-      "type": "top.yousj.swagger.SwaggerGroups",
-      "sourceType": "top.yousj.swagger.SwaggerGroups"
+      "type": "top.yousj.swagger.entity.SwaggerGroups",
+      "sourceType": "top.yousj.swagger.entity.SwaggerGroups"
     }
   ],
   "properties": [
     {
       "name": "top.yousj.multi-swagger-group.groups",
-      "type": "java.util.Map<java.lang.String,top.yousj.swagger.SwaggerGroups$SwaggerGroup>",
+      "type": "java.util.Map<java.lang.String,top.yousj.swagger.entity.SwaggerGroups.SwaggerGroup>",
       "sourceType": "top.yousj.swagger.SwaggerGroups",
       "description": "swagger分组配置"
     }

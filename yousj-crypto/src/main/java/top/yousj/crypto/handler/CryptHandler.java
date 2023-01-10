@@ -1,6 +1,6 @@
 package top.yousj.crypto.handler;
 
-import top.yousj.crypto.config.KeyProperties;
+import top.yousj.crypto.properties.KeyProperties;
 
 /**
  * @author yousj

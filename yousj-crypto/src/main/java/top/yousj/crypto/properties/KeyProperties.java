@@ -1,4 +1,4 @@
-package top.yousj.crypto.config;
+package top.yousj.crypto.properties;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package top.yousj.swagger;
+package top.yousj.swagger.config;
 
 import io.swagger.annotations.Api;
 import org.springframework.http.HttpMethod;
@@ -10,6 +10,7 @@ import springfox.documentation.service.Response;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import top.yousj.core.enums.ResultCode;
+import top.yousj.swagger.entity.SwaggerGroups;
 
 import java.util.Arrays;
 import java.util.Collections;

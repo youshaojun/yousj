@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import top.yousj.core.constant.StrPool;
 import top.yousj.core.entity.R;
 import top.yousj.core.utils.SpringUtil;
-import top.yousj.crypto.config.KeyProperties;
-import top.yousj.crypto.config.KeyPropertiesHolder;
 import top.yousj.crypto.handler.CryptHandler;
+import top.yousj.crypto.properties.KeyProperties;
+import top.yousj.crypto.properties.KeyPropertiesHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;

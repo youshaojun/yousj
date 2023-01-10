@@ -1,4 +1,4 @@
-package top.yousj.crypto.config;
+package top.yousj.crypto.properties;
 
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.utils.ParamAssertUtil;

@@ -12,9 +12,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import top.yousj.core.constant.PropertyConstant;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.entity.R;
+import top.yousj.log.constant.PropertyConstant;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;

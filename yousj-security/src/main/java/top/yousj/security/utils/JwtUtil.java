@@ -5,14 +5,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.stereotype.Component;
 import top.yousj.core.constant.StrPool;
 import top.yousj.core.constant.UaaConstant;
-import top.yousj.core.properties.TopYousjProperties;
 import top.yousj.core.utils.DateUtil;
 import top.yousj.redis.utils.RedisUtil;
+import top.yousj.security.properties.SecurityProperties;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -25,43 +24,42 @@ import java.util.concurrent.TimeUnit;
  * @since 2023-01-02
  */
 @Component
-@EnableConfigurationProperties(TopYousjProperties.class)
 public class JwtUtil {
 
-    private static TopYousjProperties.Security.Jwt jwtProperties;
+	private static SecurityProperties.Jwt jwtProperties;
 
-    @Autowired
-    public JwtUtil(TopYousjProperties topYousjProperties){
-		JwtUtil.jwtProperties = topYousjProperties.getSecurity().getJwt();
+	@Autowired
+	public JwtUtil(SecurityProperties securityProperties) {
+		JwtUtil.jwtProperties = securityProperties.getJwt();
 	}
 
-    public static String createJwtToken(String username) {
-        Date date = new Date();
-        JwtBuilder builder = Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(date)
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSignKey())
-                .claim("uuid", UUID.randomUUID().toString());
-        builder.setExpiration(DateUtil.forever());
-        String jwtToken = builder.compact();
-        RedisUtil.put(jwtProperties.getSignKey() + username, jwtToken, jwtProperties.getExpire(), TimeUnit.MILLISECONDS);
-        return jwtToken;
-    }
+	public static String createJwtToken(String username) {
+		Date date = new Date();
+		JwtBuilder builder = Jwts.builder()
+			.setSubject(username)
+			.setIssuedAt(date)
+			.signWith(SignatureAlgorithm.HS256, jwtProperties.getSignKey())
+			.claim("uuid", UUID.randomUUID().toString());
+		builder.setExpiration(DateUtil.forever());
+		String jwtToken = builder.compact();
+		RedisUtil.put(jwtProperties.getSignKey() + username, jwtToken, jwtProperties.getExpire(), TimeUnit.MILLISECONDS);
+		return jwtToken;
+	}
 
-    public static String paresJwtToken(String jwtToken) {
-        String subject = getSubject(jwtToken);
-        String key = jwtProperties.getSignKey() + subject;
+	public static String paresJwtToken(String jwtToken) {
+		String subject = getSubject(jwtToken);
+		String key = jwtProperties.getSignKey() + subject;
 		RedisUtil.put(key, Optional.ofNullable(RedisUtil.get(key)).orElseThrow(() -> new AccountExpiredException(StrPool.EMPTY)), jwtProperties.getExpire(), TimeUnit.MILLISECONDS);
-        return subject;
-    }
+		return subject;
+	}
 
-    public static String getSubject(String jwtToken) {
-        return Jwts.parser().setSigningKey(jwtProperties.getSignKey()).parseClaimsJws(jwtToken).getBody().getSubject();
-    }
+	public static String getSubject(String jwtToken) {
+		return Jwts.parser().setSigningKey(jwtProperties.getSignKey()).parseClaimsJws(jwtToken).getBody().getSubject();
+	}
 
-    public static Boolean removeToken(String subject) {
-        return RedisUtil.del(jwtProperties.getSignKey() + subject);
-    }
+	public static Boolean removeToken(String subject) {
+		return RedisUtil.del(jwtProperties.getSignKey() + subject);
+	}
 
 	public static String getJwtFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getParameter(UaaConstant.TOKEN_HEADER);

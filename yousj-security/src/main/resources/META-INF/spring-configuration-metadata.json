@@ -1,7 +1,15 @@
 {
   "groups": [
     {
+      "name": "top.yousj.security",
+      "type": "top.yousj.security.properties.SecurityProperties",
+      "sourceType": "top.yousj.security.properties.SecurityProperties",
+      "description": "security配置"
+    },
+    {
       "name": "top.yousj.security.jwt",
+      "type": "top.yousj.security.properties.SecurityProperties$Jwt",
+      "sourceType": "top.yousj.security.properties.SecurityProperties",
       "description": "jwt配置"
     }
   ],
@@ -9,12 +17,14 @@
     {
       "name": "top.yousj.security.jwt.expire",
       "type": "java.lang.Long",
+      "sourceType": "top.yousj.security.properties.SecurityProperties$Jwt",
       "defaultValue": 86400000,
       "description": "过期时间"
     },
     {
       "name": "top.yousj.security.jwt.signKey",
       "type": "java.lang.String",
+      "sourceType": "top.yousj.security.properties.SecurityProperties$Jwt",
       "defaultValue": "jwt_secret:",
       "description": "jwt签名key"
     }

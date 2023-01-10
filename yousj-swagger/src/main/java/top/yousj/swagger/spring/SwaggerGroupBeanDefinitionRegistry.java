@@ -1,4 +1,4 @@
-package top.yousj.swagger;
+package top.yousj.swagger.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -11,7 +11,8 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import springfox.documentation.spring.web.plugins.Docket;
-import top.yousj.core.constant.PropertyConstant;
+import top.yousj.swagger.constant.PropertyConstant;
+import top.yousj.swagger.entity.SwaggerGroups;
 
 /**
  * @author yousj

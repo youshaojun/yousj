@@ -1,10 +1,10 @@
-package top.yousj.swagger;
+package top.yousj.swagger.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import top.yousj.core.constant.PropertyConstant;
+import top.yousj.swagger.constant.PropertyConstant;
 
 import java.util.Map;
 
@@ -15,13 +15,13 @@ import java.util.Map;
 @Data
 @Component
 @ConfigurationProperties(prefix = PropertyConstant.SWAGGER)
-class SwaggerGroups {
+public class SwaggerGroups {
 
 	private Map<String, SwaggerGroup> groups;
 
 	@Data
 	@Accessors(chain = true)
-	static class SwaggerGroup {
+	public static class SwaggerGroup {
 
 		/**
 		 * 分组名称

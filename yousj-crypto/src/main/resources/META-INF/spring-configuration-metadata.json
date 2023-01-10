@@ -1,0 +1,39 @@
+{
+  "groups": [
+    {
+      "name": "top.yousj.crypto",
+      "type": "top.yousj.crypto.properties.CryptoProperties",
+      "sourceType": "top.yousj.crypto.properties.CryptoProperties",
+      "description": "加解密配置"
+    },
+    {
+      "name": "top.yousj.crypto.decrypt",
+      "type": "top.yousj.crypto.properties.CryptoProperties$Decrypt",
+      "sourceType": "top.yousj.crypto.properties.CryptoProperties",
+      "description": "请求参数解密配置"
+    },
+    {
+      "name": "top.yousj.crypto.encrypt",
+      "type": "top.yousj.crypto.properties.CryptoProperties$Encrypt",
+      "sourceType": "top.yousj.crypto.properties.CryptoProperties",
+      "description": "响应结果加密配置"
+    }
+  ],
+  "properties": [
+    {
+      "name": "top.yousj.crypto.decrypt.enable",
+      "type": "java.lang.Boolean",
+      "description": "开启请求参数解密",
+      "sourceType": "top.yousj.crypto.properties.CryptoProperties$Decrypt",
+      "defaultValue": true
+    },
+    {
+      "name": "top.yousj.crypto.encrypt.enable",
+      "type": "java.lang.Boolean",
+      "description": "开启响应结果加密",
+      "sourceType": "top.yousj.crypto.properties.CryptoProperties$Encrypt",
+      "defaultValue": true
+    }
+  ],
+  "hints": []
+}

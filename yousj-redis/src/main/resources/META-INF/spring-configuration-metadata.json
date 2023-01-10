@@ -1,6 +1,12 @@
 {
   "groups": [
     {
+      "name": "top.yousj.redis",
+      "type": "top.yousj.redis.properties.RedisProperties",
+      "sourceType": "top.yousj.redis.properties.RedisProperties",
+      "description": "redis配置"
+    },
+    {
       "name": "top.yousj.multi-redis",
       "type": "top.yousj.redis.multi.MultiRedisConfig",
       "sourceType": "top.yousj.redis.multi.MultiRedisConfig",
@@ -8,6 +14,19 @@
     }
   ],
   "properties": [
+    {
+      "name": "top.yousj.redis.enable",
+      "type": "java.lang.Boolean",
+      "description": "开启Spring Cache",
+      "sourceType": "top.yousj.redis.properties.RedisProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "top.yousj.redis.scan-packages",
+      "type": "java.util.List<java.lang.String>",
+      "description": "支持Spring Cache的包",
+      "sourceType": "top.yousj.redis.properties.RedisProperties"
+    },
     {
       "name": "top.yousj.multi-redis.configs",
       "type": "java.util.Map<java.lang.String,top.yousj.redis.multi.MultiRedisStandaloneConfiguration>",

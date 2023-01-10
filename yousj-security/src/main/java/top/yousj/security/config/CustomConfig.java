@@ -26,12 +26,11 @@ import java.util.Set;
 @Configuration(proxyBeanMethods = false)
 public class CustomConfig {
 
-	public static Set<String> COMMON_IGNORE_URLS = Sets.newConcurrentHashSet();
+	public static final Set<String> COMMON_IGNORE_URLS = Sets.newConcurrentHashSet();
 
 	static {
 		COMMON_IGNORE_URLS.add("/reload/updateClass");
 		COMMON_IGNORE_URLS.add("/reload/updateMapperXml");
-		COMMON_IGNORE_URLS.add("/actuator/**");
 		COMMON_IGNORE_URLS.add("/favicon.ico");
 		COMMON_IGNORE_URLS.add("/doc.html");
 		COMMON_IGNORE_URLS.add("/swagger-ui.html");
@@ -43,6 +42,8 @@ public class CustomConfig {
 		COMMON_IGNORE_URLS.add("/v3/**");
 		COMMON_IGNORE_URLS.add("/swagger-resources/**");
 		COMMON_IGNORE_URLS.add("/swagger-ui/**");
+
+		COMMON_IGNORE_URLS.add("/actuator/**");
 		COMMON_IGNORE_URLS.add("/druid/**");
 	}
 
@@ -52,11 +53,11 @@ public class CustomConfig {
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class Alone {
 
-		public static Set<String> ALL_URLS = Sets.newConcurrentHashSet();
+		public static final Set<String> ALL_URLS = Sets.newConcurrentHashSet();
 
-		public static Set<String> AUTH_PERMIT_URLS = Sets.newConcurrentHashSet();
+		public static final Set<String> AUTH_PERMIT_URLS = Sets.newConcurrentHashSet();
 
-		public static Set<String> IGNORE_URLS = Sets.newConcurrentHashSet();
+		public static final Set<String> IGNORE_URLS = Sets.newConcurrentHashSet();
 
 	}
 
@@ -66,11 +67,11 @@ public class CustomConfig {
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class Multiple {
 
-		public static Map<String, Set<String>> ALL_URLS = Maps.newConcurrentMap();
+		public static final Map<String, Set<String>> ALL_URLS = Maps.newConcurrentMap();
 
-		public static Map<String, Set<String>> AUTH_PERMIT_URLS = Maps.newConcurrentMap();
+		public static final Map<String, Set<String>> AUTH_PERMIT_URLS = Maps.newConcurrentMap();
 
-		public static Map<String, Set<String>> IGNORE_URLS = Maps.newConcurrentMap();
+		public static final Map<String, Set<String>> IGNORE_URLS = Maps.newConcurrentMap();
 
 	}
 
