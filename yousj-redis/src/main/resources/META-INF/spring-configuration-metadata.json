@@ -15,17 +15,18 @@
   ],
   "properties": [
     {
-      "name": "top.yousj.redis.enable",
+      "name": "top.yousj.redis.spring-cache.enable",
       "type": "java.lang.Boolean",
       "description": "开启Spring Cache",
-      "sourceType": "top.yousj.redis.properties.RedisProperties",
+      "sourceType": "top.yousj.redis.properties.RedisProperties$SpringCache",
       "defaultValue": true
     },
     {
-      "name": "top.yousj.redis.scan-packages",
+      "name": "top.yousj.redis.spring-cache.scan-packages",
       "type": "java.util.List<java.lang.String>",
       "description": "支持Spring Cache的包",
-      "sourceType": "top.yousj.redis.properties.RedisProperties"
+      "sourceType": "top.yousj.redis.properties.RedisProperties$SpringCache",
+      "defaultValue": "top.yousj"
     },
     {
       "name": "top.yousj.multi-redis.configs",

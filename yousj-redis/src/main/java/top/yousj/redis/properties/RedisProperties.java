@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import top.yousj.redis.constant.PropertyConstant;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,11 +17,17 @@ import java.util.List;
 @ConfigurationProperties(prefix = PropertyConstant.REDIS)
 public class RedisProperties {
 
-	private boolean enable = true;
+	private SpringCache springCache;
 
-	/**
-	 * 扫描开启支持自定义过期时间的spring cache的包
-	 */
-	private List<String> scanPackages;
+	@Data
+	public static class SpringCache {
+		private boolean enable = true;
+
+		/**
+		 * 扫描开启支持自定义过期时间的spring cache的包
+		 */
+		private List<String> scanPackages = Collections.singletonList("top.yousj");
+
+	}
 
 }

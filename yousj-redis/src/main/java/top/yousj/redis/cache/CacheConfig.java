@@ -49,7 +49,7 @@ import static top.yousj.redis.utils.RedisUtil.simple;
 @RequiredArgsConstructor
 @AutoConfigureAfter(RedisConnectionFactory.class)
 @ConditionalOnClass(RedisOperations.class)
-@ConditionalOnProperty(prefix = PropertyConstant.REDIS, name = "enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = PropertyConstant.REDIS, name = "spring-cache.enable", havingValue = "true", matchIfMissing = true)
 public class CacheConfig {
 
 	private final RedisProperties redisProperties;
@@ -64,8 +64,7 @@ public class CacheConfig {
 		cacheConfigurations.put(CacheConstant.LONG, generateRedisCacheConfiguration(Duration.ofDays(1L), simple(CacheConstant.LONG)));
 		cacheConfigurations.put(CacheConstant.SHORT, generateRedisCacheConfiguration(Duration.ofMinutes(10L), simple(CacheConstant.SHORT)));
 		Set<Method> methods = new HashSet<>();
-		List<String> scanPackages = redisProperties.getScanPackages();
-		ParamAssertUtil.notEmpty(scanPackages, "scan packages can't be empty.");
+		List<String> scanPackages = redisProperties.getSpringCache().getScanPackages();
 		for (String scanPackage : scanPackages) {
 			methods.addAll(new Reflections(new ConfigurationBuilder()
 				.addUrls(ClasspathHelper.forPackage(scanPackage))
