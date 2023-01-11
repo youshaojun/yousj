@@ -29,7 +29,7 @@ public enum ResultCode {
 
 	UNSUPPORTED_MEDIA_TYPE(415, "请求格式不支持！"),
 
-	SYSTEM_ERROR(500, "服务器开小差了啦！"),
+	SYSTEM_ERROR(500, "服务器开小差啦！"),
 
 	;
 	private final int code;
