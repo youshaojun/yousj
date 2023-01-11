@@ -13,7 +13,10 @@
 │          │  └─top
 │          │      └─yousj
 │          │          └─core
+│          │              ├─annotation
+│          │              ├─config
 │          │              ├─constant
+│          │              ├─date
 │          │              ├─entity
 │          │              ├─enums
 │          │              ├─exception
@@ -58,7 +61,7 @@
 │                          ├─handler
 │                          ├─strategy
 │                          └─utils
-├─yousj-exception
+├─yousj-exception 异常捕获
 │  └─src
 │      └─main
 │          └─java
@@ -93,12 +96,8 @@
 │          │              └─utils
 │          └─resources
 │              └─META-INF
-├─yousj-reload 热部署
-│  ├─src
-│  │  └─main
-│  │      └─resources
-│  │          └─META-INF
-│  ├─yousj-reload-class 热部署class[参考](https://gitee.com/huoyo/ko-time)
+├─yousj-reload 热加载
+│  ├─yousj-reload-class 热加载class[参考KoTime](https://gitee.com/huoyo/ko-time)
 │  │  └─src
 │  │      └─main
 │  │          ├─java
@@ -113,7 +112,7 @@
 │  │                      └─maven
 │  │                          └─cn.langpy
 │  │                              └─ko-time-retrans
-│  └─yousj-reload-mapper 热部署class[待验证]
+│  └─yousj-reload-mapper 热加载mapper[待验证]
 │      └─src
 │          └─main
 │              └─java
@@ -122,7 +121,7 @@
 │                          └─reload
 │                              ├─controller
 │                              └─service
-├─yousj-security [认证授权]
+├─yousj-security 权限控制
 │  └─src
 │      └─main
 │          ├─java
@@ -134,11 +133,12 @@
 │          │              ├─constant
 │          │              ├─exception
 │          │              ├─filter
+│          │              ├─handler
 │          │              ├─properties
 │          │              └─utils
 │          └─resources
 │              └─META-INF
-├─yousj-swagger [swagger文档]
+├─yousj-swagger swagger文档
 │  └─src
 │      └─main
 │          ├─java
@@ -161,6 +161,5 @@
             │              └─config
             └─resources
                 └─META-INF
-
 </code></pre>
 </details>
