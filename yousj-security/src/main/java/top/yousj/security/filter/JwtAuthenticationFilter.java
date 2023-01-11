@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.enums.ResultCode;
-import top.yousj.security.config.CustomMatchRequestHandler;
+import top.yousj.security.handler.CustomMatchRequestHandler;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.utils.JwtUtil;
 import top.yousj.security.utils.SecurityUtil;

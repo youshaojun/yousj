@@ -1,4 +1,4 @@
-package top.yousj.security.config;
+package top.yousj.security.handler;
 
 import javax.servlet.http.HttpServletRequest;
 

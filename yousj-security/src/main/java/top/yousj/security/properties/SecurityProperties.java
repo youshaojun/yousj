@@ -20,6 +20,11 @@ public class SecurityProperties {
 	private boolean httpStatus = true;
 
 	/**
+	 * 开启集中式权限控制
+	 */
+	private boolean multiple;
+
+	/**
 	 * jwt配置
 	 */
 	private Jwt jwt = new Jwt();
