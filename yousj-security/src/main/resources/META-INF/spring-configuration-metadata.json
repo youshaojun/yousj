@@ -29,7 +29,7 @@
       "description": "过期时间"
     },
     {
-      "name": "top.yousj.security.jwt.signKey",
+      "name": "top.yousj.security.jwt.sign-key",
       "type": "java.lang.String",
       "sourceType": "top.yousj.security.properties.SecurityProperties$Jwt",
       "defaultValue": "jwt_secret:",
