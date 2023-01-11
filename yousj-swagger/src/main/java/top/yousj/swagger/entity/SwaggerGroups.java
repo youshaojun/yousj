@@ -51,7 +51,7 @@ public class SwaggerGroups {
 		/**
 		 * url
 		 */
-		private String url = "https://www.yousj.com";
+		private String url = "https://www.yousj.top";
 
 		/**
 		 * 联系人
