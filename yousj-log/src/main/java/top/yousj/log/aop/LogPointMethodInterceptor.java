@@ -68,9 +68,9 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 				}
 				requestParameterMap.putAll(request.getParameterMap());
 				requestLog.setRequestParams(objectMapper.writeValueAsString(requestParameterMap));
-				String appUserUid = request.getHeader(UaaConstant.APP_UID);
-				if (StringUtils.isNotBlank(appUserUid)) {
-					requestLog.setUid(Integer.valueOf(appUserUid));
+				String uid = request.getHeader(UaaConstant.FORWARD_AUTH_HEADER_USER_ID);
+				if (StringUtils.isNotBlank(uid)) {
+					requestLog.setUid(Integer.valueOf(uid));
 				}
 			}
 		} catch (Exception ignored) {
@@ -94,7 +94,7 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 	}
 
 	public static String getIpAddr(HttpServletRequest request) {
-		String ip = request.getHeader("x-forwarded-for");
+		String ip = request.getHeader(UaaConstant.FORWARD_AUTH_HEADER_SOURCE_IP);
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
 		}

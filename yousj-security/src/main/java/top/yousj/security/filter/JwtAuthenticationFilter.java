@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private void setUserIdHeader(HttpServletResponse response, UserDetails userDetails) {
 		try {
-			response.setHeader(UaaConstant.APP_UID, String.valueOf(FieldUtils.getFieldValue(userDetails, "id")));
+			response.setHeader(UaaConstant.FORWARD_AUTH_HEADER_USER_ID, String.valueOf(FieldUtils.getFieldValue(userDetails, "id")));
 		} catch (Exception ignored) {
 		}
 	}
