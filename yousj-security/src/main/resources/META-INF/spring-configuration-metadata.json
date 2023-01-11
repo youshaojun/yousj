@@ -15,6 +15,13 @@
   ],
   "properties": [
     {
+      "name": "top.yousj.security.http-status",
+      "type": "java.lang.Boolean",
+      "sourceType": "top.yousj.security.properties.SecurityProperties",
+      "defaultValue": true,
+      "description": "开启HttpStatus"
+    },
+    {
       "name": "top.yousj.security.jwt.expire",
       "type": "java.lang.Long",
       "sourceType": "top.yousj.security.properties.SecurityProperties$Jwt",

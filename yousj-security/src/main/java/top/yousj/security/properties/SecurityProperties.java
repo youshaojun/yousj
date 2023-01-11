@@ -15,6 +15,11 @@ import top.yousj.security.constant.PropertyConstant;
 public class SecurityProperties {
 
 	/**
+	 * 开启{@link org.springframework.http.HttpStatus}
+	 */
+	private boolean httpStatus = true;
+
+	/**
 	 * jwt配置
 	 */
 	private Jwt jwt = new Jwt();

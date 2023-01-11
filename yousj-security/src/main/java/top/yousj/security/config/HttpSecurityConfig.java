@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsUtils;
-import top.yousj.core.entity.R;
 import top.yousj.core.enums.ResultCode;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.filter.JwtAuthenticationFilter;
@@ -50,6 +49,5 @@ public class HttpSecurityConfig {
 			// 未认证用户权限认证异常处理
 			.authenticationEntryPoint(((req, res, e) -> securityExceptionAdviceHandler.write(res, ResultCode.UNAUTHORIZED)));
 	}
-
 
 }

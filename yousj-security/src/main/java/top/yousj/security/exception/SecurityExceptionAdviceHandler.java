@@ -17,6 +17,7 @@ import top.yousj.core.constant.StrPool;
 import top.yousj.core.entity.R;
 import top.yousj.core.exception.BusinessException;
 import top.yousj.core.exception.ExceptionAdviceHandler;
+import top.yousj.security.properties.SecurityProperties;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -28,6 +29,7 @@ import java.util.Objects;
 public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 
 	private final ObjectMapper objectMapper;
+	private final SecurityProperties securityProperties;
 
 	@Override
 	public R<String> handle(Exception ex) {
@@ -55,11 +57,12 @@ public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 
 	@SneakyThrows
 	public void write(HttpServletResponse response, R<String> r) {
+		r = Objects.nonNull(r) ? r : R.failure(ResultCode.SYSTEM_ERROR);
 		response.setCharacterEncoding(StrPool.CHARSET_NAME);
-		response.setStatus(HttpStatus.OK.value());
+		response.setStatus(securityProperties.isHttpStatus() ? HttpStatus.OK.value() : r.getCode());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		PrintWriter writer = response.getWriter();
-		writer.write(objectMapper.writeValueAsString(Objects.nonNull(r) ? r : R.failure(ResultCode.SYSTEM_ERROR)));
+		writer.write(objectMapper.writeValueAsString(r));
 		writer.flush();
 		writer.close();
 	}
