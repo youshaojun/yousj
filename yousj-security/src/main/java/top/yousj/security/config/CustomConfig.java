@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.CollectionUtils;
 import top.yousj.core.enums.ResultCode;
-import top.yousj.core.exception.BusinessException;
+import top.yousj.core.exception.BizException;
 import top.yousj.core.utils.ParamAssertUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -92,7 +92,7 @@ public class CustomConfig {
 				}
 				ParamAssertUtil.notEmpty(Alone.ALL_URLS, "please initialize ALL_URLS.");
 				if (Alone.ALL_URLS.stream().noneMatch(url -> new AntPathRequestMatcher(url, request.getMethod()).matches(request))) {
-					throw new BusinessException(ResultCode.NOT_FOUND);
+					throw new BizException(ResultCode.NOT_FOUND);
 				}
 				return Alone.IGNORE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url, request.getMethod()).matches(request));
 			}

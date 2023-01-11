@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import top.yousj.core.enums.ResultCode;
 import top.yousj.core.constant.StrPool;
 import top.yousj.core.entity.R;
-import top.yousj.core.exception.BusinessException;
+import top.yousj.core.exception.BizException;
 import top.yousj.core.exception.ExceptionAdviceHandler;
 import top.yousj.security.properties.SecurityProperties;
 
@@ -33,8 +33,8 @@ public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 
 	@Override
 	public R<String> handle(Exception ex) {
-		if (ex instanceof BusinessException) {
-			return R.failure(((BusinessException) ex).getCode(), ex.getMessage());
+		if (ex instanceof BizException) {
+			return R.failure(((BizException) ex).getCode(), ex.getMessage());
 		}
 		if (ex instanceof BadCredentialsException || ex instanceof UsernameNotFoundException) {
 			return R.failure(ResultCode.USERNAME_NOT_FOUND);

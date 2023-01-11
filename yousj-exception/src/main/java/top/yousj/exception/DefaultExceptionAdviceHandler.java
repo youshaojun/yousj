@@ -14,7 +14,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import top.yousj.core.entity.R;
 import top.yousj.core.enums.ResultCode;
-import top.yousj.core.exception.BusinessException;
+import top.yousj.core.exception.BizException;
 import top.yousj.core.exception.ExceptionAdviceHandler;
 
 import java.util.stream.Collectors;
@@ -28,8 +28,8 @@ public class DefaultExceptionAdviceHandler implements ExceptionAdviceHandler {
 
 	@Override
 	public R<String> handle(Exception ex) {
-		if (ex instanceof BusinessException) {
-			return R.failure(((BusinessException) ex).getCode(), ex.getMessage());
+		if (ex instanceof BizException) {
+			return R.failure(((BizException) ex).getCode(), ex.getMessage());
 		}
 		if (ex instanceof NoHandlerFoundException) {
 			return R.failure(ResultCode.NOT_FOUND);

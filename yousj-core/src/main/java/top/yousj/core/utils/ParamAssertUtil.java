@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
-import top.yousj.core.exception.BusinessException;
+import top.yousj.core.exception.BizException;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -14,7 +14,7 @@ import java.util.Objects;
 public class ParamAssertUtil {
 
 	public static void notNull(Object data, String message) {
-		notNull(data, new BusinessException(message));
+		notNull(data, new BizException(message));
 	}
 
 	public static void notNull(Object data, RuntimeException exception) {
@@ -30,11 +30,11 @@ public class ParamAssertUtil {
 	}
 
 	public static void notBlank(String data, String message) {
-		notBlank(data, new BusinessException(message));
+		notBlank(data, new BizException(message));
 	}
 
 	public static void isBlank(String data, String message) {
-		isBlank(data, new BusinessException(message));
+		isBlank(data, new BizException(message));
 	}
 
 	public static void isBlank(String data, RuntimeException exception) {
@@ -51,7 +51,7 @@ public class ParamAssertUtil {
 
 	public static void notEmpty(Collection data, String message) {
 		if (CollectionUtils.isEmpty(data)) {
-			notEmpty(data, new BusinessException(message));
+			notEmpty(data, new BizException(message));
 		}
 	}
 
@@ -65,7 +65,7 @@ public class ParamAssertUtil {
 
 	public static void isFalse(boolean isTrue, String message) {
 		if (isTrue) {
-			throw new BusinessException(message);
+			throw new BizException(message);
 		}
 	}
 
