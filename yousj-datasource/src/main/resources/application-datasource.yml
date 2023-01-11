@@ -30,8 +30,8 @@ spring:
     dynamic:
       default-druid-stat-view-servlet-properties:
         enabled: true
-        loginUsername: yuancheng
-        loginPassword: Yuancheng2021!
+        loginUsername: admin
+        loginPassword: admin123
         url-pattern: /druid/*
         allow: ""
       default-properties:
