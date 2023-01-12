@@ -1,11 +1,13 @@
 package top.yousj.security.handler;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import top.yousj.core.enums.ResultCode;
 import top.yousj.core.exception.BizException;
 import top.yousj.core.utils.SpringUtil;
 import top.yousj.security.config.CustomConfig;
+import top.yousj.security.properties.SecurityProperties;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +16,11 @@ import javax.servlet.http.HttpServletRequest;
  * @author yousj
  * @since 2023-01-11
  */
-@ConditionalOnMissingBean(CustomMatchRequestHandler.class)
-public class AloneMatchRequestHandler implements CustomMatchRequestHandler {
+@ConditionalOnMissingBean(CustomMatchHandler.class)
+@RequiredArgsConstructor
+public class AloneMatchHandler implements CustomMatchHandler {
+
+	private final SecurityProperties securityProperties;
 
 	@Override
 	public boolean matchAuthPermitUrls(HttpServletRequest request) {
@@ -31,6 +36,11 @@ public class AloneMatchRequestHandler implements CustomMatchRequestHandler {
 			throw new BizException(ResultCode.NOT_FOUND);
 		}
 		return false;
+	}
+
+	@Override
+	public SecurityProperties.Jwt getJwt() {
+		return securityProperties.getJwt();
 	}
 
 	@PostConstruct

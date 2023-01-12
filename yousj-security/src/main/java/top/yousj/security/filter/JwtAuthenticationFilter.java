@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.enums.ResultCode;
-import top.yousj.security.handler.CustomMatchRequestHandler;
+import top.yousj.security.handler.CustomMatchHandler;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.utils.JwtUtil;
 import top.yousj.security.utils.SecurityUtil;
@@ -31,12 +31,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final UserDetailsService userDetailsService;
 	private final SecurityExceptionAdviceHandler securityExceptionAdviceHandler;
-	private final CustomMatchRequestHandler customMatchRequestHandler;
+	private final CustomMatchHandler customMatchHandler;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
 		try {
-			if (customMatchRequestHandler.matchIgnoreUrls(request)) {
+			if (customMatchHandler.matchIgnoreUrls(request)) {
 				filterChain.doFilter(request, response);
 				return;
 			}
@@ -68,7 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private boolean hasPermission(HttpServletRequest request) {
-		if (customMatchRequestHandler.matchAuthPermitUrls(request)) {
+		if (customMatchHandler.matchAuthPermitUrls(request)) {
 			return true;
 		}
 		return SecurityUtil.getAuthorities().stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request));
