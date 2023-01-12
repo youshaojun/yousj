@@ -32,7 +32,7 @@ public class JwtUtil {
 	private static CustomMatchHandler customMatchHandler;
 
 	@Autowired
-	public JwtUtil(CustomMatchHandler customMatchHandler){
+	public JwtUtil(CustomMatchHandler customMatchHandler) {
 		JwtUtil.customMatchHandler = customMatchHandler;
 	}
 
