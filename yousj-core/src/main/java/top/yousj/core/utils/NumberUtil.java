@@ -27,11 +27,11 @@ public class NumberUtil {
 		return Objects.nonNull(value) && value > 0;
 	}
 
-	private Integer summary(Integer... params) {
+	private Integer sum(Integer... params) {
 		return Arrays.stream(Optional.ofNullable(params).orElse(new Integer[]{})).filter(Objects::nonNull).reduce(Integer::sum).orElse(0);
 	}
 
-	private Long summary(Long... params) {
+	private Long sum(Long... params) {
 		return Arrays.stream(Optional.ofNullable(params).orElse(new Long[]{})).filter(Objects::nonNull).reduce(Long::sum).orElse(0L);
 	}
 
