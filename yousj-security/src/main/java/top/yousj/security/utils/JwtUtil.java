@@ -54,7 +54,10 @@ public class JwtUtil {
 		String subject = getSubject(jwtToken);
 		SecurityProperties.Jwt jwt = customMatchHandler.getJwt();
 		String key = jwt.getSignKey() + subject;
-		RedisUtil.put(key, Optional.ofNullable(RedisUtil.get(key)).orElseThrow(() -> new AccountExpiredException(StrPool.EMPTY)), jwt.getExpire(), TimeUnit.MILLISECONDS);
+		Object v = Optional.ofNullable(RedisUtil.get(key)).orElseThrow(() -> new AccountExpiredException(StrPool.EMPTY));
+		if(jwt.isRenewal()){
+			RedisUtil.put(key, v, jwt.getExpire(), TimeUnit.MILLISECONDS);
+		}
 		return subject;
 	}
 

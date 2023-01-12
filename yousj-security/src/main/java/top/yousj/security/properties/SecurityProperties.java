@@ -28,6 +28,11 @@ public class SecurityProperties {
 	public static class Jwt {
 
 		/**
+		 * 是否续期
+		 */
+		private boolean renewal = true;
+
+		/**
 		 * 过期时间
 		 */
 		private Long expire = 86400000L;
