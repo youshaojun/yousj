@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UaaConstant {
 
-	public static final String TOKEN_HEADER = "Token";
+	public static final String TOKEN_HEADER = "token";
 
 	public static final String AUTHORIZATION = "Authorization";
 
