@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final UserDetailsService userDetailsService;
-	private final SecurityExceptionAdviceHandler securityExceptionAdviceHandler;
+	private final SecurityExceptionAdviceHandler adviceHandler;
 	private final CustomMatchHandler customMatchHandler;
 
 	@Override
@@ -51,12 +51,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			setUserIdHeader(response, userDetails);
 			if (!hasPermission(request)) {
-				securityExceptionAdviceHandler.write(response, ResultCode.ACCESS_DENIED);
+				adviceHandler.write(response, ResultCode.ACCESS_DENIED);
 				return;
 			}
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			securityExceptionAdviceHandler.write(response, securityExceptionAdviceHandler.handle(e));
+			adviceHandler.write(response, adviceHandler.handle(e));
 		}
 	}
 

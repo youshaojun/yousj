@@ -59,7 +59,7 @@ public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 	public void write(HttpServletResponse response, R<String> r) {
 		r = Objects.nonNull(r) ? r : R.failure(ResultCode.SYSTEM_ERROR);
 		response.setCharacterEncoding(StrPool.CHARSET_NAME);
-		response.setStatus(securityProperties.isHttpStatus() ? HttpStatus.OK.value() : r.getCode());
+		response.setStatus(securityProperties.isHttpStatus() ? r.getCode() : HttpStatus.OK.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		PrintWriter writer = response.getWriter();
 		writer.write(objectMapper.writeValueAsString(r));

@@ -27,12 +27,12 @@ public class HttpSecurityConfig {
 			.headers().cacheControl().disable()
 			.and()
 			.formLogin()
-			.and()
-			.authorizeRequests()
-			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-			// 其余资源走自定义权限认证
 			// 关于动态加载配置(过于复杂) https://docs.spring.io/spring-security/site/docs/4.2.4.RELEASE/reference/htmlsingle/#appendix-faq-dynamic-url-metadata
 			// 全部由JwtAuthenticationFilter处理, 可动态加载配置
+			//.and()
+			//.authorizeRequests()
+			//.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+			//.anyRequest().authenticated()
 			// .anyRequest().access("@rbacAuthorityService.hasPermission(request,authentication)")
 			.and()
 			// 禁用session, 使用token方式认证
