@@ -1,5 +1,6 @@
 package top.yousj.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import top.yousj.core.enums.ResultCode;
  * @since 2023-01-05
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class R<T> {
 
@@ -27,35 +29,35 @@ public class R<T> {
 		return of(200, "ok", null);
 	}
 
-	public static <T> R<T> failure(T data) {
+	public static <T> R<T> fail(T data) {
 		return of(500, null, data);
 	}
 
-	public static <T> R<T> failure(ResultCode resultCode) {
+	public static <T> R<T> fail(ResultCode resultCode) {
 		return of(resultCode.getCode(), resultCode.getValue(), null);
 	}
 
-	public static <T> R<T> failure(String msg) {
+	public static <T> R<T> fail(String msg) {
 		return of(500, msg, null);
 	}
 
-	public static <T> R<T> failure(int code, T data) {
+	public static <T> R<T> fail(int code, T data) {
 		return of(code, null, data);
 	}
 
-	public static <T> R<T> failure(ResultCode resultCode, T data) {
+	public static <T> R<T> fail(ResultCode resultCode, T data) {
 		return of(resultCode.getCode(), resultCode.getValue(), data);
 	}
 
-	public static <T> R<T> failure(int code, String msg, T data) {
+	public static <T> R<T> fail(int code, String msg, T data) {
 		return of(code, msg, data);
 	}
 
-	public static <T> R<T> failure(int code) {
+	public static <T> R<T> fail(int code) {
 		return of(code, null, null);
 	}
 
-	public static <T> R<T> failure(int code, String msg) {
+	public static <T> R<T> fail(int code, String msg) {
 		return of(code, msg, null);
 	}
 

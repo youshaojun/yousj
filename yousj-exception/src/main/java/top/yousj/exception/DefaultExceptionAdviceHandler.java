@@ -29,20 +29,20 @@ public class DefaultExceptionAdviceHandler implements ExceptionAdviceHandler {
 	@Override
 	public R<String> handle(Exception ex) {
 		if (ex instanceof BizException) {
-			return R.failure(((BizException) ex).getCode(), ex.getMessage());
+			return R.fail(((BizException) ex).getCode(), ex.getMessage());
 		}
 		if (ex instanceof NoHandlerFoundException) {
-			return R.failure(ResultCode.NOT_FOUND);
+			return R.fail(ResultCode.NOT_FOUND);
 		}
 		if (ex instanceof HttpRequestMethodNotSupportedException) {
-			return R.failure(ResultCode.UNSUPPORTED_METHOD_TYPE);
+			return R.fail(ResultCode.UNSUPPORTED_METHOD_TYPE);
 		}
 		if (ex instanceof HttpMediaTypeNotAcceptableException || ex instanceof HttpMediaTypeNotSupportedException) {
-			return R.failure(ResultCode.UNSUPPORTED_MEDIA_TYPE);
+			return R.fail(ResultCode.UNSUPPORTED_MEDIA_TYPE);
 		}
 		if (ex instanceof MethodArgumentNotValidException) {
 			MethodArgumentNotValidException e = (MethodArgumentNotValidException) ex;
-			return R.failure(ResultCode.PARAM_NOT_MATCH, e.getBindingResult()
+			return R.fail(ResultCode.PARAM_NOT_MATCH, e.getBindingResult()
 				.getAllErrors()
 				.stream()
 				.map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -50,7 +50,7 @@ public class DefaultExceptionAdviceHandler implements ExceptionAdviceHandler {
 		}
 		if (ex instanceof BindException) {
 			BindException e = (BindException) ex;
-			return R.failure(ResultCode.PARAM_NOT_MATCH, e.getFieldErrors()
+			return R.fail(ResultCode.PARAM_NOT_MATCH, e.getFieldErrors()
 				.stream()
 				.map(DefaultMessageSourceResolvable::getDefaultMessage)
 				.collect(Collectors.joining(",")));
@@ -62,7 +62,7 @@ public class DefaultExceptionAdviceHandler implements ExceptionAdviceHandler {
 			|| ex instanceof ConversionFailedException
 			|| ex instanceof IllegalStateException
 		) {
-			return R.failure(ResultCode.PARAM_NOT_MATCH);
+			return R.fail(ResultCode.PARAM_NOT_MATCH);
 		}
 		return null;
 	}

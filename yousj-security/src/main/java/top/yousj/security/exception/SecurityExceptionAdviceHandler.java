@@ -34,30 +34,30 @@ public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 	@Override
 	public R<String> handle(Exception ex) {
 		if (ex instanceof BizException) {
-			return R.failure(((BizException) ex).getCode(), ex.getMessage());
+			return R.fail(((BizException) ex).getCode(), ex.getMessage());
 		}
 		if (ex instanceof BadCredentialsException || ex instanceof UsernameNotFoundException) {
-			return R.failure(ResultCode.USERNAME_NOT_FOUND);
+			return R.fail(ResultCode.USERNAME_NOT_FOUND);
 		}
 		if (ex instanceof AccessDeniedException) {
-			return R.failure(ResultCode.ACCESS_DENIED);
+			return R.fail(ResultCode.ACCESS_DENIED);
 		}
 		if (ex instanceof AuthenticationException) {
-			return R.failure(ResultCode.UNAUTHORIZED);
+			return R.fail(ResultCode.UNAUTHORIZED);
 		}
 		if (ex instanceof JwtException) {
-			return R.failure(ResultCode.TOKEN_PARSER_FAIL);
+			return R.fail(ResultCode.TOKEN_PARSER_FAIL);
 		}
 		return null;
 	}
 
 	public void write(HttpServletResponse response, ResultCode resultCode) {
-		write(response, R.failure(resultCode));
+		write(response, R.fail(resultCode));
 	}
 
 	@SneakyThrows
 	public void write(HttpServletResponse response, R<String> r) {
-		r = Objects.nonNull(r) ? r : R.failure(ResultCode.SYSTEM_ERROR);
+		r = Objects.nonNull(r) ? r : R.fail(ResultCode.SYSTEM_ERROR);
 		response.setCharacterEncoding(StrPool.CHARSET_NAME);
 		response.setStatus(securityProperties.isHttpStatus() ? r.getCode() : HttpStatus.OK.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);

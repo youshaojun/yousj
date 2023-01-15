@@ -40,22 +40,22 @@ public class ReloadClassController {
 	public R<String> updateClass(@RequestParam("classFile") MultipartFile classFile, String className) {
 		// class 热加载
 		if (classFile == null || classFile.isEmpty()) {
-			return R.failure("文件不能为空");
+			return R.fail("文件不能为空");
 		}
 		if (StringUtils.isBlank(className)) {
-			return R.failure("类名不能为空");
+			return R.fail("类名不能为空");
 		}
 		className = className.trim();
 		try {
 			String originalFilename = classFile.getOriginalFilename();
 			Objects.requireNonNull(originalFilename);
 			if (!originalFilename.endsWith(".class")) {
-				return R.failure("仅支持.class文件");
+				return R.fail("仅支持.class文件");
 			}
 			String[] filename = originalFilename.split("\\.");
 			String substring = className.substring(className.lastIndexOf(".") + 1);
 			if (!substring.equals(filename[0])) {
-				return R.failure("请确认类名是否正确");
+				return R.fail("请确认类名是否正确");
 			}
 			File file = uploadFile(classFile.getBytes(), filename[0]);
 			Objects.requireNonNull(file);
@@ -63,7 +63,7 @@ public class ReloadClassController {
 			file.deleteOnExit();
 		} catch (Exception e) {
 			log.error("" + e);
-			return R.failure("无法解析文件");
+			return R.fail("无法解析文件");
 		}
 		return R.ok("更新成功");
 	}
