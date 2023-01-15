@@ -1,5 +1,13 @@
+spring:
+  application:
+    name: uaa
+  profiles:
+    active: "@spring.profiles.active@"
+
 top:
   yousj:
+    security:
+      uaa: true
     redis:
       spring-cache:
         enable: false

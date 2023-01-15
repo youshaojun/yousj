@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.yousj.core.constant.StrPool;
 import top.yousj.core.exception.BizException;
-import top.yousj.core.utils.UaaUtil;
+import top.yousj.security.utils.AppNameHolder;
 import top.yousj.uaa.entity.UaaUserDataSource;
 import top.yousj.uaa.service.IUaaUserDataSourceService;
 
@@ -36,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UaaUserDataSource uaaUserDataSource = uaaUserDataSourceService.getOne(Wrappers.<UaaUserDataSource>lambdaQuery()
-			.eq(UaaUserDataSource::getAppName, UaaUtil.getAppName())
+			.eq(UaaUserDataSource::getAppName, AppNameHolder.get())
 		);
 
 		List<Object> authUrls = getUserInfo(uaaUserDataSource, username);

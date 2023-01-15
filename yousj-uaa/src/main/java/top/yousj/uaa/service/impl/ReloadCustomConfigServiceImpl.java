@@ -37,7 +37,7 @@ public class ReloadCustomConfigServiceImpl {
 	public void reload() {
 		List<UaaAuthUrlConfig> list = uaaAuthUrlConfigService.list(
 			Wrappers.<UaaAuthUrlConfig>lambdaQuery()
-				.select(UaaAuthUrlConfig::getAppName, UaaAuthUrlConfig::getAuthUrl, UaaAuthUrlConfig::getIsDeleted)
+				.select(UaaAuthUrlConfig::getAppName, UaaAuthUrlConfig::getAuthUrl, UaaAuthUrlConfig::getUrlType, UaaAuthUrlConfig::getIsDeleted)
 		);
 		if (CollectionUtils.isEmpty(list)) {
 			return;
@@ -50,21 +50,19 @@ public class ReloadCustomConfigServiceImpl {
 			Stream<UaaAuthUrlConfig> ignoreConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.IGNORE.getCode()));
 			Stream<UaaAuthUrlConfig> authConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.AUTH.getCode()));
 			Stream<UaaAuthUrlConfig> allConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.ALL.getCode()));
-			Set<String> ignore = CustomConfig.Multiple.SELF_IGNORE_URLS.get(appName);
-			Set<String> auth = CustomConfig.Multiple.AUTH_PERMIT_URLS.get(appName);
-			Set<String> all = CustomConfig.Multiple.ALL_URLS.get(appName);
 
-			reload(appName, ignoreConfig, ignore);
-			reload(appName, authConfig, auth);
-			reload(appName, allConfig, all);
+			reload(appName, ignoreConfig, CustomConfig.Multiple.SELF_IGNORE_URLS);
+			reload(appName, authConfig, CustomConfig.Multiple.AUTH_PERMIT_URLS);
+			reload(appName, allConfig, CustomConfig.Multiple.ALL_URLS);
 
 		}
 
 	}
 
-	private void reload(String appName, Stream<UaaAuthUrlConfig> configs, Set<String> urls) {
+	private void reload(String appName, Stream<UaaAuthUrlConfig> configs, Map<String, Set<String>> multipleConfig) {
+		Set<String> urls = multipleConfig.get(appName);
 		if (CollectionUtils.isEmpty(urls)) {
-			CustomConfig.Multiple.AUTH_PERMIT_URLS.put(appName, configs.map(UaaAuthUrlConfig::getAuthUrl).collect(Collectors.toSet()));
+			multipleConfig.put(appName, configs.map(UaaAuthUrlConfig::getAuthUrl).collect(Collectors.toSet()));
 			return;
 		}
 		configs.forEach(e -> {

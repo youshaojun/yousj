@@ -66,7 +66,7 @@ public class CustomConfig {
 	/**
 	 * 集中式path过滤
 	 * key -> {@link UaaConstant#APP_NAME}
-	 * vale ->  path {@link Alone}
+	 * vale ->  path {@link Alone} 需要包含工程名称{@link org.springframework.boot.autoconfigure.web.ServerProperties.Servlet#contextPath}
 	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class Multiple {
