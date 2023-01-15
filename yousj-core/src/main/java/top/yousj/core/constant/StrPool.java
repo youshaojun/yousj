@@ -12,6 +12,8 @@ public class StrPool {
 
 	public static final String EMPTY = "";
 
+	public static final String COMMA = ",";
+
 	public static final String CHARSET_NAME = "UTF-8";
 
 	public static final String CRYPTO_AES = "AES";
