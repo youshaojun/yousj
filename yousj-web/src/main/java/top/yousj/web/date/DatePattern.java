@@ -1,4 +1,4 @@
-package top.yousj.core.date;
+package top.yousj.web.date;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

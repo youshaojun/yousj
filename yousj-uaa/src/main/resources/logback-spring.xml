@@ -1,0 +1,4 @@
+﻿<configuration scan="false" scanPeriod="1 seconds" debug="false">
+    <springProperty name="SPRING_PROFILES_ACTIVE" scope="context" source="spring.profiles.active"/>
+    <include resource="top/yousj/log/logback/logback-${SPRING_PROFILES_ACTIVE}.xml"/>
+</configuration>

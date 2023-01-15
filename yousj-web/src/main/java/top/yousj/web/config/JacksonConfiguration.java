@@ -1,4 +1,4 @@
-package top.yousj.core.config;
+package top.yousj.web.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import top.yousj.core.date.DatePattern;
-import top.yousj.core.date.DefaultJavaTimeModule;
+import top.yousj.web.date.DatePattern;
+import top.yousj.web.date.DefaultJavaTimeModule;
 
-import java.time.*;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.TimeZone;
 

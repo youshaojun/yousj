@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>top.yousj</groupId>
+		<artifactId>yousj-parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>yousj-uaa</artifactId>
+	<version>1.0.0</version>
+	<name>yousj-uaa</name>
+
+	<properties>
+		<yousj-bom.version>1.0.0</yousj-bom.version>
+		<yousj-web.version>1.0.0</yousj-web.version>
+
+		<dynamic-datasource-spring-boot-starter.version>3.6.0</dynamic-datasource-spring-boot-starter.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>top.yousj</groupId>
+			<artifactId>yousj-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>top.yousj</groupId>
+			<artifactId>yousj-web</artifactId>
+			<version>${yousj-web.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>top.yousj</groupId>
+				<artifactId>yousj-bom</artifactId>
+				<version>${yousj-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+				<version>${dynamic-datasource-spring-boot-starter.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>top.yousj</groupId>
+					<artifactId>yousj-reload-class</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<spring.profiles.active>test</spring.profiles.active>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>top.yousj</groupId>
+					<artifactId>yousj-reload-class</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>yousj</id>
+			<url>http://127.0.0.1:8931/repository/yousj-nexus/</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

@@ -33,6 +33,7 @@
 		<module>yousj-security</module>
 		<module>yousj-swagger</module>
 		<module>yousj-web</module>
+		<module>yousj-uaa</module>
 	</modules>
 
 	<properties>
@@ -45,7 +46,7 @@
 		<lombok.version>1.18.24</lombok.version>
 
 		<pagehelper-spring-boot-starter.version>1.4.6</pagehelper-spring-boot-starter.version>
-		<mybatis-plus-boot-starter.version>3.5.2</mybatis-plus-boot-starter.version>
+		<mybatis-plus-boot-starter.version>3.5.3.1</mybatis-plus-boot-starter.version>
 		<knife4j-spring-boot-starter.version>3.0.2</knife4j-spring-boot-starter.version>
 		<easyexcel.version>3.1.1</easyexcel.version>
 		<redisson-spring-boot-starter.version>3.12.4</redisson-spring-boot-starter.version>

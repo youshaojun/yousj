@@ -17,10 +17,11 @@ import java.util.List;
 @ConfigurationProperties(prefix = PropertyConstant.REDIS)
 public class RedisProperties {
 
-	private SpringCache springCache;
+	private SpringCache springCache = new SpringCache();
 
 	@Data
 	public static class SpringCache {
+
 		private boolean enable = true;
 
 		/**

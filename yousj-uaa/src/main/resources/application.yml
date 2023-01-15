@@ -1,0 +1,8 @@
+top:
+  yousj:
+    redis:
+      spring-cache:
+        enable: false
+    log:
+      aop:
+        pointcut: "execution(* top.yousj.uaa.controller..*.*(..))"

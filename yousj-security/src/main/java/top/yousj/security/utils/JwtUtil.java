@@ -69,6 +69,10 @@ public class JwtUtil {
 		return RedisUtil.del(customMatchHandler.getJwt().getSignKey() + subject);
 	}
 
+	public static Boolean removeToken(HttpServletRequest request) {
+		return RedisUtil.del(customMatchHandler.getJwt().getSignKey() + getSubject(getJwtFromRequest(request)));
+	}
+
 	public static String getJwtFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getParameter(UaaConstant.TOKEN_HEADER);
 		if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith(StrPool.BEARER)) {
