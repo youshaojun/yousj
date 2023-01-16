@@ -24,8 +24,11 @@ public class ContentCellStylePostWriteHandler implements CellWriteHandler {
 
 	@Override
 	public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
-		if (!isHead && cell.getCellType() == CellType.STRING && ("-".equals(cell.getStringCellValue()) || "--".equals(cell.getStringCellValue()))) {
-			cell.setCellStyle(buildContentCellStyle(writeSheetHolder, Objects.nonNull(cell.getHyperlink())));
+		try {
+			if (!isHead && cell.getCellType() == CellType.STRING && ("-".equals(cell.getStringCellValue()) || "--".equals(cell.getStringCellValue()))) {
+				cell.setCellStyle(buildContentCellStyle(writeSheetHolder, Objects.nonNull(cell.getHyperlink())));
+			}
+		} catch (Exception ignored) {
 		}
 	}
 
