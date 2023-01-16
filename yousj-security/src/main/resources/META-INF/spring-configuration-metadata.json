@@ -36,11 +36,18 @@
       "description": "是否续期"
     },
     {
-      "name": "top.yousj.security.jwt.expire",
+      "name": "top.yousj.security.jwt.user-details-ttl",
+      "type": "java.lang.Long",
+      "sourceType": "top.yousj.security.properties.SecurityProperties$Jwt",
+      "defaultValue": 0,
+      "description": "缓存用户信息, 0 不缓存"
+    },
+    {
+      "name": "top.yousj.security.jwt.ttl",
       "type": "java.lang.Long",
       "sourceType": "top.yousj.security.properties.SecurityProperties$Jwt",
       "defaultValue": 86400000,
-      "description": "过期时间"
+      "description": "token过期时间"
     },
     {
       "name": "top.yousj.security.jwt.sign-key",

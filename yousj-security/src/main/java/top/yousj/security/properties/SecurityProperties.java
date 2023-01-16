@@ -38,9 +38,14 @@ public class SecurityProperties {
 		private boolean renewal = true;
 
 		/**
-		 * 过期时间
+		 * 缓存用户信息, 0 不缓存
 		 */
-		private Long expire = 86400000L;
+		private Long userDetailsTtl = 0L;
+
+		/**
+		 * token过期时间
+		 */
+		private Long ttl = 86400000L;
 
 		/**
 		 * jwt签名key

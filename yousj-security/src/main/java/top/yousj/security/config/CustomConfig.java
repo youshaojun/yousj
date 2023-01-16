@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import top.yousj.core.constant.UaaConstant;
+import top.yousj.security.properties.SecurityProperties;
 
 import java.util.Map;
 import java.util.Set;
@@ -76,6 +77,8 @@ public class CustomConfig {
 		public static final Map<String, Set<String>> AUTH_PERMIT_URLS = Maps.newConcurrentMap();
 
 		public static final Map<String, Set<String>> SELF_IGNORE_URLS = Maps.newConcurrentMap();
+
+		public static final Map<String, SecurityProperties.Jwt> JWT_CONFIG = Maps.newConcurrentMap();
 
 	}
 

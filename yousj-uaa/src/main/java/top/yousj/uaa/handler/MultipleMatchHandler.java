@@ -40,7 +40,7 @@ public class MultipleMatchHandler implements CustomMatchHandler {
 
 	@Override
 	public SecurityProperties.Jwt getJwt() {
-		SecurityProperties.Jwt jwt = securityProperties.getJwt();
+		SecurityProperties.Jwt jwt = CustomConfig.Multiple.JWT_CONFIG.getOrDefault(AppNameHolder.get(), securityProperties.getJwt());
 		jwt.setSignKey(RedisUtil.simple(AppNameHolder.get()) + jwt.getSignKey());
 		return jwt;
 	}

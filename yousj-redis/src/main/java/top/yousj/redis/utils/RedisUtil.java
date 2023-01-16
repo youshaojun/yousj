@@ -1,11 +1,13 @@
 package top.yousj.redis.utils;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
+import top.yousj.core.utils.NumberUtil;
 import top.yousj.core.utils.SpringUtil;
 
 import java.util.ArrayList;
@@ -13,6 +15,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class RedisUtil {
@@ -47,6 +52,23 @@ public class RedisUtil {
 		redisTemplate.boundValueOps(withKey(key)).set(v);
 	}
 
+	public static <T> T put(String key, Supplier<T> valueSupplier, Long ttl) {
+		return put(key, valueSupplier, ttl, TimeUnit.MILLISECONDS);
+	}
+
+	public static <T> T put(String key, Supplier<T> valueSupplier, Long ttl, TimeUnit timeUnit) {
+		if (NumberUtil.gt0(ttl)) {
+			T t = get(key);
+			if (Objects.nonNull(t)) {
+				return t;
+			}
+			t = valueSupplier.get();
+			put(key, t, ttl, timeUnit);
+			return t;
+		}
+		return valueSupplier.get();
+	}
+
 	public static void put(String key, Object v, long expire, TimeUnit timeUnit) {
 		BoundValueOperations<String, Object> oper = redisTemplate.boundValueOps(withKey(key));
 		oper.set(v);
@@ -71,8 +93,8 @@ public class RedisUtil {
 		redisTemplate.opsForHash().delete(withKey(key), hashKey);
 	}
 
-	public static String simple(String key) {
-		return key + ":";
+	public static String simple(Object... keys) {
+		return Stream.of(keys).filter(Objects::nonNull).map(String::valueOf).filter(StringUtils::isNotBlank).collect(Collectors.joining(":")) + ":";
 	}
 
 	public static String withKey(String key) {
@@ -80,7 +102,7 @@ public class RedisUtil {
 	}
 
 	public static String getSearchRecordKey(Integer uid) {
-		return withKey(simple("search:record:" + uid));
+		return withKey(simple("search", "record", uid));
 	}
 
 	public void setSearchRecord(Integer uid, String searchStr) {

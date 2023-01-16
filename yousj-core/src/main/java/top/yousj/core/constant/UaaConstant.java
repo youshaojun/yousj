@@ -20,6 +20,8 @@ public class UaaConstant {
 
 	public static final String APP_CHANNEL = APP_PREFIX + "Channel";
 
+	public static final String UID = "uaaUid";
+
 	/**
 	 * @see <a href="https://apisix.apache.org/zh/docs/apisix/next/plugins/forward-auth/">apisix认证插件响应头</a>
 	 */

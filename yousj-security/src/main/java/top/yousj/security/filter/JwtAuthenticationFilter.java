@@ -8,7 +8,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.util.FieldUtils;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
@@ -17,6 +16,7 @@ import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.entity.R;
 import top.yousj.core.enums.ResultCode;
 import top.yousj.core.utils.UaaUtil;
+import top.yousj.redis.utils.RedisUtil;
 import top.yousj.security.handler.CustomMatchHandler;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.matcher.CustomAntPathRequestMatcher;
@@ -29,6 +29,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.function.Supplier;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -38,6 +42,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final SecurityExceptionAdviceHandler adviceHandler;
 	private final CustomMatchHandler customMatchHandler;
 	private final SecurityProperties securityProperties;
+
+	private static final String CACHE_USER_DETAILS_KEY = "userDetails";
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
@@ -55,20 +61,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			if (StringUtils.isBlank(jwtToken)) {
 				throw new JwtException(StringUtils.EMPTY);
 			}
-			String subject = JwtUtil.paresJwtToken(jwtToken);
-			UserDetails userDetails = userDetailsService.loadUserByUsername(subject);
+			UserDetails userDetails = getUserDetails(jwtToken);
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			setUserIdHeader(response, userDetails);
+			// 设置uaaUid
+			setUaaUid(request, response, String.valueOf(JwtUtil.getUaaUid(jwtToken)));
+			// 鉴权
 			if (!hasPermission(request)) {
 				adviceHandler.write(response, ResultCode.ACCESS_DENIED);
 				return;
 			}
+			// 如果是uaa, 鉴权通过直接return
 			if (securityProperties.isUaa()) {
 				adviceHandler.write(response, R.ok());
 				return;
 			}
+			// 不是uaa, 继续执行过滤器链
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -78,9 +87,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 	}
 
-	private void setUserIdHeader(HttpServletResponse response, UserDetails userDetails) {
+	private UserDetails getUserDetails(String jwtToken) {
+		String key = RedisUtil.simple(AppNameHolder.get(), CACHE_USER_DETAILS_KEY, JwtUtil.getUaaUid(jwtToken));
+		Supplier<UserDetails> valueSupplier = () -> userDetailsService.loadUserByUsername(JwtUtil.paresJwtToken(jwtToken));
+		Long userDetailsTtl = customMatchHandler.getJwt().getUserDetailsTtl();
+		return RedisUtil.put(key, valueSupplier, userDetailsTtl);
+	}
+
+	private void setUaaUid(HttpServletRequest request, HttpServletResponse response, String uid) {
 		try {
-			response.setHeader(UaaConstant.FORWARD_AUTH_HEADER_USER_ID, String.valueOf(FieldUtils.getFieldValue(userDetails, "id")));
+			response.setHeader(UaaConstant.FORWARD_AUTH_HEADER_USER_ID, uid);
+			Map<String, String[]> parameterMap = request.getParameterMap();
+			Method method = parameterMap.getClass().getMethod("setLocked", Boolean.class);
+			method.invoke(parameterMap, Boolean.FALSE);
+			parameterMap.put(UaaConstant.UID, new String[]{uid});
+			method.invoke(parameterMap, Boolean.TRUE);
 		} catch (Exception ignored) {
 		}
 	}
@@ -92,5 +113,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		return SecurityUtil.getAuthorities().stream().anyMatch(url -> securityProperties.isUaa() ?
 			new CustomAntPathRequestMatcher(url).matches(request) : new AntPathRequestMatcher(url).matches(request));
 	}
+
 
 }

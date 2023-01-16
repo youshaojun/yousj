@@ -42,6 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		List<Object> authUrls = getUserInfo(uaaUserDataSource, username);
 
 		return new UserDetails() {
+
 			@Override
 			public Collection<? extends GrantedAuthority> getAuthorities() {
 				return CollectionUtils.isEmpty(authUrls) ? Collections.emptyList() :

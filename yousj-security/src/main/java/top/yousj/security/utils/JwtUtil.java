@@ -1,5 +1,6 @@
 package top.yousj.security.utils;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -36,17 +37,18 @@ public class JwtUtil {
 		JwtUtil.customMatchHandler = customMatchHandler;
 	}
 
-	public static String createJwtToken(String username) {
+	public static String createJwtToken(String username, Integer uid) {
 		SecurityProperties.Jwt jwt = customMatchHandler.getJwt();
 		Date date = new Date();
 		JwtBuilder builder = Jwts.builder()
+			.setId(UUID.randomUUID().toString())
 			.setSubject(username)
 			.setIssuedAt(date)
 			.signWith(SignatureAlgorithm.HS256, jwt.getSignKey())
-			.claim("uuid", UUID.randomUUID().toString());
+			.claim(UaaConstant.UID, uid);
 		builder.setExpiration(DateUtil.forever());
 		String jwtToken = builder.compact();
-		RedisUtil.put(jwt.getSignKey() + username, jwtToken, jwt.getExpire(), TimeUnit.MILLISECONDS);
+		RedisUtil.put(jwt.getSignKey() + username, jwtToken, jwt.getTtl(), TimeUnit.MILLISECONDS);
 		return jwtToken;
 	}
 
@@ -55,14 +57,22 @@ public class JwtUtil {
 		SecurityProperties.Jwt jwt = customMatchHandler.getJwt();
 		String key = jwt.getSignKey() + subject;
 		Object v = Optional.ofNullable(RedisUtil.get(key)).orElseThrow(() -> new AccountExpiredException(StrPool.EMPTY));
-		if(jwt.isRenewal()){
-			RedisUtil.put(key, v, jwt.getExpire(), TimeUnit.MILLISECONDS);
+		if (jwt.isRenewal()) {
+			RedisUtil.put(key, v, jwt.getTtl(), TimeUnit.MILLISECONDS);
 		}
 		return subject;
 	}
 
 	public static String getSubject(String jwtToken) {
-		return Jwts.parser().setSigningKey(customMatchHandler.getJwt().getSignKey()).parseClaimsJws(jwtToken).getBody().getSubject();
+		return getBody(jwtToken).getSubject();
+	}
+
+	public static Integer getUaaUid(String jwtToken) {
+		return getBody(jwtToken).get(UaaConstant.UID, Integer.class);
+	}
+
+	private static Claims getBody(String jwtToken) {
+		return Jwts.parser().setSigningKey(customMatchHandler.getJwt().getSignKey()).parseClaimsJws(jwtToken).getBody();
 	}
 
 	public static Boolean removeToken(String subject) {
