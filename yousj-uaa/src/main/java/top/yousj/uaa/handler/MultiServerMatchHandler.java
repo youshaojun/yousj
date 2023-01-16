@@ -15,13 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 
 @Component
 @RequiredArgsConstructor
-public class MultipleMatchHandler implements CustomMatchHandler {
+public class MultiServerMatchHandler implements CustomMatchHandler {
 
 	private final SecurityProperties securityProperties;
 
 	@Override
 	public boolean matchAuthPermitUrls(HttpServletRequest request) {
-		return CustomConfig.Multiple.AUTH_PERMIT_URLS.get(AppNameHolder.get()).stream().anyMatch(url -> new CustomAntPathRequestMatcher(url).matches(request));
+		return CustomConfig.MultiServer.AUTH_PERMIT_URLS.get(AppNameHolder.get()).stream().anyMatch(url -> new CustomAntPathRequestMatcher(url).matches(request));
 	}
 
 	@Override
@@ -29,10 +29,10 @@ public class MultipleMatchHandler implements CustomMatchHandler {
 		if (CustomConfig.IGNORE_URLS.stream().anyMatch(url -> new CustomAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
 			return true;
 		}
-		if (CustomConfig.Multiple.SELF_IGNORE_URLS.get(AppNameHolder.get()).stream().anyMatch(url -> new CustomAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
+		if (CustomConfig.MultiServer.SELF_IGNORE_URLS.get(AppNameHolder.get()).stream().anyMatch(url -> new CustomAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
 			return true;
 		}
-		if (CustomConfig.Multiple.ALL_URLS.get(AppNameHolder.get()).stream().noneMatch(url -> new CustomAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
+		if (CustomConfig.MultiServer.ALL_URLS.get(AppNameHolder.get()).stream().noneMatch(url -> new CustomAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
 			throw new BizException(ResultCode.NOT_FOUND);
 		}
 		return false;
@@ -40,7 +40,7 @@ public class MultipleMatchHandler implements CustomMatchHandler {
 
 	@Override
 	public SecurityProperties.Jwt getJwt() {
-		SecurityProperties.Jwt jwt = CustomConfig.Multiple.JWT_CONFIG.getOrDefault(AppNameHolder.get(), securityProperties.getJwt());
+		SecurityProperties.Jwt jwt = CustomConfig.MultiServer.JWT_CONFIG.getOrDefault(AppNameHolder.get(), securityProperties.getJwt());
 		jwt.setSignKey(RedisUtil.simple(AppNameHolder.get()) + jwt.getSignKey());
 		return jwt;
 	}

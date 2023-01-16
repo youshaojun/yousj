@@ -51,9 +51,9 @@ public class ReloadCustomConfigServiceImpl {
 			Stream<UaaAuthUrlConfig> authConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.AUTH.getCode()));
 			Stream<UaaAuthUrlConfig> allConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.ALL.getCode()));
 
-			reload(appName, ignoreConfig, CustomConfig.Multiple.SELF_IGNORE_URLS);
-			reload(appName, authConfig, CustomConfig.Multiple.AUTH_PERMIT_URLS);
-			reload(appName, allConfig, CustomConfig.Multiple.ALL_URLS);
+			reload(appName, ignoreConfig, CustomConfig.MultiServer.SELF_IGNORE_URLS);
+			reload(appName, authConfig, CustomConfig.MultiServer.AUTH_PERMIT_URLS);
+			reload(appName, allConfig, CustomConfig.MultiServer.ALL_URLS);
 
 		}
 
