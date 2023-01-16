@@ -13,10 +13,7 @@
 │          │  └─top
 │          │      └─yousj
 │          │          └─core
-│          │              ├─annotation
-│          │              ├─config
 │          │              ├─constant
-│          │              ├─date
 │          │              ├─entity
 │          │              ├─enums
 │          │              ├─exception
@@ -51,7 +48,7 @@
 │          │              └─interceptor
 │          └─resources
 │              └─META-INF
-├─yousj-excel easyexcel[待验证]
+├─yousj-excel easyexcel
 │  └─src
 │      └─main
 │          └─java
@@ -61,7 +58,7 @@
 │                          ├─handler
 │                          ├─strategy
 │                          └─utils
-├─yousj-exception 异常捕获
+├─yousj-exception 异常处理
 │  └─src
 │      └─main
 │          └─java
@@ -96,8 +93,8 @@
 │          │              └─utils
 │          └─resources
 │              └─META-INF
-├─yousj-reload 热加载
-│  ├─yousj-reload-class 热加载class[参考KoTime](https://gitee.com/huoyo/ko-time)
+├─yousj-reload 热部署
+│  ├─yousj-reload-class 热部署class[参考](https://gitee.com/huoyo/ko-time)
 │  │  └─src
 │  │      └─main
 │  │          ├─java
@@ -112,7 +109,7 @@
 │  │                      └─maven
 │  │                          └─cn.langpy
 │  │                              └─ko-time-retrans
-│  └─yousj-reload-mapper 热加载mapper[待验证]
+│  └─yousj-reload-mapper 热部署mapper[待验证]
 │      └─src
 │          └─main
 │              └─java
@@ -121,7 +118,7 @@
 │                          └─reload
 │                              ├─controller
 │                              └─service
-├─yousj-security 权限控制
+├─yousj-security 认证鉴权
 │  └─src
 │      └─main
 │          ├─java
@@ -134,6 +131,7 @@
 │          │              ├─exception
 │          │              ├─filter
 │          │              ├─handler
+│          │              ├─matcher
 │          │              ├─properties
 │          │              └─utils
 │          └─resources
@@ -151,6 +149,30 @@
 │          │              └─spring
 │          └─resources
 │              └─META-INF
+├─yousj-uaa 统一认证服务
+│  └─src
+│      ├─main
+│      │  ├─java
+│      │  │  └─top
+│      │  │      └─yousj
+│      │  │          └─uaa
+│      │  │              ├─controller
+│      │  │              ├─entity
+│      │  │              │  ├─po
+│      │  │              │  └─vo
+│      │  │              │      └─request
+│      │  │              ├─enums
+│      │  │              ├─handler
+│      │  │              ├─mapper
+│      │  │              └─service
+│      │  │                  └─impl
+│      │  └─resources
+│      │      └─mapper
+│      └─test
+│          └─java
+│              └─top
+│                  └─yousj
+│                      └─uaa
 └─yousj-web
     └─src
         └─main
@@ -158,7 +180,9 @@
             │  └─top
             │      └─yousj
             │          └─web
-            │              └─config
+            │              ├─annotation
+            │              ├─config
+            │              └─date
             └─resources
                 └─META-INF
 </code></pre>
