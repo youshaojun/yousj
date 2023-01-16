@@ -29,6 +29,9 @@ public class ContentCellStylePostWriteHandler implements CellWriteHandler {
 		}
 	}
 
+	/**
+	 * maxCellStyles 64000 {@link org.apache.poi.xssf.model.StylesTable#MAXIMUM_STYLE_ID}
+	 */
 	public static CellStyle buildContentCellStyle(WriteSheetHolder writeSheetHolder) {
 		return buildContentCellStyle(writeSheetHolder, false);
 	}
