@@ -61,7 +61,6 @@ public class SecurityExceptionAdviceHandler implements ExceptionAdviceHandler {
 		response.setCharacterEncoding(StrPool.CHARSET_NAME);
 		response.setStatus(securityProperties.isHttpStatus() ? r.getCode() : HttpStatus.OK.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setHeader("aaaaa", "失败啦");
 		PrintWriter writer = response.getWriter();
 		writer.write(objectMapper.writeValueAsString(r));
 		writer.flush();
