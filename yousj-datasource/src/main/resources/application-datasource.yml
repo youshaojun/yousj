@@ -1,0 +1,99 @@
+mybatis-plus:
+  type-handlers-package: top.yousj.datasource.convert
+  check-config-location: false
+  executor-type: reuse
+  configuration:
+    lazy-loading-enabled: false
+    local-cache-scope: statement
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  global-config:
+    banner: false
+
+pagehelper:
+  supportMethodsArguments: false
+  reasonable: false
+  params: count=countSql
+
+spring:
+  datasource:
+    druid:
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        profile-enable: true
+      stat-view-servlet:
+        enabled: ${spring.datasource.dynamic.druid-stat-view-servlet-properties.enabled:${spring.datasource.dynamic.default-druid-stat-view-servlet-properties.enabled}}
+        loginUsername: ${spring.datasource.dynamic.druid-stat-view-servlet-properties.loginUsername:${spring.datasource.dynamic.default-druid-stat-view-servlet-properties.loginUsername}}
+        loginPassword: ${spring.datasource.dynamic.druid-stat-view-servlet-properties.loginPassword:${spring.datasource.dynamic.default-druid-stat-view-servlet-properties.loginPassword}}
+        url-pattern: ${spring.datasource.dynamic.druid-stat-view-servlet-properties.url-pattern:${spring.datasource.dynamic.default-druid-stat-view-servlet-properties.url-pattern}}
+        allow: ${spring.datasource.dynamic.druid-stat-view-servlet-properties.allow:${spring.datasource.dynamic.default-druid-stat-view-servlet-properties.allow}}
+    dynamic:
+      default-druid-stat-view-servlet-properties:
+        enabled: true
+        loginUsername: admin
+        loginPassword: admin123
+        url-pattern: /druid/*
+        allow: ""
+      default-properties:
+        min-idle: 1
+        max-pool-size: 12
+        keepalive-time: 60000
+        idle-timeout: 600000
+        max-lifetime: 1740000
+        connection-test-query: SELECT 1
+      hikari:
+        min-idle: ${spring.datasource.dynamic.properties.min-idle:${spring.datasource.dynamic.default-properties.min-idle}}
+        max-pool-size: ${spring.datasource.dynamic.properties.max-pool-size:${spring.datasource.dynamic.default-properties.max-pool-size}}
+        connection-test-query: ${spring.datasource.dynamic.properties.connection-test-query:${spring.datasource.dynamic.default-properties.connection-test-query}}
+        validation-timeout: 30000
+        keepalive-time: ${spring.datasource.dynamic.properties.keepalive-time:${spring.datasource.dynamic.default-properties.keepalive-time}}
+        idle-timeout: ${spring.datasource.dynamic.properties.idle-timeout:${spring.datasource.dynamic.default-properties.idle-timeout}}
+        max-lifetime: ${spring.datasource.dynamic.properties.max-lifetime:${spring.datasource.dynamic.default-properties.max-lifetime}}
+        data-source-properties:
+          serverTimezone: GMT+8
+          useUnicode: true
+          useSSL: false
+          zeroDateTimeBehavior: convertToNull
+      druid:
+        keep-alive: false
+        min-idle: ${spring.datasource.dynamic.properties.min-idle:${spring.datasource.dynamic.default-properties.min-idle}}
+        max-active: ${spring.datasource.dynamic.properties.max-pool-size:${spring.datasource.dynamic.default-properties.max-pool-size}}
+        test-while-idle: true
+        validation-query: ${spring.datasource.dynamic.properties.connection-test-query:${spring.datasource.dynamic.default-properties.connection-test-query}}
+        validation-query-timeout: 30
+        time-between-eviction-runs-millis: ${spring.datasource.dynamic.properties.keepalive-time:${spring.datasource.dynamic.default-properties.keepalive-time}}
+        min-evictable-idle-time-millis: ${spring.datasource.dynamic.properties.idle-timeout:${spring.datasource.dynamic.default-properties.idle-timeout}}
+        max-evictable-idle-time-millis: 1200000
+        phy-timeout-millis: ${spring.datasource.dynamic.properties.max-lifetime:${spring.datasource.dynamic.default-properties.max-lifetime}}
+        use-global-data-source-stat: true
+        connection-properties:
+          serverTimezone: GMT+8
+          useUnicode: true
+          useSSL: false
+          zeroDateTimeBehavior: convertToNull
+        filters: stat,wall,slf4j
+        reset-stat-enable: true
+        wall:
+          select-into-allow: false
+          call-allow: false
+          truncate-allow: false
+          create-table-allow: false
+          alter-table-allow: false
+          drop-table-allow: false
+          multi-statement-allow: true
+          select-all-column-allow: true
+          delete-where-none-check: true
+          use-allow: true
+          describe-allow: false
+          show-allow: false
+          metadata-allow: true
+          wrap-allow: false
+        slf4j:
+          statement-sql-pretty-format: false
+          statement-prepare-after-log-enabled: false
+          statement-close-after-log-enabled: false
+        stat:
+          slow-sql-millis: 1000
+          log-slow-sql: true
+          merge-sql: true
+
