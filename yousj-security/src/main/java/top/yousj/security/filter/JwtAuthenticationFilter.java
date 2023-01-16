@@ -21,7 +21,7 @@ import top.yousj.security.handler.CustomMatchHandler;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.matcher.CustomAntPathRequestMatcher;
 import top.yousj.security.properties.SecurityProperties;
-import top.yousj.security.utils.AppNameHolder;
+import top.yousj.security.holder.AppNameHolder;
 import top.yousj.security.utils.JwtUtil;
 import top.yousj.security.utils.SecurityUtil;
 

@@ -9,7 +9,7 @@ import top.yousj.security.config.CustomConfig;
 import top.yousj.security.handler.CustomMatchHandler;
 import top.yousj.security.matcher.CustomAntPathRequestMatcher;
 import top.yousj.security.properties.SecurityProperties;
-import top.yousj.security.utils.AppNameHolder;
+import top.yousj.security.holder.AppNameHolder;
 
 import javax.servlet.http.HttpServletRequest;
 
