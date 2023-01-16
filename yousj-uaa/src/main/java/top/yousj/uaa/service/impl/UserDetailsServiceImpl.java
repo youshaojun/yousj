@@ -18,7 +18,7 @@ import org.springframework.util.CollectionUtils;
 import top.yousj.core.constant.StrPool;
 import top.yousj.core.exception.BizException;
 import top.yousj.security.utils.AppNameHolder;
-import top.yousj.uaa.entity.UaaUserDataSource;
+import top.yousj.uaa.entity.po.UaaUserDataSource;
 import top.yousj.uaa.service.IUaaUserDataSourceService;
 
 import javax.sql.DataSource;

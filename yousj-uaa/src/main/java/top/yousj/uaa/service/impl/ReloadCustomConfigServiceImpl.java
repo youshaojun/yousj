@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.yousj.security.config.CustomConfig;
-import top.yousj.uaa.entity.UaaAuthUrlConfig;
+import top.yousj.uaa.entity.po.UaaAuthUrlConfig;
 import top.yousj.uaa.enums.UrlTypeEnum;
 import top.yousj.uaa.service.IUaaAuthUrlConfigService;
 

@@ -1,13 +1,13 @@
 package top.yousj.uaa.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.yousj.core.entity.R;
-import top.yousj.core.enums.ResultCode;
 import top.yousj.security.utils.JwtUtil;
+import top.yousj.uaa.entity.vo.request.LoginRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/uaa")
@@ -16,14 +16,15 @@ public class UaaController {
 
 	private final HttpServletRequest request;
 
-	@RequestMapping("/logout")
-	public R logout() {
-		try {
-			JwtUtil.removeToken(request);
-		} catch (Exception ignored) {
-			return R.fail(ResultCode.UNAUTHORIZED);
-		}
+	@PostMapping("/login")
+		public R login(@RequestBody @Valid LoginRequest loginRequest) {
+		// TODO 统一登录
 		return R.ok();
+	}
+
+	@GetMapping("/logout")
+	public R<Boolean> logout() {
+		return R.ok(JwtUtil.removeToken(request));
 	}
 
 }

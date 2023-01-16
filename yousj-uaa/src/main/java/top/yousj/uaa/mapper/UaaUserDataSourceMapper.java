@@ -1,6 +1,6 @@
 package top.yousj.uaa.mapper;
 
-import top.yousj.uaa.entity.UaaUserDataSource;
+import top.yousj.uaa.entity.po.UaaUserDataSource;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

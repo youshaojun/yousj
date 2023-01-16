@@ -1,6 +1,6 @@
 package top.yousj.uaa.service.impl;
 
-import top.yousj.uaa.entity.UaaAuthUrlConfig;
+import top.yousj.uaa.entity.po.UaaAuthUrlConfig;
 import top.yousj.uaa.mapper.UaaAuthUrlConfigMapper;
 import top.yousj.uaa.service.IUaaAuthUrlConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

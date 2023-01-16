@@ -1,4 +1,4 @@
-package top.yousj.uaa.entity;
+package top.yousj.uaa.entity.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

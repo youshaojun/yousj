@@ -1,6 +1,6 @@
 package top.yousj.uaa.service.impl;
 
-import top.yousj.uaa.entity.UaaUserDataSource;
+import top.yousj.uaa.entity.po.UaaUserDataSource;
 import top.yousj.uaa.mapper.UaaUserDataSourceMapper;
 import top.yousj.uaa.service.IUaaUserDataSourceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
