@@ -65,19 +65,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			// 设置uaaUid
-			setUaaUid(request, response, String.valueOf(JwtUtil.getUaaUid(jwtToken)));
-			// 鉴权
+			setUid(request, response, String.valueOf(JwtUtil.getUaaUid(jwtToken)));
 			if (!hasPermission(request)) {
 				adviceHandler.write(response, ResultCode.ACCESS_DENIED);
 				return;
 			}
-			// 如果是uaa, 鉴权通过直接return
+			// 开启uaa, 鉴权通过直接响应成功
 			if (securityProperties.isUaa()) {
 				adviceHandler.write(response, R.ok());
 				return;
 			}
-			// 不是uaa, 继续执行过滤器链
+			// 未开启uaa, 继续执行过滤器链
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -94,7 +92,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		return RedisUtil.put(key, valueSupplier, userDetailsTtl);
 	}
 
-	private void setUaaUid(HttpServletRequest request, HttpServletResponse response, String uid) {
+	private void setUid(HttpServletRequest request, HttpServletResponse response, String uid) {
 		try {
 			response.setHeader(UaaConstant.FORWARD_AUTH_HEADER_USER_ID, uid);
 			Map<String, String[]> parameterMap = request.getParameterMap();
