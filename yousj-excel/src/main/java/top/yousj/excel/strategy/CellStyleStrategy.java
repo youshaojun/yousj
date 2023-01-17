@@ -5,7 +5,7 @@ import com.alibaba.excel.write.metadata.style.WriteFont;
 import com.alibaba.excel.write.style.AbstractCellStyleStrategy;
 import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import org.apache.poi.ss.usermodel.*;
-import top.yousj.excel.handler.ContentCellStylePostWriteHandler;
+import top.yousj.excel.utils.StyleUtil;
 
 /**
  * @author yousj
@@ -28,7 +28,7 @@ public class CellStyleStrategy {
 		headWriteCellStyle.setBorderRight(BorderStyle.THIN);
 		headWriteCellStyle.setBorderBottom(BorderStyle.THIN);
 		headWriteCellStyle.setBorderLeft(BorderStyle.THIN);
-		WriteCellStyle contentWriteCellStyle = ContentCellStylePostWriteHandler.getWriteCellStyle();
+		WriteCellStyle contentWriteCellStyle = StyleUtil.getWriteCellStyle();
 		contentWriteCellStyle.setBorderTop(BorderStyle.THIN);
 		contentWriteCellStyle.setBorderRight(BorderStyle.THIN);
 		contentWriteCellStyle.setBorderBottom(BorderStyle.THIN);
