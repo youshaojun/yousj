@@ -22,14 +22,30 @@ import java.util.Objects;
  */
 public class ContentCellStylePostWriteHandler implements CellWriteHandler {
 
+	private static CellStyle defaultCellStyle = null;
+	private static CellStyle hyperlinkCellStyle = null;
+
 	@Override
 	public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
 		if (!isHead && cell.getCellType() == CellType.STRING && ("-".equals(cell.getStringCellValue()) || "--".equals(cell.getStringCellValue()))) {
-			cell.setCellStyle(buildContentCellStyle(writeSheetHolder, Objects.nonNull(cell.getHyperlink())));
+			boolean isHyperlink = Objects.nonNull(cell.getHyperlink());
+			initCellStyle(writeSheetHolder, isHyperlink);
+			cell.setCellStyle(isHyperlink ? hyperlinkCellStyle : defaultCellStyle);
+		}
+	}
+
+	private void initCellStyle(WriteSheetHolder writeSheetHolder, boolean isHyperlink) {
+		if (isHyperlink && Objects.isNull(hyperlinkCellStyle)) {
+			hyperlinkCellStyle = buildContentCellStyle(writeSheetHolder, true);
+			return;
+		}
+		if (!isHyperlink && Objects.isNull(defaultCellStyle)) {
+			hyperlinkCellStyle = buildContentCellStyle(writeSheetHolder, false);
 		}
 	}
 
 	/**
+	 * 请勿在循环中构建CellStyle, 尽量复用
 	 * maxCellStyles 64000 {@link org.apache.poi.xssf.model.StylesTable#MAXIMUM_STYLE_ID}
 	 */
 	public static CellStyle buildContentCellStyle(WriteSheetHolder writeSheetHolder) {
