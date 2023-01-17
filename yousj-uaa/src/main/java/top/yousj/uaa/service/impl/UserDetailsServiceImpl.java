@@ -107,6 +107,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	private synchronized void addDataSource(String ds, Supplier<DataSource> dataSourceSupplier) {
+		if (dynamicRoutingDataSource.getDataSources().containsKey(ds)) {
+			return;
+		}
 		dynamicRoutingDataSource.addDataSource(ds, dataSourceSupplier.get());
 	}
 
