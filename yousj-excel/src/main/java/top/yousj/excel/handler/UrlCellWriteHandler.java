@@ -11,9 +11,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import top.yousj.excel.utils.ExportExcelUtil;
+import top.yousj.excel.utils.StyleUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +52,8 @@ public class UrlCellWriteHandler implements CellWriteHandler {
 		this.ignoreStr = ignoreStr;
 	}
 
+	private static CellStyle defaultCellStyle = null;
+
 	@Override
 	public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
 		if (!isHead && cell.getColumnIndex() == columnIndex && !Objects.equals(cell.getStringCellValue(), ignoreStr)) {
@@ -78,9 +82,13 @@ public class UrlCellWriteHandler implements CellWriteHandler {
 			// 如果url为空, 重置内容样式
 			String url = hyperlinkProperties.getUrl();
 			if (Objects.isNull(url) || "".equals(url) || url.equals(ignoreStr)) {
-				cell.setCellStyle(ContentCellStylePostWriteHandler.buildContentCellStyle(writeSheetHolder));
+				if (Objects.isNull(defaultCellStyle)) {
+					defaultCellStyle = StyleUtil.buildContentCellStyle(writeSheetHolder);
+				}
+				cell.setCellStyle(defaultCellStyle);
 				return;
 			}
+
 			Hyperlink hyperlink = helper.createHyperlink(HyperlinkType.URL);
 			hyperlink.setAddress(hyperlinkProperties.getUrl());
 			cell.setHyperlink(hyperlink);

@@ -1,14 +1,13 @@
 package top.yousj.excel.utils;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 import org.apache.poi.ss.usermodel.Font;
 
 /**
  * @author yousj
  * @since 2022-12-29
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExportExcelUtil {
 
 	@Getter
