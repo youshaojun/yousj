@@ -34,7 +34,7 @@ public class UaaAuthUrlConfig implements Serializable {
 
 	private String authUrl;
 
-	@ApiModelProperty("url类型, 0 直接放行, 1 登录后可访问, 2 全部url映射")
+	@ApiModelProperty("url类型, 0 直接放行, 1 登录后可访问")
 	private Integer urlType;
 
 	private LocalDateTime createTime;

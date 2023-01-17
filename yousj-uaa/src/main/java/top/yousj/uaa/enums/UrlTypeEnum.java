@@ -9,9 +9,7 @@ public enum UrlTypeEnum {
 
 	IGNORE(0),
 
-	AUTH(1),
-
-	ALL(2)
+	AUTH(1)
 
 	;
 

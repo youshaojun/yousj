@@ -6,10 +6,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
+import top.yousj.core.entity.R;
 import top.yousj.security.config.CustomConfig;
 import top.yousj.uaa.entity.po.UaaAuthUrlConfig;
+import top.yousj.uaa.entity.po.UaaUserDataSource;
 import top.yousj.uaa.enums.UrlTypeEnum;
 import top.yousj.uaa.service.IUaaAuthUrlConfigService;
+import top.yousj.uaa.service.IUaaUserDataSourceService;
 
 import java.util.List;
 import java.util.Map;
@@ -26,14 +30,18 @@ import static top.yousj.security.config.CustomConfig.IGNORE_URLS;
 @RequiredArgsConstructor
 public class ReloadCustomConfigServiceImpl {
 
+	private final RestTemplate restTemplate;
 	private final IUaaAuthUrlConfigService uaaAuthUrlConfigService;
+	private final IUaaUserDataSourceService uaaUserDataSourceService;
 
 	static {
 		IGNORE_URLS.add("/uaa/login");
 		IGNORE_URLS.add("/uaa/logout");
+		IGNORE_URLS.add("/uaa/getMappingUrls");
 	}
 
 	@Scheduled(fixedDelay = 10, timeUnit = TimeUnit.MINUTES)
+	@SuppressWarnings("unchecked")
 	public void reload() {
 		List<UaaAuthUrlConfig> list = uaaAuthUrlConfigService.list(
 			Wrappers.<UaaAuthUrlConfig>lambdaQuery()
@@ -49,13 +57,20 @@ public class ReloadCustomConfigServiceImpl {
 			List<UaaAuthUrlConfig> urls = entry.getValue();
 			Stream<UaaAuthUrlConfig> ignoreConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.IGNORE.getCode()));
 			Stream<UaaAuthUrlConfig> authConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.AUTH.getCode()));
-			Stream<UaaAuthUrlConfig> allConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.ALL.getCode()));
 
 			reload(appName, ignoreConfig, CustomConfig.MultiServer.SELF_IGNORE_URLS);
 			reload(appName, authConfig, CustomConfig.MultiServer.AUTH_PERMIT_URLS);
-			reload(appName, allConfig, CustomConfig.MultiServer.ALL_URLS);
-
 		}
+
+		List<UaaUserDataSource> uaaUserDataSources = uaaUserDataSourceService.list(Wrappers.<UaaUserDataSource>lambdaQuery()
+			.select(UaaUserDataSource::getId, UaaUserDataSource::getAppName, UaaUserDataSource::getQueryAllPathUrl));
+
+		uaaUserDataSources.forEach(e -> {
+			try {
+				CustomConfig.MultiServer.ALL_URLS.put(e.getAppName(), (Set<String>) Objects.requireNonNull(restTemplate.getForObject(e.getQueryAllPathUrl(), R.class)).getData());
+			} catch (Exception ignored) {
+			}
+		});
 
 	}
 

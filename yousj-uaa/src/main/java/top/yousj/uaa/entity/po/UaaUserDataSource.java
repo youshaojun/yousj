@@ -32,6 +32,9 @@ public class UaaUserDataSource implements Serializable {
 	@ApiModelProperty("应用标志")
 	private String appName;
 
+	@ApiModelProperty("调用地址, 用于获取应用所有接口")
+	private String queryAllPathUrl;
+
 	@ApiModelProperty("数据源名称")
 	private String ds;
 
