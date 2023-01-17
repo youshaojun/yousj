@@ -6,7 +6,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.cors.CorsUtils;
 import top.yousj.core.enums.ResultCode;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.filter.JwtAuthenticationFilter;
@@ -32,7 +31,6 @@ public class HttpSecurityConfig {
 			//.and()
 			//.authorizeRequests()
 			//.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-			//.anyRequest().authenticated()
 			// .anyRequest().access("@rbacAuthorityService.hasPermission(request,authentication)")
 			.and()
 			// 禁用session, 使用token方式认证

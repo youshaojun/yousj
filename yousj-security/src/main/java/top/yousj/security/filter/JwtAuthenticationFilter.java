@@ -114,5 +114,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			new CustomAntPathRequestMatcher(url).matches(request) : new AntPathRequestMatcher(url).matches(request));
 	}
 
-
 }
