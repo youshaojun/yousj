@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +26,6 @@ import java.nio.file.StandardCopyOption;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/reload")
-@Profile({"dev", "test"})
 public class ReloadMapperController {
 
 	private final MapperReloadService mapperReloadService;
