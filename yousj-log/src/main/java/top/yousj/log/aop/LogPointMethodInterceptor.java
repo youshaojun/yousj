@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.entity.R;
+import top.yousj.core.utils.UaaUtil;
 import top.yousj.log.constant.PropertyConstant;
 
 import javax.servlet.ServletRequest;
@@ -68,10 +68,7 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 				}
 				requestParameterMap.putAll(request.getParameterMap());
 				requestLog.setRequestParams(objectMapper.writeValueAsString(requestParameterMap));
-				String uid = request.getHeader(UaaConstant.FORWARD_AUTH_HEADER_USER_ID);
-				if (StringUtils.isNotBlank(uid)) {
-					requestLog.setUid(Integer.valueOf(uid));
-				}
+				requestLog.setUid(UaaUtil.getUserId(request));
 			}
 		} catch (Exception ignored) {
 		}
