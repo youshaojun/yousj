@@ -12,9 +12,6 @@ import org.apache.ibatis.type.MappedTypes;
 @MappedTypes({LocalDateTime.class})
 public class LocalDateTimeTruncateTypeHandler extends LocalDateTimeTypeHandler {
 
-	public LocalDateTimeTruncateTypeHandler() {
-	}
-
 	public void setNonNullParameter(PreparedStatement ps, int i, LocalDateTime parameter, JdbcType jdbcType) throws SQLException {
 		super.setNonNullParameter(ps, i, parameter.truncatedTo(ChronoUnit.SECONDS), jdbcType);
 	}

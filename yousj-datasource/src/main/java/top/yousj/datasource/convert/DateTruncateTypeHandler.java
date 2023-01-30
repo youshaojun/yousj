@@ -13,9 +13,6 @@ import org.apache.ibatis.type.MappedTypes;
 @MappedTypes({Date.class})
 public class DateTruncateTypeHandler extends DateTypeHandler {
 
-	public DateTruncateTypeHandler() {
-	}
-
 	public void setNonNullParameter(PreparedStatement ps, int i, Date parameter, JdbcType jdbcType) throws SQLException {
 		super.setNonNullParameter(ps, i, DateUtils.truncate(parameter, Calendar.SECOND), jdbcType);
 	}
