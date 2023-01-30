@@ -80,8 +80,7 @@ public class JwtUtil {
 	}
 
 	public static Boolean removeToken(HttpServletRequest request) {
-		return RedisUtil.del(customMatchHandler.getJwt().getSignKey()
-			+ getSubject(getJwtFromRequest(request)));
+		return removeToken(getSubject(getJwtFromRequest(request)));
 	}
 
 	public static String getJwtFromRequest(HttpServletRequest request) {

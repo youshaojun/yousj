@@ -39,9 +39,6 @@ public class GlobalExceptionAdvice implements Ordered {
 			}
 		}
 		log.error(ex.getMessage(), ex);
-		if (ex instanceof RuntimeException) {
-			return R.fail(ResultCode.SYSTEM_ERROR);
-		}
 		return R.fail(ResultCode.SYSTEM_ERROR);
 	}
 

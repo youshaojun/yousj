@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  * @author yousj
@@ -28,7 +27,7 @@ public class StyleUtil {
 	public static CellStyle buildContentCellStyle(WriteSheetHolder writeSheetHolder, boolean isHyperlink) {
 		WriteCellStyle contentWriteCellStyle = getWriteCellStyle();
 		contentWriteCellStyle.setWriteFont(getWriteFont(isHyperlink));
-		return buildContentCellStyle(writeSheetHolder.getSheet().getWorkbook(), contentWriteCellStyle);
+		return com.alibaba.excel.util.StyleUtil.buildCellStyle(writeSheetHolder.getSheet().getWorkbook(), null, contentWriteCellStyle);
 	}
 
 	public static WriteCellStyle getWriteCellStyle() {
@@ -49,15 +48,6 @@ public class StyleUtil {
 			contentWriteFont.setColor((short) 12);
 		}
 		return contentWriteFont;
-	}
-
-	public static CellStyle buildContentCellStyle(Workbook workbook, WriteCellStyle writeCellStyle) {
-		CellStyle cellStyle = workbook.createCellStyle();
-		if (writeCellStyle == null) {
-			return cellStyle;
-		}
-		com.alibaba.excel.util.StyleUtil.buildCellStyle(workbook, cellStyle, writeCellStyle);
-		return cellStyle;
 	}
 
 }
