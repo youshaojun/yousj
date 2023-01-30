@@ -14,7 +14,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 import top.yousj.datasource.injector.enums.SqlMethod;
 
-import static top.yousj.datasource.utils.InjectorSqlUtil.*;
+import static top.yousj.datasource.utils.SqlUtil.*;
 
 public class InsertOnDuplicateKeyUpdate extends AbstractMethod {
 
