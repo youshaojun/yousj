@@ -13,6 +13,10 @@
 
 	<artifactId>yousj-web</artifactId>
 
+	<properties>
+		<okhttp.version>4.9.3</okhttp.version>
+	</properties>
+	
 	<dependencies>
 
 		<dependency>
@@ -45,6 +49,21 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+		</dependency>
+
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.squareup.okhttp3</groupId>
+				<artifactId>okhttp</artifactId>
+				<version>${okhttp.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>
