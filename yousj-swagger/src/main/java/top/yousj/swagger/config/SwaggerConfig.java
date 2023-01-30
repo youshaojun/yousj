@@ -1,8 +1,8 @@
 package top.yousj.swagger.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMappi
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.spring.web.plugins.WebFluxRequestHandlerProvider;
 import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
-import top.yousj.swagger.entity.SwaggerGroups;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -26,6 +25,7 @@ import java.util.stream.Collectors;
 @EnableKnife4j
 @Configuration
 @Profile({"dev", "test"})
+@SuppressWarnings("all")
 public class SwaggerConfig {
 
 	static {
@@ -39,8 +39,9 @@ public class SwaggerConfig {
 	@Bean
 	public BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
 		return new BeanPostProcessor() {
+
 			@Override
-			public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+			public Object postProcessAfterInitialization(Object bean, String beanName) {
 				if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof WebFluxRequestHandlerProvider) {
 					customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
 				}
@@ -55,28 +56,13 @@ public class SwaggerConfig {
 				mappings.addAll(copy);
 			}
 
-			@SuppressWarnings("unchecked")
+			@SneakyThrows
 			private List<RequestMappingInfoHandlerMapping> getHandlerMappings(Object bean) {
-				try {
-					Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
-					field.setAccessible(true);
-					return (List<RequestMappingInfoHandlerMapping>) field.get(bean);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					throw new IllegalStateException(e);
-				}
+				Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
+				field.setAccessible(true);
+				return (List<RequestMappingInfoHandlerMapping>) field.get(bean);
 			}
 		};
-	}
-
-	@Configuration
-	public static class DefaultDocket {
-
-		@Bean
-		public Docket docket() {
-			SwaggerGroups.SwaggerGroup swaggerGroup = new SwaggerGroups.SwaggerGroup();
-			swaggerGroup.setGroupName("a.全部");
-			return SwaggerDocket.of(swaggerGroup);
-		}
 	}
 
 }
