@@ -23,7 +23,7 @@ public class SqlUtil {
 	}
 
 	public static AbstractWrapper withMain(AbstractWrapper wrapper) {
-		wrapper.first("/*main*/");
+		wrapper.first("/**main**/");
 		return wrapper;
 	}
 
