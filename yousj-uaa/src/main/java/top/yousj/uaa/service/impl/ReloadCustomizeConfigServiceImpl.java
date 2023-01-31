@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import top.yousj.core.entity.R;
-import top.yousj.security.config.CustomConfig;
+import top.yousj.security.config.CustomizeConfig;
 import top.yousj.uaa.entity.po.UaaAuthUrlConfig;
 import top.yousj.uaa.entity.po.UaaUserDataSource;
 import top.yousj.uaa.enums.UrlTypeEnum;
@@ -23,12 +23,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static top.yousj.security.config.CustomConfig.IGNORE_URLS;
+import static top.yousj.security.config.CustomizeConfig.IGNORE_URLS;
 
 @Service
 @EnableScheduling
 @RequiredArgsConstructor
-public class ReloadCustomConfigServiceImpl {
+public class ReloadCustomizeConfigServiceImpl {
 
 	private final RestTemplate restTemplate;
 	private final IUaaAuthUrlConfigService uaaAuthUrlConfigService;
@@ -58,8 +58,8 @@ public class ReloadCustomConfigServiceImpl {
 			Stream<UaaAuthUrlConfig> ignoreConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.IGNORE.getCode()));
 			Stream<UaaAuthUrlConfig> authConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.AUTH.getCode()));
 
-			reload(appName, ignoreConfig, CustomConfig.MultiServer.SELF_IGNORE_URLS);
-			reload(appName, authConfig, CustomConfig.MultiServer.AUTH_PERMIT_URLS);
+			reload(appName, ignoreConfig, CustomizeConfig.MultiServer.SELF_IGNORE_URLS);
+			reload(appName, authConfig, CustomizeConfig.MultiServer.AUTH_PERMIT_URLS);
 		}
 
 		List<UaaUserDataSource> uaaUserDataSources = uaaUserDataSourceService.list(Wrappers.<UaaUserDataSource>lambdaQuery()
@@ -67,7 +67,7 @@ public class ReloadCustomConfigServiceImpl {
 
 		uaaUserDataSources.forEach(e -> {
 			try {
-				CustomConfig.MultiServer.ALL_URLS.put(e.getAppName(), (Set<String>) Objects.requireNonNull(restTemplate.getForObject(e.getQueryAllPathUrl(), R.class)).getData());
+				CustomizeConfig.MultiServer.ALL_URLS.put(e.getAppName(), (Set<String>) Objects.requireNonNull(restTemplate.getForObject(e.getQueryAllPathUrl(), R.class)).getData());
 			} catch (Exception ignored) {
 			}
 		});

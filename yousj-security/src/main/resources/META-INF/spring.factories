@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-top.yousj.security.config.CustomConfig,\
+top.yousj.security.config.CustomizeConfig,\
 top.yousj.security.config.SecurityConfig,\
 top.yousj.security.config.SecurityFilterChainConfigAutoConfigure,\
 top.yousj.security.handler.AloneMatchHandler

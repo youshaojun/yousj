@@ -4,7 +4,7 @@ import top.yousj.security.properties.SecurityProperties;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface CustomMatchHandler {
+public interface CustomizeMatchHandler {
 
 	/**
 	 * 已登录可访问

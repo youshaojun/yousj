@@ -17,9 +17,9 @@ import top.yousj.core.constant.UaaConstant;
 /**
  * copy {@link org.springframework.security.web.util.matcher.AntPathRequestMatcher}
  *
- * 更改{@link CustomAntPathRequestMatcher#matches(javax.servlet.http.HttpServletRequest)}
+ * 更改{@link CustomizeAntPathRequestMatcher#matches(javax.servlet.http.HttpServletRequest)}
  */
-public final class CustomAntPathRequestMatcher implements RequestMatcher, RequestVariablesExtractor {
+public final class CustomizeAntPathRequestMatcher implements RequestMatcher, RequestVariablesExtractor {
 
 	private static final String MATCH_ALL = "/**";
 
@@ -38,7 +38,7 @@ public final class CustomAntPathRequestMatcher implements RequestMatcher, Reques
 	 * case sensitive manner.
 	 * @param pattern the ant pattern to use for matching
 	 */
-	public CustomAntPathRequestMatcher(String pattern) {
+	public CustomizeAntPathRequestMatcher(String pattern) {
 		this(pattern, null);
 	}
 
@@ -49,7 +49,7 @@ public final class CustomAntPathRequestMatcher implements RequestMatcher, Reques
 	 * @param httpMethod the HTTP method. The {@code matches} method will return false if
 	 * the incoming request doesn't have the same method.
 	 */
-	public CustomAntPathRequestMatcher(String pattern, String httpMethod) {
+	public CustomizeAntPathRequestMatcher(String pattern, String httpMethod) {
 		this(pattern, httpMethod, true);
 	}
 
@@ -61,7 +61,7 @@ public final class CustomAntPathRequestMatcher implements RequestMatcher, Reques
 	 * the incoming request doesn't doesn't have the same method.
 	 * @param caseSensitive true if the matcher should consider case, else false
 	 */
-	public CustomAntPathRequestMatcher(String pattern, String httpMethod, boolean caseSensitive) {
+	public CustomizeAntPathRequestMatcher(String pattern, String httpMethod, boolean caseSensitive) {
 		this(pattern, httpMethod, caseSensitive, null);
 	}
 
@@ -75,8 +75,8 @@ public final class CustomAntPathRequestMatcher implements RequestMatcher, Reques
 	 * @param urlPathHelper if non-null, will be used for extracting the path from the
 	 * HttpServletRequest
 	 */
-	public CustomAntPathRequestMatcher(String pattern, String httpMethod, boolean caseSensitive,
-									   UrlPathHelper urlPathHelper) {
+	public CustomizeAntPathRequestMatcher(String pattern, String httpMethod, boolean caseSensitive,
+										  UrlPathHelper urlPathHelper) {
 		Assert.hasText(pattern, "Pattern cannot be null or empty");
 		this.caseSensitive = caseSensitive;
 		if (pattern.equals(MATCH_ALL) || pattern.equals("**")) {
@@ -155,10 +155,10 @@ public final class CustomAntPathRequestMatcher implements RequestMatcher, Reques
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof CustomAntPathRequestMatcher)) {
+		if (!(obj instanceof CustomizeAntPathRequestMatcher)) {
 			return false;
 		}
-		CustomAntPathRequestMatcher other = (CustomAntPathRequestMatcher) obj;
+		CustomizeAntPathRequestMatcher other = (CustomizeAntPathRequestMatcher) obj;
 		return this.pattern.equals(other.pattern) && this.httpMethod == other.httpMethod
 				&& this.caseSensitive == other.caseSensitive;
 	}

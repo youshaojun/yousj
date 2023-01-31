@@ -18,7 +18,7 @@ import java.util.Set;
  */
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-public class CustomConfig {
+public class CustomizeConfig {
 
 	/**
 	 * 直接放行的path

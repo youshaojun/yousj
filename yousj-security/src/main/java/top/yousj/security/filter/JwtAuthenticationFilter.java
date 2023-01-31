@@ -17,9 +17,9 @@ import top.yousj.core.entity.R;
 import top.yousj.core.enums.ResultCode;
 import top.yousj.core.utils.UaaUtil;
 import top.yousj.redis.utils.RedisUtil;
-import top.yousj.security.handler.CustomMatchHandler;
+import top.yousj.security.handler.CustomizeMatchHandler;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
-import top.yousj.security.matcher.CustomAntPathRequestMatcher;
+import top.yousj.security.matcher.CustomizeAntPathRequestMatcher;
 import top.yousj.security.properties.SecurityProperties;
 import top.yousj.security.holder.AppNameHolder;
 import top.yousj.security.utils.JwtUtil;
@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final UserDetailsService userDetailsService;
 	private final SecurityExceptionAdviceHandler adviceHandler;
-	private final CustomMatchHandler customMatchHandler;
+	private final CustomizeMatchHandler customizeMatchHandler;
 	private final SecurityProperties securityProperties;
 
 	private static final String CACHE_USER_DETAILS_KEY = "userDetails";
@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
 		try {
 			AppNameHolder.set(UaaUtil.getAppName(request, securityProperties.isUaa()));
-			if (customMatchHandler.matchIgnoreUrls(request)) {
+			if (customizeMatchHandler.matchIgnoreUrls(request)) {
 				if (securityProperties.isUaa()) {
 					adviceHandler.write(response, R.ok());
 					return;
@@ -88,7 +88,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private UserDetails getUserDetails(String jwtToken) {
 		String key = RedisUtil.simple(AppNameHolder.get(), CACHE_USER_DETAILS_KEY, JwtUtil.getUaaUid(jwtToken));
 		Supplier<UserDetails> valueSupplier = () -> userDetailsService.loadUserByUsername(JwtUtil.paresJwtToken(jwtToken));
-		Long userDetailsTtl = customMatchHandler.getJwt().getUserDetailsTtl();
+		Long userDetailsTtl = customizeMatchHandler.getJwt().getUserDetailsTtl();
 		return RedisUtil.put(key, valueSupplier, userDetailsTtl);
 	}
 
@@ -105,11 +105,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private boolean hasPermission(HttpServletRequest request) {
-		if (customMatchHandler.matchAuthPermitUrls(request)) {
+		if (customizeMatchHandler.matchAuthPermitUrls(request)) {
 			return true;
 		}
 		return SecurityUtil.getAuthorities().stream().anyMatch(url -> securityProperties.isUaa() ?
-			new CustomAntPathRequestMatcher(url).matches(request) : new AntPathRequestMatcher(url).matches(request));
+			new CustomizeAntPathRequestMatcher(url).matches(request) : new AntPathRequestMatcher(url).matches(request));
 	}
 
 }

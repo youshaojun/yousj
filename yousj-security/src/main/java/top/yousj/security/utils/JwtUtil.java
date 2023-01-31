@@ -13,7 +13,7 @@ import top.yousj.core.constant.StrPool;
 import top.yousj.core.constant.UaaConstant;
 import top.yousj.core.utils.DateUtil;
 import top.yousj.redis.utils.RedisUtil;
-import top.yousj.security.handler.CustomMatchHandler;
+import top.yousj.security.handler.CustomizeMatchHandler;
 import top.yousj.security.properties.SecurityProperties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,15 +30,15 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class JwtUtil {
 
-	private static CustomMatchHandler customMatchHandler;
+	private static CustomizeMatchHandler customizeMatchHandler;
 
 	@Autowired
-	public JwtUtil(CustomMatchHandler customMatchHandler) {
-		JwtUtil.customMatchHandler = customMatchHandler;
+	public JwtUtil(CustomizeMatchHandler customizeMatchHandler) {
+		JwtUtil.customizeMatchHandler = customizeMatchHandler;
 	}
 
 	public static String createJwtToken(String username, Integer uid) {
-		SecurityProperties.Jwt jwt = customMatchHandler.getJwt();
+		SecurityProperties.Jwt jwt = customizeMatchHandler.getJwt();
 		Date date = new Date();
 		JwtBuilder builder = Jwts.builder()
 			.setId(UUID.randomUUID().toString())
@@ -54,7 +54,7 @@ public class JwtUtil {
 
 	public static String paresJwtToken(String jwtToken) {
 		String subject = getSubject(jwtToken);
-		SecurityProperties.Jwt jwt = customMatchHandler.getJwt();
+		SecurityProperties.Jwt jwt = customizeMatchHandler.getJwt();
 		String key = jwt.getSignKey() + subject;
 		Object v = Optional.ofNullable(RedisUtil.get(key)).orElseThrow(() -> new AccountExpiredException(StrPool.EMPTY));
 		if (jwt.isRenewal()) {
@@ -72,11 +72,11 @@ public class JwtUtil {
 	}
 
 	private static Claims getBody(String jwtToken) {
-		return Jwts.parser().setSigningKey(customMatchHandler.getJwt().getSignKey()).parseClaimsJws(jwtToken).getBody();
+		return Jwts.parser().setSigningKey(customizeMatchHandler.getJwt().getSignKey()).parseClaimsJws(jwtToken).getBody();
 	}
 
 	public static Boolean removeToken(String subject) {
-		return RedisUtil.del(customMatchHandler.getJwt().getSignKey() + subject);
+		return RedisUtil.del(customizeMatchHandler.getJwt().getSignKey() + subject);
 	}
 
 	public static Boolean removeToken(HttpServletRequest request) {
