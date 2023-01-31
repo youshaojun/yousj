@@ -15,10 +15,13 @@ import java.util.Base64;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AESUtil {
 
+	private static final String CRYPTO_AES = "AES";
+	private static final String AES_ALGORITHM = "AES/ECB/PKCS5Padding";
+
 	@SneakyThrows
 	private static Cipher getCipher(byte[] key, int model) {
-		SecretKeySpec secretKeySpec = new SecretKeySpec(key, StrPool.CRYPTO_AES);
-		Cipher cipher = Cipher.getInstance(StrPool.AES_ALGORITHM);
+		SecretKeySpec secretKeySpec = new SecretKeySpec(key, CRYPTO_AES);
+		Cipher cipher = Cipher.getInstance(AES_ALGORITHM);
 		cipher.init(model, secretKeySpec);
 		return cipher;
 	}
