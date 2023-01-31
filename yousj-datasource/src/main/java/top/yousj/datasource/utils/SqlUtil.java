@@ -22,8 +22,9 @@ public class SqlUtil {
 		return SqlScriptUtils.convertTrim(tableInfo.getAllInsertSqlPropertyMaybeIf(null), StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET, null, StringPool.COMMA);
 	}
 
-	public static void withMain(AbstractWrapper queryWrapper) {
-		queryWrapper.first("/*main*/");
+	public static AbstractWrapper withMain(AbstractWrapper wrapper) {
+		wrapper.first("/*main*/");
+		return wrapper;
 	}
 
 }
