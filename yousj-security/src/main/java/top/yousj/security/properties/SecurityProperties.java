@@ -25,6 +25,11 @@ public class SecurityProperties {
 	private boolean uaa;
 
 	/**
+	 * 开启动态权限配置
+	 */
+	private boolean dynamicConfiguration = true;
+
+	/**
 	 * jwt配置
 	 */
 	private Jwt jwt = new Jwt();

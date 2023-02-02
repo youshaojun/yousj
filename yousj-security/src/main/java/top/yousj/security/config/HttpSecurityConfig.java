@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import top.yousj.core.enums.ResultCode;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
 import top.yousj.security.filter.JwtAuthenticationFilter;
+import top.yousj.security.properties.SecurityProperties;
 
 @Component
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class HttpSecurityConfig {
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final UserDetailsService userDetailsService;
 	private final SecurityExceptionAdviceHandler securityExceptionAdviceHandler;
+	private final SecurityProperties securityProperties;
 
 	public void apply(HttpSecurity http) throws Exception {
 		http
@@ -46,6 +48,10 @@ public class HttpSecurityConfig {
 			.accessDeniedHandler(((req, res, e) -> securityExceptionAdviceHandler.write(res, ResultCode.ACCESS_DENIED)))
 			// 未认证用户权限认证异常处理
 			.authenticationEntryPoint(((req, res, e) -> securityExceptionAdviceHandler.write(res, ResultCode.UNAUTHORIZED)));
+	}
+
+	public String[] getAntMatchers() {
+		return securityProperties.isDynamicConfiguration() ? new String[]{"/**"} : CustomizeConfig.IGNORE_URLS.toArray(new String[]{});
 	}
 
 }
