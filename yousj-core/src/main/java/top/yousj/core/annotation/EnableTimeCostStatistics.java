@@ -13,5 +13,5 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Import({TimeCostBeanPostProcessor.class, TimeCostSpringbootRunner.class})
-public @interface EnableTimeCostAnalyse {
+public @interface EnableTimeCostStatistics {
 }
