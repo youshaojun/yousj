@@ -2,6 +2,8 @@ package top.yousj.core.properties;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author yousj
  * @since 2023-01-10
@@ -9,10 +11,19 @@ import lombok.Data;
 @Data
 public class TimeCostProperties {
 
-	private int initialCapacity = 1024;
+	/**
+	 * map容量, 尽可能设置的大一些, 避免扩容影响统计
+	 */
+	private Integer initialCapacity = 1024;
 
-	private int threshold = 200;
+	/**
+	 * 超过阈值输出耗时
+	 */
+	private Integer threshold = 200;
 
-	private String[] excludes = new String[]{};
+	/**
+	 * 排除的bean
+	 */
+	private List<String> excludes;
 
 }

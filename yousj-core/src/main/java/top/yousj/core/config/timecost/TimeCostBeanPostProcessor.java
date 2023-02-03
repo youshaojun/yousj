@@ -1,11 +1,11 @@
 package top.yousj.core.config.timecost;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+import org.springframework.util.CollectionUtils;
 import top.yousj.core.constant.PropertyConstant;
 import top.yousj.core.properties.TimeCostProperties;
 
@@ -25,9 +25,13 @@ public class TimeCostBeanPostProcessor implements BeanPostProcessor, Environment
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		if (!StringUtils.containsAny(beanName, timeCostProperties.getExcludes())) {
-			costMap.put(beanName, System.currentTimeMillis());
+		if (!CollectionUtils.isEmpty(timeCostProperties.getExcludes())) {
+			if (timeCostProperties.getExcludes().stream().noneMatch(beanName::contains)) {
+				costMap.put(beanName, System.currentTimeMillis());
+			}
+			return bean;
 		}
+		costMap.put(beanName, System.currentTimeMillis());
 		return bean;
 	}
 
