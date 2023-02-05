@@ -29,6 +29,13 @@
       "description": "开启集中式认证"
     },
     {
+      "name": "top.yousj.security.dynamic-configuration",
+      "type": "java.lang.Boolean",
+      "sourceType": "top.yousj.security.properties.SecurityProperties",
+      "defaultValue": true,
+      "description": "开启动态权限配置"
+    },
+    {
       "name": "top.yousj.security.jwt.renewal",
       "type": "java.lang.Boolean",
       "sourceType": "top.yousj.security.properties.SecurityProperties$Jwt",

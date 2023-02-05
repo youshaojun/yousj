@@ -3,6 +3,34 @@
     {
       "name": "top.yousj",
       "description": "配置"
+    },
+    {
+      "name": "top.yousj.time-cost",
+      "type": "top.yousj.core.properties.TimeCostProperties",
+      "sourceType": "top.yousj.core.properties.TimeCostProperties",
+      "description": "Spring Bean 初始化耗时统计配置"
+    }
+  ],
+  "properties": [
+    {
+      "name": "top.yousj.time-cost.initial-capacity",
+      "type": "java.lang.Integer",
+      "description": "map容量, 尽可能设置的大一些, 避免扩容影响统计",
+      "sourceType": "top.yousj.core.properties.TimeCostProperties",
+      "defaultValue": 1024
+    },
+    {
+      "name": "top.yousj.time-cost.threshold",
+      "type": "java.lang.Integer",
+      "description": "超过阈值输出耗时",
+      "sourceType": "top.yousj.core.properties.TimeCostProperties",
+      "defaultValue": 200
+    },
+    {
+      "name": "top.yousj.time-cost.excludes",
+      "type": "java.util.List<java.lang.String>",
+      "description": "排除的bean",
+      "sourceType": "top.yousj.core.properties.TimeCostProperties"
     }
   ],
   "hints": []

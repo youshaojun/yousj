@@ -12,4 +12,6 @@ public class PropertyConstant {
 
 	public static final String PREFIX = "top.yousj.";
 
+	public static final String TIME_COST = PREFIX + "time-cost";
+
 }

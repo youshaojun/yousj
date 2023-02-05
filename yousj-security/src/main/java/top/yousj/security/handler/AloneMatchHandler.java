@@ -29,6 +29,9 @@ public class AloneMatchHandler implements CustomizeMatchHandler {
 
 	@Override
 	public boolean matchIgnoreUrls(HttpServletRequest request) {
+		if (!securityProperties.isDynamicConfiguration()) {
+			return true;
+		}
 		if (CustomizeConfig.IGNORE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url, request.getMethod()).matches(request))) {
 			return true;
 		}

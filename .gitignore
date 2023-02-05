@@ -1,18 +1,22 @@
 # Created by .ignore support plugin (hsz.mobi)
-### Java template
-# Compiled class file
-*/target/**
+### Java
+HELP.md
+target
+.mvn/
+mvnw
+mvnw.cmd
+!.mvn/wrapper/maven-wrapper.jar
 
-# Log file
+### Log file
 *.log
 
-# BlueJ files
+### BlueJ files
 *.ctxt
 
-# Mobile Tools for Java (J2ME)
+### Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+### Package Files
 *.jar
 *.war
 *.nar
@@ -21,7 +25,7 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+### virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
 ### VisualStudioCode template
@@ -31,8 +35,28 @@ hs_err_pid*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-### IDEA
-.idea/*
+### IntelliJ IDEA
+.idea
+*.iws
 *.iml
+*.ipr
+
+### NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/
+
+
+### STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
 

@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
-import top.yousj.security.filter.JwtAuthenticationFilter;
 
 /**
  * @author yousj
@@ -22,7 +21,7 @@ import top.yousj.security.filter.JwtAuthenticationFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityFilterChainConfigAutoConfigure {
 
-	public final HttpSecurityConfig httpSecurityConfig;
+	private final HttpSecurityConfig httpSecurityConfig;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,12 +29,9 @@ public class SecurityFilterChainConfigAutoConfigure {
 		return http.build();
 	}
 
-	/**
-	 * 开启动态加载配置放行所有请求, 认证由 {@link JwtAuthenticationFilter} 处理
-	 */
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring().antMatchers("/**");
+		return web -> web.ignoring().antMatchers(httpSecurityConfig.getAntMatchers());
 	}
 
 }
