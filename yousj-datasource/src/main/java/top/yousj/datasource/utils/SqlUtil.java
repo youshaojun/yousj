@@ -24,7 +24,7 @@ public class SqlUtil {
 		return SqlScriptUtils.convertTrim(tableInfo.getAllInsertSqlPropertyMaybeIf(null), StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET, null, StringPool.COMMA);
 	}
 
-	public static AbstractWrapper wrapWithMain(AbstractWrapper wrapper) {
+	public static AbstractWrapper withMain(AbstractWrapper wrapper) {
 		wrapper.first(MAIN);
 		return wrapper;
 	}
