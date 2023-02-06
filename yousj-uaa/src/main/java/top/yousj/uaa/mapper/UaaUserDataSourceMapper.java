@@ -1,7 +1,7 @@
 package top.yousj.uaa.mapper;
 
+import top.yousj.datasource.mapper.CustomizeBaseMapper;
 import top.yousj.uaa.entity.po.UaaUserDataSource;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author yousj
  * @since 2023-01-15
  */
-public interface UaaUserDataSourceMapper extends BaseMapper<UaaUserDataSource> {
+public interface UaaUserDataSourceMapper extends CustomizeBaseMapper<UaaUserDataSource> {
 
 }
