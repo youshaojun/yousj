@@ -1,7 +1,7 @@
-package top.yousj.web.annotation;
+package top.yousj.commons.annotation;
 
 import org.springframework.context.annotation.Import;
-import top.yousj.web.config.JacksonConfiguration;
+import top.yousj.commons.config.jackson.JacksonConfiguration;
 
 import java.lang.annotation.*;
 

@@ -1,4 +1,4 @@
-package top.yousj.web.date;
+package top.yousj.commons.date;
 
 import com.fasterxml.jackson.core.json.PackageVersion;
 import com.fasterxml.jackson.databind.module.SimpleModule;
