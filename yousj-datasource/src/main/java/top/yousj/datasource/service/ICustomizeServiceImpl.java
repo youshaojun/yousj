@@ -9,7 +9,7 @@ import top.yousj.datasource.utils.SqlUtil;
  * @author yousj
  * @since 2023-02-06
  */
-public class ICustomizeServiceImpl <M extends CustomizeBaseMapper<T>, T> extends ServiceImpl<M, T> implements ICustomizeService<T> {
+public class ICustomizeServiceImpl<M extends CustomizeBaseMapper<T>, T> extends ServiceImpl<M, T> implements ICustomizeService<T> {
 
 	@Override
 	public int replaceInto(T entity) {
