@@ -1,7 +1,9 @@
 package top.yousj.datasource.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import top.yousj.datasource.mapper.CustomizeBaseMapper;
+import top.yousj.datasource.utils.SqlUtil;
 
 /**
  * @author yousj
@@ -18,4 +20,10 @@ public class ICustomizeServiceImpl <M extends CustomizeBaseMapper<T>, T> extends
 	public int insertOnDuplicateKeyUpdate(T entity) {
 		return baseMapper.insertOnDuplicateKeyUpdate(entity);
 	}
+
+	@Override
+	public T getOneWithMain(Wrapper<T> wrapper) {
+		return baseMapper.selectOne(SqlUtil.withMain(wrapper));
+	}
+
 }

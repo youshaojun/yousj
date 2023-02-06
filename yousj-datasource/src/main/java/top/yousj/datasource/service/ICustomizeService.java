@@ -1,5 +1,6 @@
 package top.yousj.datasource.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,5 +12,7 @@ public interface ICustomizeService<T> extends IService<T> {
 	int replaceInto(T entity);
 
 	int insertOnDuplicateKeyUpdate(T entity);
+
+	T getOneWithMain(Wrapper<T> wrapper);
 
 }

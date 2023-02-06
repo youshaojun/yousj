@@ -1,6 +1,7 @@
 package top.yousj.datasource.utils;
 
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
@@ -24,8 +25,8 @@ public class SqlUtil {
 		return SqlScriptUtils.convertTrim(tableInfo.getAllInsertSqlPropertyMaybeIf(null), StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET, null, StringPool.COMMA);
 	}
 
-	public static AbstractWrapper withMain(AbstractWrapper wrapper) {
-		wrapper.first(MAIN);
+	public static <T> Wrapper<T> withMain(Wrapper<T> wrapper) {
+		((AbstractWrapper) wrapper).first(MAIN);
 		return wrapper;
 	}
 
