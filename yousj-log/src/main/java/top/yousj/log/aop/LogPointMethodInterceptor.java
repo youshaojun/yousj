@@ -11,9 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import top.yousj.core.constant.UaaConstant;
-import top.yousj.core.entity.R;
-import top.yousj.core.utils.UaaUtil;
+import top.yousj.commons.constant.UaaConstant;
+import top.yousj.commons.entity.R;
+import top.yousj.commons.utils.UaaUtil;
 import top.yousj.log.constant.PropertyConstant;
 
 import javax.servlet.ServletRequest;

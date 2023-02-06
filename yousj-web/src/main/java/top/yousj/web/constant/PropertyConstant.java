@@ -3,7 +3,7 @@ package top.yousj.web.constant;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import static top.yousj.core.constant.PropertyConstant.PREFIX;
+import static top.yousj.commons.constant.PropertyConstant.PREFIX;
 
 /**
  * @author yousj

@@ -8,10 +8,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import top.yousj.core.enums.ResultCode;
-import top.yousj.core.entity.R;
-import top.yousj.core.exception.AbstractExceptionAdviceHandler;
-import top.yousj.core.exception.BizException;
+import top.yousj.commons.enums.ResultCode;
+import top.yousj.commons.entity.R;
+import top.yousj.commons.exception.AbstractExceptionAdviceHandler;
+import top.yousj.commons.exception.BizException;
 import top.yousj.security.properties.SecurityProperties;
 
 @Slf4j

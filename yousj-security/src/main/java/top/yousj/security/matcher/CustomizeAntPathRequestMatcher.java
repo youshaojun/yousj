@@ -12,7 +12,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UrlPathHelper;
-import top.yousj.core.constant.UaaConstant;
+import top.yousj.commons.constant.UaaConstant;
 
 /**
  * copy {@link org.springframework.security.web.util.matcher.AntPathRequestMatcher}

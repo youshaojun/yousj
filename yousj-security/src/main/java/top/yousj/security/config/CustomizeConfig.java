@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import top.yousj.core.constant.UaaConstant;
+import top.yousj.commons.constant.UaaConstant;
 import top.yousj.security.properties.SecurityProperties;
 
 import java.util.Map;

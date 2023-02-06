@@ -3,9 +3,9 @@ package top.yousj.security.handler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import top.yousj.core.enums.ResultCode;
-import top.yousj.core.exception.BizException;
-import top.yousj.core.utils.SpringUtil;
+import top.yousj.commons.enums.ResultCode;
+import top.yousj.commons.exception.BizException;
+import top.yousj.commons.utils.SpringUtil;
 import top.yousj.security.config.CustomizeConfig;
 import top.yousj.security.properties.SecurityProperties;
 

@@ -1,7 +1,7 @@
 package top.yousj.crypto.handler;
 
 import org.springframework.stereotype.Component;
-import top.yousj.core.utils.AESUtil;
+import top.yousj.commons.utils.AESUtil;
 import top.yousj.crypto.properties.KeyProperties;
 
 /**

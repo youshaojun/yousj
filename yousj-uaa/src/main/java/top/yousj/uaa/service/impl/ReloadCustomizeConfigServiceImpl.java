@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
-import top.yousj.core.entity.R;
+import top.yousj.commons.entity.R;
 import top.yousj.security.config.CustomizeConfig;
 import top.yousj.uaa.entity.po.UaaAuthUrlConfig;
 import top.yousj.uaa.entity.po.UaaUserDataSource;

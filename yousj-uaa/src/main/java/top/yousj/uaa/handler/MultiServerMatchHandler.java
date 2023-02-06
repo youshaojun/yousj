@@ -2,8 +2,8 @@ package top.yousj.uaa.handler;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import top.yousj.core.enums.ResultCode;
-import top.yousj.core.exception.BizException;
+import top.yousj.commons.enums.ResultCode;
+import top.yousj.commons.exception.BizException;
 import top.yousj.redis.utils.RedisUtil;
 import top.yousj.security.config.CustomizeConfig;
 import top.yousj.security.handler.CustomizeMatchHandler;

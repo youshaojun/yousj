@@ -22,7 +22,7 @@
 	<modules>
 		<module>yousj-all</module>
 		<module>yousj-bom</module>
-		<module>yousj-core</module>
+		<module>yousj-commons</module>
 		<module>yousj-datasource</module>
 		<module>yousj-crypto</module>
 		<module>yousj-excel</module>

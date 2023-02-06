@@ -2,7 +2,7 @@ package top.yousj.uaa.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import top.yousj.core.entity.R;
+import top.yousj.commons.entity.R;
 import top.yousj.security.utils.JwtUtil;
 import top.yousj.uaa.entity.vo.request.LoginRequest;
 

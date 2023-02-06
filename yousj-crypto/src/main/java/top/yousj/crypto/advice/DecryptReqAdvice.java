@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
-import top.yousj.core.constant.StrPool;
+import top.yousj.commons.constant.StrPool;
 import top.yousj.crypto.annotation.Decrypt;
 import top.yousj.crypto.constant.PropertyConstant;
 import top.yousj.crypto.utils.AdviceCryptUtil;

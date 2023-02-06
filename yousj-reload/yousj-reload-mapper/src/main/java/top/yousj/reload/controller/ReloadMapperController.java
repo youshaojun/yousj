@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import top.yousj.core.entity.R;
-import top.yousj.core.utils.ExportUtil;
-import top.yousj.core.utils.SpringUtil;
+import top.yousj.commons.entity.R;
+import top.yousj.commons.utils.ExportUtil;
+import top.yousj.commons.utils.SpringUtil;
 import top.yousj.reload.service.MapperReloadService;
 
 import javax.annotation.PostConstruct;

@@ -12,10 +12,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import top.yousj.core.constant.UaaConstant;
-import top.yousj.core.entity.R;
-import top.yousj.core.enums.ResultCode;
-import top.yousj.core.utils.UaaUtil;
+import top.yousj.commons.constant.UaaConstant;
+import top.yousj.commons.entity.R;
+import top.yousj.commons.enums.ResultCode;
+import top.yousj.commons.utils.UaaUtil;
 import top.yousj.redis.utils.RedisUtil;
 import top.yousj.security.handler.CustomizeMatchHandler;
 import top.yousj.security.exception.SecurityExceptionAdviceHandler;
