@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Font;
+import org.springframework.boot.context.properties.PropertyMapper;
 import top.yousj.commons.enums.FileTypeEnum;
 import top.yousj.commons.utils.ExportUtil;
 import top.yousj.excel.handler.MarkCellWriteHandler;
@@ -76,13 +77,10 @@ public class ExcelUtil {
 			.needHead(true)
 			.autoTrim(true)
 			.registerWriteHandler(new MarkCellWriteHandler());
-		if (Objects.nonNull(defaultStyle)) {
-			writerBuilder.registerWriteHandler(defaultStyle);
-		}
-		if (Objects.nonNull(simpleColumnWidthStyleStrategy)) {
-			writerBuilder.registerWriteHandler(simpleColumnWidthStyleStrategy);
-		}
-		Arrays.stream(cellWriteHandlers).forEach(writerBuilder::registerWriteHandler);
+		PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
+		propertyMapper.from(defaultStyle).to(writerBuilder::registerWriteHandler);
+		propertyMapper.from(simpleColumnWidthStyleStrategy).to(writerBuilder::registerWriteHandler);
+		Arrays.stream(cellWriteHandlers).forEach(e -> propertyMapper.from(e).to(writerBuilder::registerWriteHandler));
 		return writerBuilder.build();
 	}
 
