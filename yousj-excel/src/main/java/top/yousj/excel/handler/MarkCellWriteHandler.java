@@ -2,10 +2,10 @@ package top.yousj.excel.handler;
 
 import com.alibaba.excel.metadata.Head;
 import com.alibaba.excel.metadata.data.WriteCellData;
-import com.alibaba.excel.util.StringUtils;
 import com.alibaba.excel.write.handler.CellWriteHandler;
 import com.alibaba.excel.write.metadata.holder.WriteSheetHolder;
 import com.alibaba.excel.write.metadata.holder.WriteTableHolder;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import top.yousj.excel.utils.ExcelUtil;
 
@@ -30,8 +30,11 @@ public class MarkCellWriteHandler implements CellWriteHandler {
 	}
 
 	private void setCellMark(WriteSheetHolder writeSheetHolder, Cell cell, ExcelUtil.Mark mark) {
-		CreationHelper createHelper = writeSheetHolder.getSheet().getWorkbook().getCreationHelper();
 		String stringCellValue = cell.getStringCellValue();
+		if (!(StringUtils.contains(stringCellValue, mark.getPre()) && StringUtils.contains(stringCellValue, mark.getPost()))) {
+			return;
+		}
+		CreationHelper createHelper = writeSheetHolder.getSheet().getWorkbook().getCreationHelper();
 		int preMarkLength = mark.getPre().length();
 		int postMarkLength = mark.getPost().length();
 		int totalMarkLength = preMarkLength + postMarkLength;
