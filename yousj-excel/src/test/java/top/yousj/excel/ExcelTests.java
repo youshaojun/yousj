@@ -6,10 +6,7 @@ import top.yousj.commons.enums.FileTypeEnum;
 import top.yousj.excel.handler.ContentCellStylePostWriteHandler;
 import top.yousj.excel.handler.MultiSheetUrlCellWriteHandler;
 import top.yousj.excel.handler.UrlCellWriteHandler;
-import top.yousj.excel.model.ExcelData;
-import top.yousj.excel.model.Model01;
-import top.yousj.excel.model.Model02;
-import top.yousj.excel.model.Model03;
+import top.yousj.excel.model.*;
 import top.yousj.excel.utils.ExcelUtil;
 
 import java.util.Arrays;
@@ -21,7 +18,7 @@ public class ExcelTests {
 	 * 设置高亮标记
 	 */
 	@Test
-	void mark() {
+	void markTest() {
 		ExcelData excelData = new ExcelData("测试一下", Model01.class, Collections.singletonList(new Model01()));
 		ExcelUtil.write(FileTypeEnum.XLSX, excelData);
 		ExcelUtil.writeWithSimpleColumnWidth(FileTypeEnum.XLSX, excelData);
@@ -31,7 +28,7 @@ public class ExcelTests {
 	 * 设置超链接(列即是url)
 	 */
 	@Test
-	void setUrl01() {
+	void setUrlTest01() {
 		ExcelData excelData = new ExcelData("测试一下", Model02.class, Arrays.asList(new Model02(), new Model02("测试一下", "")));
 		ExcelUtil.writeWithSimpleColumnWidth(FileTypeEnum.XLSX, excelData, new UrlCellWriteHandler());
 	}
@@ -42,7 +39,7 @@ public class ExcelTests {
 	 */
 	@SneakyThrows
 	@Test
-	void setUrl02() {
+	void setUrlTest02() {
 		ExcelData excelData = new ExcelData("测试一下", Model03.class,
 			Arrays.asList(new Model03(),
 				new Model03("测试一下", ExcelUtil.OBJECT_MAPPER.writeValueAsString(new ExcelUtil.Hyperlink("测试一下", ""))),
@@ -59,7 +56,7 @@ public class ExcelTests {
 	 * 多sheet
 	 */
 	@Test
-	void setMultiSheet() {
+	void setMultiSheetTest() {
 		MultiSheetUrlCellWriteHandler multiSheetUrlCellWriteHandler = new MultiSheetUrlCellWriteHandler();
 		multiSheetUrlCellWriteHandler.setMultiSheets(Arrays.asList(
 			new MultiSheetUrlCellWriteHandler.MultiSheet("工作表01", 1),
@@ -74,6 +71,15 @@ public class ExcelTests {
 			multiSheetUrlCellWriteHandler,
 			new ContentCellStylePostWriteHandler()
 		);
+	}
+
+	/**
+	 * 注解操作
+	 */
+	@Test
+	void usedAnnotationTest() {
+		ExcelData excelData = new ExcelData("测试一下", Model04.class, Arrays.asList(new Model04(), new Model04()));
+		ExcelUtil.writeWithAnnotation(FileTypeEnum.XLSX, excelData, new UrlCellWriteHandler());
 	}
 
 }

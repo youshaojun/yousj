@@ -5,6 +5,7 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.handler.CellWriteHandler;
 import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.excel.write.style.AbstractCellStyleStrategy;
 import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
@@ -29,36 +30,31 @@ public class ExcelUtil {
 	public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
 	public static File write(FileTypeEnum fileTypeEnum, ExcelData data, CellWriteHandler... cellWriteHandlers) {
-		return write(fileTypeEnum, Collections.singletonList(data), null, cellWriteHandlers);
+		return write(fileTypeEnum, Collections.singletonList(data), StyleUtil.defaultStyle(), null, cellWriteHandlers);
 	}
 
 	public static File write(FileTypeEnum fileTypeEnum, List<ExcelData> dataList, CellWriteHandler... cellWriteHandlers) {
-		return write(fileTypeEnum, dataList, null, cellWriteHandlers);
+		return write(fileTypeEnum, dataList, StyleUtil.defaultStyle(), null, cellWriteHandlers);
+	}
+
+	public static File writeWithAnnotation(FileTypeEnum fileTypeEnum, ExcelData data, CellWriteHandler... cellWriteHandlers) {
+		return write(fileTypeEnum, Collections.singletonList(data), null, null, cellWriteHandlers);
 	}
 
 	public static File writeWithSimpleColumnWidth(FileTypeEnum fileTypeEnum, ExcelData data, CellWriteHandler... cellWriteHandlers) {
-		return write(fileTypeEnum, Collections.singletonList(data), new SimpleColumnWidthStyleStrategy(30), cellWriteHandlers);
+		return write(fileTypeEnum, Collections.singletonList(data), StyleUtil.defaultStyle(), new SimpleColumnWidthStyleStrategy(30), cellWriteHandlers);
 	}
 
 	public static File writeWithSimpleColumnWidth(FileTypeEnum fileTypeEnum, List<ExcelData> dataList, CellWriteHandler... cellWriteHandlers) {
-		return write(fileTypeEnum, dataList, new SimpleColumnWidthStyleStrategy(30), cellWriteHandlers);
+		return write(fileTypeEnum, dataList, StyleUtil.defaultStyle(), new SimpleColumnWidthStyleStrategy(30), cellWriteHandlers);
 	}
 
 	@SneakyThrows
-	public static File write(FileTypeEnum fileTypeEnum, List<ExcelData> dataList, SimpleColumnWidthStyleStrategy simpleColumnWidthStyleStrategy, CellWriteHandler... cellWriteHandlers) {
+	public static File write(FileTypeEnum fileTypeEnum, List<ExcelData> dataList, AbstractCellStyleStrategy defaultStyle,
+							 SimpleColumnWidthStyleStrategy simpleColumnWidthStyleStrategy, CellWriteHandler... cellWriteHandlers) {
 		File file = ExportUtil.newFile(fileTypeEnum);
 		try (FileOutputStream out = new FileOutputStream(file)) {
-			ExcelWriterBuilder writerBuilder = EasyExcel.write(out)
-				.inMemory(true)
-				.needHead(true)
-				.autoTrim(true)
-				.registerWriteHandler(StyleUtil.defaultStyle())
-				.registerWriteHandler(new MarkCellWriteHandler());
-			if (Objects.nonNull(simpleColumnWidthStyleStrategy)) {
-				writerBuilder.registerWriteHandler(simpleColumnWidthStyleStrategy);
-			}
-			Arrays.stream(cellWriteHandlers).forEach(writerBuilder::registerWriteHandler);
-			ExcelWriter writer = writerBuilder.build();
+			ExcelWriter writer = getExcelWriter(out, defaultStyle, simpleColumnWidthStyleStrategy, cellWriteHandlers);
 			for (int i = 0; i < dataList.size(); i++) {
 				ExcelData excelData = dataList.get(i);
 				WriteSheet writeSheet = new WriteSheet();
@@ -71,6 +67,23 @@ public class ExcelUtil {
 			writer.finish();
 		}
 		return file;
+	}
+
+	public static ExcelWriter getExcelWriter(FileOutputStream out, AbstractCellStyleStrategy defaultStyle,
+											 SimpleColumnWidthStyleStrategy simpleColumnWidthStyleStrategy, CellWriteHandler... cellWriteHandlers) {
+		ExcelWriterBuilder writerBuilder = EasyExcel.write(out)
+			.inMemory(true)
+			.needHead(true)
+			.autoTrim(true)
+			.registerWriteHandler(new MarkCellWriteHandler());
+		if (Objects.nonNull(defaultStyle)) {
+			writerBuilder.registerWriteHandler(defaultStyle);
+		}
+		if (Objects.nonNull(simpleColumnWidthStyleStrategy)) {
+			writerBuilder.registerWriteHandler(simpleColumnWidthStyleStrategy);
+		}
+		Arrays.stream(cellWriteHandlers).forEach(writerBuilder::registerWriteHandler);
+		return writerBuilder.build();
 	}
 
 	public static String mark(String source, Mark mark) {
