@@ -6,21 +6,27 @@
 <pre><code>.
 ├─yousj-all
 ├─yousj-bom
-├─yousj-core 常用工具
+├─yousj-commons  常用工具
 │  └─src
 │      └─main
 │          ├─java
 │          │  └─top
 │          │      └─yousj
-│          │          └─core
+│          │          └─commons
+│          │              ├─annotation
+│          │              ├─config
+│          │              │  ├─jackson
+│          │              │  └─timecost
 │          │              ├─constant
+│          │              ├─date
 │          │              ├─entity
 │          │              ├─enums
 │          │              ├─exception
+│          │              ├─properties
 │          │              └─utils
 │          └─resources
 │              └─META-INF
-├─yousj-crypto 加解密
+├─yousj-crypto  加解密
 │  └─src
 │      └─main
 │          ├─java
@@ -35,7 +41,7 @@
 │          │              └─utils
 │          └─resources
 │              └─META-INF
-├─yousj-datasource 数据源
+├─yousj-datasource  数据源
 │  └─src
 │      └─main
 │          ├─java
@@ -45,27 +51,40 @@
 │          │              ├─config
 │          │              ├─convert
 │          │              ├─entity
-│          │              └─interceptor
+│          │              ├─handler
+│          │              ├─injector
+│          │              │  ├─enums
+│          │              │  └─methods
+│          │              ├─interceptor
+│          │              ├─mapper
+│          │              ├─service
+│          │              └─utils
 │          └─resources
 │              └─META-INF
-├─yousj-excel easyexcel
+├─yousj-excel  easyexcel
 │  └─src
-│      └─main
+│      ├─main
+│      │  └─java
+│      │      └─top
+│      │          └─yousj
+│      │              └─excel
+│      │                  ├─handler
+│      │                  ├─model
+│      │                  └─utils
+│      └─test
 │          └─java
 │              └─top
 │                  └─yousj
 │                      └─excel
-│                          ├─handler
-│                          ├─strategy
-│                          └─utils
-├─yousj-exception 异常处理
+│                          └─model
+├─yousj-exception  异常处理
 │  └─src
 │      └─main
 │          └─java
 │              └─top
 │                  └─yousj
 │                      └─exception
-├─yousj-log 日志
+├─yousj-log  日志
 │  └─src
 │      └─main
 │          ├─java
@@ -78,7 +97,7 @@
 │          │              └─properties
 │          └─resources
 │              └─META-INF
-├─yousj-redis 缓存
+├─yousj-redis
 │  └─src
 │      └─main
 │          ├─java
@@ -94,7 +113,7 @@
 │          └─resources
 │              └─META-INF
 ├─yousj-reload 热部署
-│  ├─yousj-reload-class 热部署class[参考](https://gitee.com/huoyo/ko-time)
+│  ├─yousj-reload-class  热部署class[参考koTime](https://github.com/huoyo/ko-time.git)
 │  │  └─src
 │  │      └─main
 │  │          ├─java
@@ -109,7 +128,7 @@
 │  │                      └─maven
 │  │                          └─cn.langpy
 │  │                              └─ko-time-retrans
-│  └─yousj-reload-mapper 热部署mapper[待验证]
+│  └─yousj-reload-mapper  热部署mapper(待验证)
 │      └─src
 │          └─main
 │              └─java
@@ -118,7 +137,7 @@
 │                          └─reload
 │                              ├─controller
 │                              └─service
-├─yousj-security 认证鉴权
+├─yousj-security  鉴权
 │  └─src
 │      └─main
 │          ├─java
@@ -131,12 +150,13 @@
 │          │              ├─exception
 │          │              ├─filter
 │          │              ├─handler
+│          │              ├─holder
 │          │              ├─matcher
 │          │              ├─properties
 │          │              └─utils
 │          └─resources
 │              └─META-INF
-├─yousj-swagger swagger文档
+├─yousj-swagger  swagger文档
 │  └─src
 │      └─main
 │          ├─java
@@ -149,7 +169,8 @@
 │          │              └─spring
 │          └─resources
 │              └─META-INF
-├─yousj-uaa 统一认证服务
+├─yousj-uaa  统一鉴权
+│  ├─doc
 │  └─src
 │      ├─main
 │      │  ├─java
@@ -182,7 +203,10 @@
             │          └─web
             │              ├─annotation
             │              ├─config
-            │              └─date
+            │              ├─constant
+            │              ├─controller
+            │              ├─properties
+            │              └─rest
             └─resources
                 └─META-INF
 </code></pre>
