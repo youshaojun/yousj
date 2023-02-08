@@ -16,6 +16,7 @@ import java.util.Objects;
 
 /**
  * 多sheet列表设置源链接可点击
+ *
  * @author yousj
  * @since 2022-12-29
  */
@@ -41,6 +42,8 @@ public class MultiSheetUrlCellWriteHandler implements CellWriteHandler {
 	}
 
 	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
 	public static class MultiSheet {
 
 		private String sheetName;

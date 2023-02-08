@@ -52,11 +52,11 @@ public class ExportUtil {
 	}
 
 	public static File newFile(FileTypeEnum fileTypeEnum) {
-		return new File(createPath(fileTypeEnum));
+		return mkdirs(new File(createPath(fileTypeEnum)));
 	}
 
 	public static File newFile(String suffix) {
-		return new File(createPath(suffix));
+		return mkdirs(new File(createPath(suffix)));
 	}
 
 	public static String createPath(FileTypeEnum fileTypeEnum) {
@@ -74,6 +74,19 @@ public class ExportUtil {
 
 	public static String createPath(String dir, String suffix) {
 		return dir + "/" + DateFormatUtils.format(new Date(), "yyyyMMdd") + "/" + UUID.randomUUID().toString() + "." + suffix;
+	}
+
+	@SneakyThrows
+	public static File mkdirs(File file) {
+		if (file.exists()) {
+			return file;
+		}
+		File parentFile = file.getParentFile();
+		if (!parentFile.exists()) {
+			parentFile.mkdirs();
+		}
+		file.createNewFile();
+		return file;
 	}
 
 }

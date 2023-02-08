@@ -5,17 +5,15 @@ import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.write.handler.CellWriteHandler;
 import com.alibaba.excel.write.metadata.holder.WriteSheetHolder;
 import com.alibaba.excel.write.metadata.holder.WriteTableHolder;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Hyperlink;
-import top.yousj.excel.utils.ExportExcelUtil;
-import top.yousj.excel.utils.StyleUtil;
+import top.yousj.excel.utils.ExcelUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,7 +41,7 @@ public class UrlCellWriteHandler implements CellWriteHandler {
 
 	/**
 	 * 默认使用当前url值作为CellValue
-	 * {@code false} {@link ExportExcelUtil.Hyperlink}
+	 * {@code false} {@link ExcelUtil.Hyperlink}
 	 */
 	private boolean useDefaultCellValue = true;
 
@@ -51,8 +49,6 @@ public class UrlCellWriteHandler implements CellWriteHandler {
 		this.columnIndex = columnIndex;
 		this.ignoreStr = ignoreStr;
 	}
-
-	private static CellStyle defaultCellStyle = null;
 
 	@Override
 	public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
@@ -68,6 +64,9 @@ public class UrlCellWriteHandler implements CellWriteHandler {
 	public static void setHyperlink(WriteSheetHolder writeSheetHolder, Cell cell, boolean useDefaultCellValue, String ignoreStr) {
 		CreationHelper helper = writeSheetHolder.getSheet().getWorkbook().getCreationHelper();
 		String cellValue = cell.getStringCellValue();
+		if (StringUtils.isBlank(cellValue) || cellValue.equals(ignoreStr)) {
+			return;
+		}
 		// 列的值就是url
 		if (useDefaultCellValue) {
 			Hyperlink hyperlink = helper.createHyperlink(HyperlinkType.URL);
@@ -77,18 +76,12 @@ public class UrlCellWriteHandler implements CellWriteHandler {
 		}
 		// 列的值不是url
 		try {
-			ExportExcelUtil.Hyperlink hyperlinkProperties = new ObjectMapper().readValue(cellValue, ExportExcelUtil.Hyperlink.class);
+			ExcelUtil.Hyperlink hyperlinkProperties = ExcelUtil.OBJECT_MAPPER.readValue(cellValue, ExcelUtil.Hyperlink.class);
 			cell.setCellValue(hyperlinkProperties.getCellValue());
-			// 如果url为空, 重置内容样式
 			String url = hyperlinkProperties.getUrl();
-			if (Objects.isNull(url) || "".equals(url) || url.equals(ignoreStr)) {
-				if (Objects.isNull(defaultCellStyle)) {
-					defaultCellStyle = StyleUtil.buildContentCellStyle(writeSheetHolder);
-				}
-				cell.setCellStyle(defaultCellStyle);
+			if (StringUtils.isBlank(url) || url.equals(ignoreStr)) {
 				return;
 			}
-
 			Hyperlink hyperlink = helper.createHyperlink(HyperlinkType.URL);
 			hyperlink.setAddress(hyperlinkProperties.getUrl());
 			cell.setHyperlink(hyperlink);
