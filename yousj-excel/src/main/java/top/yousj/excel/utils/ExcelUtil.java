@@ -8,16 +8,16 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Font;
 import top.yousj.commons.enums.FileTypeEnum;
 import top.yousj.commons.utils.ExportUtil;
 import top.yousj.excel.handler.MarkCellWriteHandler;
+import top.yousj.excel.model.ExcelData;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author yousj
@@ -28,30 +28,45 @@ public class ExcelUtil {
 
 	public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-	public static File write(FileTypeEnum fileTypeEnum, String sheetName, Class<?> clazz, List<?> data, CellWriteHandler... cellWriteHandlers) {
-		return write(fileTypeEnum, Collections.singletonList(sheetName), clazz, Collections.singletonList(data), cellWriteHandlers);
+	public static File write(FileTypeEnum fileTypeEnum, ExcelData data, CellWriteHandler... cellWriteHandlers) {
+		return write(fileTypeEnum, Collections.singletonList(data), null, cellWriteHandlers);
+	}
+
+	public static File write(FileTypeEnum fileTypeEnum, List<ExcelData> dataList, CellWriteHandler... cellWriteHandlers) {
+		return write(fileTypeEnum, dataList, null, cellWriteHandlers);
+	}
+
+	public static File writeWithSimpleColumnWidth(FileTypeEnum fileTypeEnum, ExcelData data, CellWriteHandler... cellWriteHandlers) {
+		return write(fileTypeEnum, Collections.singletonList(data), new SimpleColumnWidthStyleStrategy(30), cellWriteHandlers);
+	}
+
+	public static File writeWithSimpleColumnWidth(FileTypeEnum fileTypeEnum, List<ExcelData> dataList, CellWriteHandler... cellWriteHandlers) {
+		return write(fileTypeEnum, dataList, new SimpleColumnWidthStyleStrategy(30), cellWriteHandlers);
 	}
 
 	@SneakyThrows
-	public static File write(FileTypeEnum fileTypeEnum, List<String> sheetNames, Class<?> clazz, List<List<?>> dataList, CellWriteHandler... cellWriteHandlers) {
+	public static File write(FileTypeEnum fileTypeEnum, List<ExcelData> dataList, SimpleColumnWidthStyleStrategy simpleColumnWidthStyleStrategy, CellWriteHandler... cellWriteHandlers) {
 		File file = ExportUtil.newFile(fileTypeEnum);
 		try (FileOutputStream out = new FileOutputStream(file)) {
-			ExcelWriterBuilder writerBuilder = EasyExcel.write(out, clazz)
+			ExcelWriterBuilder writerBuilder = EasyExcel.write(out)
 				.inMemory(true)
 				.needHead(true)
 				.autoTrim(true)
 				.registerWriteHandler(StyleUtil.defaultStyle())
-				.registerWriteHandler(new SimpleColumnWidthStyleStrategy(30))
 				.registerWriteHandler(new MarkCellWriteHandler());
+			if (Objects.nonNull(simpleColumnWidthStyleStrategy)) {
+				writerBuilder.registerWriteHandler(simpleColumnWidthStyleStrategy);
+			}
 			Arrays.stream(cellWriteHandlers).forEach(writerBuilder::registerWriteHandler);
 			ExcelWriter writer = writerBuilder.build();
 			for (int i = 0; i < dataList.size(); i++) {
+				ExcelData excelData = dataList.get(i);
 				WriteSheet writeSheet = new WriteSheet();
-				writeSheet.setClazz(clazz);
+				writeSheet.setClazz(excelData.getClazz());
 				writeSheet.setAutoTrim(true);
 				writeSheet.setSheetNo(i + 1);
-				writeSheet.setSheetName(sheetNames.get(i));
-				writer.write(dataList.get(i), writeSheet);
+				writeSheet.setSheetName(excelData.getSheetName());
+				writer.write(excelData.getDataList(), writeSheet);
 			}
 			writer.finish();
 		}
@@ -59,6 +74,9 @@ public class ExcelUtil {
 	}
 
 	public static String mark(String source, Mark mark) {
+		if (StringUtils.isBlank(source)) {
+			return source;
+		}
 		return mark.getPre() + source + mark.getPost();
 	}
 
@@ -66,12 +84,14 @@ public class ExcelUtil {
 	@Getter
 	@AllArgsConstructor
 	public enum Mark {
-
 		/**
-		 *
+		 * <a href="https://www.cnblogs.com/xy2401/p/3295965.html"/>
 		 */
 		RED("<red>", "</red>", Font.COLOR_RED, "红色"),
+		GREEN("<green>", "</green>", (short) 11, "绿色"),
 		BLUE("<blue>", "</blue>", (short) 12, "蓝色"),
+		YELLOW("<yellow>", "</yellow>", (short) 13, "黄色"),
+		PINK("<pink>", "</pink>", (short) 14, "粉色"),
 		BLACK("<black>", "</black>", Font.COLOR_NORMAL, "黑色"),
 
 		;
