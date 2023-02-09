@@ -12,8 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import top.yousj.log.constant.PropertyConstant;
 import top.yousj.log.properties.LogProperties;
 
-import java.util.Objects;
-
 /**
  * @author yousj
  * @since 2023-01-04
@@ -30,16 +28,12 @@ public class LogPointAdvice {
 
 	@Bean
 	@ConditionalOnMissingBean
-	public LogPointHandler logPointHandler() {
-		return logMap -> {
-			if (Objects.nonNull(logMap)) {
-				log.info(objectMapper.writeValueAsString(logMap));
-			}
-		};
+	public LogPointHandler defaultLogPointHandler() {
+		return logMap -> log.info(objectMapper.writeValueAsString(logMap));
 	}
 
 	@Bean
-	public AspectJExpressionPointcutAdvisor webLogPointAdvisor(LogPointMethodInterceptor logPointMethodInterceptor) {
+	public AspectJExpressionPointcutAdvisor logPointAdvisor(LogPointMethodInterceptor logPointMethodInterceptor) {
 		AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
 		advisor.setAdvice(logPointMethodInterceptor);
 		LogProperties.Aop aopProperties = logProperties.getAop();
