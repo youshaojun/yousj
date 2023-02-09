@@ -48,18 +48,21 @@ public class JwtUtil {
 			.claim(UaaConstant.UID, uid);
 		builder.setExpiration(DateUtil.forever());
 		String jwtToken = builder.compact();
-		RedisUtil.put(jwt.getSignKey() + username, jwtToken, jwt.getTtl(), TimeUnit.MILLISECONDS);
+		if (jwt.isRenewal()) {
+			RedisUtil.put(jwt.getSignKey() + username, jwtToken, jwt.getTtl(), TimeUnit.MILLISECONDS);
+		}
 		return jwtToken;
 	}
 
 	public static String paresJwtToken(String jwtToken) {
 		String subject = getSubject(jwtToken);
 		SecurityProperties.Jwt jwt = customizeMatchHandler.getJwt();
+		if (!jwt.isRenewal()) {
+			return subject;
+		}
 		String key = jwt.getSignKey() + subject;
 		Object v = Optional.ofNullable(RedisUtil.get(key)).orElseThrow(() -> new AccountExpiredException(StrPool.EMPTY));
-		if (jwt.isRenewal()) {
-			RedisUtil.put(key, v, jwt.getTtl(), TimeUnit.MILLISECONDS);
-		}
+		RedisUtil.put(key, v, jwt.getTtl(), TimeUnit.MILLISECONDS);
 		return subject;
 	}
 
