@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Font;
 import org.springframework.boot.context.properties.PropertyMapper;
 import top.yousj.commons.enums.FileTypeEnum;
-import top.yousj.commons.utils.ExportUtil;
+import top.yousj.commons.utils.FileUtil;
 import top.yousj.excel.handler.MarkCellWriteHandler;
 import top.yousj.excel.model.ExcelData;
 
@@ -53,7 +53,7 @@ public class ExcelUtil {
 	@SneakyThrows
 	public static File write(FileTypeEnum fileTypeEnum, List<ExcelData> dataList, AbstractCellStyleStrategy defaultStyle,
 							 SimpleColumnWidthStyleStrategy simpleColumnWidthStyleStrategy, CellWriteHandler... cellWriteHandlers) {
-		File file = ExportUtil.newFile(fileTypeEnum);
+		File file = FileUtil.newFile(fileTypeEnum);
 		try (FileOutputStream out = new FileOutputStream(file)) {
 			ExcelWriter writer = getExcelWriter(out, defaultStyle, simpleColumnWidthStyleStrategy, cellWriteHandlers);
 			for (int i = 0; i < dataList.size(); i++) {

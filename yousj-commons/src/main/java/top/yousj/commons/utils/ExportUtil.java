@@ -3,7 +3,6 @@ package top.yousj.commons.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import top.yousj.commons.enums.FileTypeEnum;
 import top.yousj.commons.constant.StrPool;
 
@@ -12,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.net.URLEncoder;
 import java.nio.file.Files;
-import java.util.Date;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * 导出工具
@@ -49,44 +46,6 @@ public class ExportUtil {
 			stream.write(bytes);
 			stream.flush();
 		}
-	}
-
-	public static File newFile(FileTypeEnum fileTypeEnum) {
-		return mkdirs(new File(createPath(fileTypeEnum)));
-	}
-
-	public static File newFile(String suffix) {
-		return mkdirs(new File(createPath(suffix)));
-	}
-
-	public static String createPath(FileTypeEnum fileTypeEnum) {
-		return createPath(StrPool.TMP, fileTypeEnum);
-	}
-
-	public static String createPath(String suffix) {
-		return createPath(StrPool.TMP, suffix);
-	}
-
-	public static String createPath(String dir, FileTypeEnum fileTypeEnum) {
-		Objects.requireNonNull(fileTypeEnum);
-		return createPath(dir, fileTypeEnum.name().toLowerCase());
-	}
-
-	public static String createPath(String dir, String suffix) {
-		return dir + "/" + DateFormatUtils.format(new Date(), "yyyyMMdd") + "/" + UUID.randomUUID().toString() + "." + suffix;
-	}
-
-	@SneakyThrows
-	public static File mkdirs(File file) {
-		if (file.exists()) {
-			return file;
-		}
-		File parentFile = file.getParentFile();
-		if (!parentFile.exists()) {
-			parentFile.mkdirs();
-		}
-		file.createNewFile();
-		return file;
 	}
 
 }
