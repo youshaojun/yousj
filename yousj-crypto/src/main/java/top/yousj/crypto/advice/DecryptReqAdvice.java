@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAd
 import top.yousj.commons.constant.StrPool;
 import top.yousj.crypto.annotation.Decrypt;
 import top.yousj.crypto.constant.PropertyConstant;
-import top.yousj.crypto.utils.AdviceCryptUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -29,7 +28,7 @@ import java.lang.reflect.Type;
 @ConditionalOnProperty(prefix = PropertyConstant.CRYPTO, name = "decrypt.enable", havingValue = "true", matchIfMissing = true)
 public class DecryptReqAdvice extends RequestBodyAdviceAdapter {
 
-	private final AdviceCryptUtil adviceCryptUtil;
+	private final Converter converter;
 
 	@Override
 	public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -45,7 +44,7 @@ public class DecryptReqAdvice extends RequestBodyAdviceAdapter {
 				byte[] body = new byte[inputMessage.getBody().available()];
 				inputMessage.getBody().read(body);
 				Decrypt decrypt = methodParameter.getMethodAnnotation(Decrypt.class);
-				String decryptBody = adviceCryptUtil.handle(decrypt.handler(), false, decrypt.onlyData(), body);
+				String decryptBody = converter.convert(decrypt.handler(), false, decrypt.onlyData(), body);
 				return new ByteArrayInputStream(decryptBody.getBytes(StrPool.CHARSET_NAME));
 			}
 
