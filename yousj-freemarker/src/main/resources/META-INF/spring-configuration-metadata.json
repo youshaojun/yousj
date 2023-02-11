@@ -1,0 +1,34 @@
+{
+  "groups": [
+    {
+      "name": "top.yousj.freemarker",
+      "type": "top.yousj.freemarker.properties.FreeMarkerProperties",
+      "sourceType": "top.yousj.freemarker.properties.FreeMarkerProperties",
+      "description": "FreeMarker配置"
+    }
+  ],
+  "properties": [
+    {
+      "name": "top.yousj.freemarker.cache",
+      "type": "java.lang.Boolean",
+      "description": "是否开启缓存",
+      "sourceType": "top.yousj.freemarker.properties.FreeMarkerProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "top.yousj.freemarker.base-package-path",
+      "type": "java.lang.String",
+      "description": "模板文件存储位置",
+      "sourceType": "top.yousj.freemarker.properties.FreeMarkerProperties",
+      "defaultValue": "/template"
+    },
+    {
+      "name": "top.yousj.freemarker.template-suffix",
+      "type": "java.lang.String",
+      "description": "模板文件存后缀",
+      "sourceType": "top.yousj.freemarker.properties.FreeMarkerProperties",
+      "defaultValue": ".ftl"
+    }
+  ],
+  "hints": []
+}

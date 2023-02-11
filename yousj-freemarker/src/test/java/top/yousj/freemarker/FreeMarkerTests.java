@@ -2,7 +2,7 @@ package top.yousj.freemarker;
 
 import org.junit.jupiter.api.Test;
 import top.yousj.commons.enums.FileTypeEnum;
-import top.yousj.freemark.utils.FreeMarkUtil;
+import top.yousj.freemarker.utils.FreeMarkUtil;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package top.yousj.freemark.config;
+package top.yousj.freemarker.config;
 
 import freemarker.cache.NullCacheStorage;
 import freemarker.core.XMLOutputFormat;
@@ -9,8 +9,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import top.yousj.commons.constant.StrPool;
-import top.yousj.freemark.properties.FreeMarkerProperties;
-import top.yousj.freemark.utils.FreeMarkUtil;
+import top.yousj.freemarker.properties.FreeMarkerProperties;
+import top.yousj.freemarker.utils.FreeMarkUtil;
 
 /**
  * @author yousj

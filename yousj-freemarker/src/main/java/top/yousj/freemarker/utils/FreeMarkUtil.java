@@ -1,4 +1,4 @@
-package top.yousj.freemark.utils;
+package top.yousj.freemarker.utils;
 
 import freemarker.template.Template;
 import lombok.SneakyThrows;
@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.yousj.commons.enums.FileTypeEnum;
 import top.yousj.commons.utils.FileUtil;
-import top.yousj.freemark.config.FreeMarkerConfigurer;
-import top.yousj.freemark.properties.FreeMarkerProperties;
+import top.yousj.freemarker.config.FreeMarkerConfigurer;
+import top.yousj.freemarker.properties.FreeMarkerProperties;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -39,9 +39,13 @@ public class FreeMarkUtil {
 		return content;
 	}
 
-	@SneakyThrows
 	public static File process(Map<String, Object> data, String templateName, FileTypeEnum fileTypeEnum) {
 		Template template = FreeMarkerConfigurer.getTemplate(templateName, ObjectUtils.defaultIfNull(freeMarkerProperties, new FreeMarkerProperties()));
+		return process(template, data, fileTypeEnum);
+	}
+
+	@SneakyThrows
+	public static File process(Template template, Map<String, Object> data, FileTypeEnum fileTypeEnum) {
 		File file = FileUtil.create(fileTypeEnum);
 		FileOutputStream fos = new FileOutputStream(file);
 		try (Writer out = new BufferedWriter(new OutputStreamWriter(fos))) {
