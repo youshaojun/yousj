@@ -2,6 +2,7 @@ package top.yousj.freemark.utils;
 
 import freemarker.template.Template;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.yousj.commons.enums.FileTypeEnum;
@@ -40,7 +41,7 @@ public class FreeMarkUtil {
 
 	@SneakyThrows
 	public static File process(Map<String, Object> data, String templateName, FileTypeEnum fileTypeEnum) {
-		Template template = FreeMarkerConfigurer.getTemplate(templateName, freeMarkerProperties);
+		Template template = FreeMarkerConfigurer.getTemplate(templateName, ObjectUtils.defaultIfNull(freeMarkerProperties, new FreeMarkerProperties()));
 		File file = FileUtil.create(fileTypeEnum);
 		FileOutputStream fos = new FileOutputStream(file);
 		try (Writer out = new BufferedWriter(new OutputStreamWriter(fos))) {
