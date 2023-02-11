@@ -34,7 +34,7 @@
 		<module>yousj-swagger</module>
 		<module>yousj-web</module>
 		<module>yousj-uaa</module>
-		<module>yousj-freemark</module>
+		<module>yousj-freemarker</module>
 	</modules>
 
 	<properties>
