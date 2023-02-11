@@ -11,7 +11,7 @@
 		<version>1.0.0</version>
 	</parent>
 
-	<artifactId>yousj-freemark</artifactId>
+	<artifactId>yousj-freemarker</artifactId>
 
 	<dependencies>
 		<dependency>
