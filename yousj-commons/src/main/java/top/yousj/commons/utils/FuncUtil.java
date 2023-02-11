@@ -12,11 +12,12 @@ import java.util.function.Supplier;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FuncUtil {
 
-	public static <T> void call(Supplier<T> supplier) {
+	public static <T> T call(Supplier<T> supplier) {
 		try {
-			supplier.get();
+			return supplier.get();
 		} catch (Exception ignored) {
 		}
+		return null;
 	}
 
 }
