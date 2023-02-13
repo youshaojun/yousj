@@ -13,6 +13,11 @@
 
 	<artifactId>yousj-bom</artifactId>
 
+	<properties>
+		<vavr.version>0.10.4</vavr.version>
+		<streamex.version>0.8.1</streamex.version>
+	</properties>
+
 	<dependencyManagement>
 		<dependencies>
 
@@ -81,6 +86,25 @@
 				<artifactId>yousj-swagger</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>top.yousj</groupId>
+				<artifactId>yousj-freemarker</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.vavr</groupId>
+				<artifactId>vavr</artifactId>
+				<version>${vavr.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>one.util</groupId>
+				<artifactId>streamex</artifactId>
+				<version>${streamex.version}</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

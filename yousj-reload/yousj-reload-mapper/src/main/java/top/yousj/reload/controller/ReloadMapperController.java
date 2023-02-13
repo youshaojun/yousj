@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import top.yousj.commons.entity.R;
-import top.yousj.commons.utils.ExportUtil;
+import top.yousj.commons.utils.FileUtil;
 import top.yousj.commons.utils.SpringUtil;
 import top.yousj.reload.service.MapperReloadService;
 
@@ -44,7 +44,7 @@ public class ReloadMapperController {
 	public R<String> updateMapperXml(@RequestParam("mapperXmlFile") MultipartFile mapperXmlFile) {
 		String originalFilename = mapperXmlFile.getOriginalFilename();
 		String suffix = org.apache.commons.lang3.StringUtils.substringAfterLast(originalFilename, ".");
-		File file = ExportUtil.newFile(suffix);
+		File file = FileUtil.create(suffix);
 		Files.copy(mapperXmlFile.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		mapperReloadService.reloadXml(file);
 		return R.ok();

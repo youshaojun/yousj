@@ -53,7 +53,7 @@ public class ExcelUtil {
 	@SneakyThrows
 	public static File write(FileTypeEnum fileTypeEnum, List<ExcelData> dataList, AbstractCellStyleStrategy defaultStyle,
 							 SimpleColumnWidthStyleStrategy simpleColumnWidthStyleStrategy, CellWriteHandler... cellWriteHandlers) {
-		File file = FileUtil.newFile(fileTypeEnum);
+		File file = FileUtil.create(fileTypeEnum);
 		try (FileOutputStream out = new FileOutputStream(file)) {
 			ExcelWriter writer = getExcelWriter(out, defaultStyle, simpleColumnWidthStyleStrategy, cellWriteHandlers);
 			for (int i = 0; i < dataList.size(); i++) {
