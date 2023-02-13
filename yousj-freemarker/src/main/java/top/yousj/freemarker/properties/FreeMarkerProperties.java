@@ -14,8 +14,6 @@ import top.yousj.freemarker.constant.PropertyConstant;
 @ConfigurationProperties(prefix = PropertyConstant.FREEMARKER)
 public class FreeMarkerProperties {
 
-	private boolean cache;
-
 	private String basePackagePath = "/template";
 
 	private String templateSuffix = ".ftl";

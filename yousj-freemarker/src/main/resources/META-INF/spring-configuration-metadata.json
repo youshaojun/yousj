@@ -9,13 +9,6 @@
   ],
   "properties": [
     {
-      "name": "top.yousj.freemarker.cache",
-      "type": "java.lang.Boolean",
-      "description": "是否开启缓存",
-      "sourceType": "top.yousj.freemarker.properties.FreeMarkerProperties",
-      "defaultValue": true
-    },
-    {
       "name": "top.yousj.freemarker.base-package-path",
       "type": "java.lang.String",
       "description": "模板文件存储位置",

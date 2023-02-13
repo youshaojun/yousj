@@ -1,6 +1,5 @@
 package top.yousj.freemarker.config;
 
-import freemarker.cache.NullCacheStorage;
 import freemarker.core.XMLOutputFormat;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -26,9 +25,6 @@ public class FreeMarkerConfigurer {
 		config.setDefaultEncoding(StrPool.CHARSET_NAME);
 		config.setOutputFormat(XMLOutputFormat.INSTANCE);
 		config.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
-		if (!freeMarkerProperties.isCache()) {
-			config.setCacheStorage(NullCacheStorage.INSTANCE);
-		}
 		return config.getTemplate(templateName + freeMarkerProperties.getTemplateSuffix());
 	}
 
