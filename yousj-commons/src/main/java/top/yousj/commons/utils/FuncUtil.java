@@ -12,10 +12,6 @@ import java.util.function.Supplier;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FuncUtil {
 
-	public static <T> void voidCall(Supplier<T> supplier) {
-		 call(supplier, null);
-	}
-
 	public static <T> T call(Supplier<T> supplier) {
 		return call(supplier, null);
 	}
