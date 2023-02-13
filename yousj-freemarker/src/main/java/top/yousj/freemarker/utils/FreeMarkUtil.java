@@ -2,16 +2,13 @@ package top.yousj.freemarker.utils;
 
 import freemarker.template.Template;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import top.yousj.commons.enums.FileTypeEnum;
 import top.yousj.commons.utils.FileUtil;
 import top.yousj.freemarker.config.FreeMarkerConfigurer;
 import top.yousj.freemarker.properties.FreeMarkerProperties;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
 /**
@@ -20,23 +17,23 @@ import java.util.Map;
  */
 public class FreeMarkUtil {
 
-	private static FreeMarkerProperties freeMarkerProperties;
-
-	public FreeMarkUtil(FreeMarkerProperties freeMarkerProperties) {
-		FreeMarkUtil.freeMarkerProperties = freeMarkerProperties;
+	@SneakyThrows
+	public static String asString(Map<String, Object> data, String templateName) {
+		return asString(data, templateName, FreeMarkerProperties.INSTANCE);
 	}
 
 	@SneakyThrows
-	public static String asString(Map<String, Object> data, String templateName) {
-		File file = process(data, templateName, FileTypeEnum.HTML);
-		Path path = Paths.get(file.getAbsolutePath());
-		String content = Files.readString(path);
-		Files.delete(path);
-		return content;
+	public static String asString(Map<String, Object> data, String templateName, FreeMarkerProperties freeMarkerProperties) {
+		Template template = FreeMarkerConfigurer.getTemplate(templateName, freeMarkerProperties);
+		return FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
 	}
 
 	public static File process(Map<String, Object> data, String templateName, FileTypeEnum fileTypeEnum) {
-		Template template = FreeMarkerConfigurer.getTemplate(templateName, ObjectUtils.defaultIfNull(freeMarkerProperties, new FreeMarkerProperties()));
+		return process(data, FreeMarkerProperties.INSTANCE, templateName, fileTypeEnum);
+	}
+
+	public static File process(Map<String, Object> data, FreeMarkerProperties freeMarkerProperties, String templateName, FileTypeEnum fileTypeEnum) {
+		Template template = FreeMarkerConfigurer.getTemplate(templateName, freeMarkerProperties);
 		return process(template, data, fileTypeEnum);
 	}
 

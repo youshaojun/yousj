@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class FreeMarkerProperties {
 
+	public static final FreeMarkerProperties INSTANCE = new FreeMarkerProperties();
+
 	private String basePackagePath = "/template";
 
 	private String templateSuffix = ".ftl";
