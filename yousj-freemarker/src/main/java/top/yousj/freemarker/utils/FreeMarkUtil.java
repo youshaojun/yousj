@@ -3,8 +3,6 @@ package top.yousj.freemarker.utils;
 import freemarker.template.Template;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import top.yousj.commons.enums.FileTypeEnum;
 import top.yousj.commons.utils.FileUtil;
 import top.yousj.freemarker.config.FreeMarkerConfigurer;
@@ -20,12 +18,10 @@ import java.util.Map;
  * @author yousj
  * @since 2023-02-06
  */
-@Component
 public class FreeMarkUtil {
 
 	private static FreeMarkerProperties freeMarkerProperties;
 
-	@Autowired
 	public FreeMarkUtil(FreeMarkerProperties freeMarkerProperties) {
 		FreeMarkUtil.freeMarkerProperties = freeMarkerProperties;
 	}
