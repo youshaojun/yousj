@@ -3,6 +3,8 @@ package top.yousj.commons.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -22,6 +24,18 @@ public class FuncUtil {
 		} catch (Exception ignored) {
 		}
 		return defaultValue;
+	}
+
+	public static <T> void conditionCall(boolean condition, Supplier<T> supplier) {
+		if (condition) {
+			supplier.get();
+		}
+	}
+
+	public static <T> void callIfNotNull(T t, Consumer<T> consumer) {
+		if (Objects.nonNull(t)) {
+			consumer.accept(t);
+		}
 	}
 
 }
