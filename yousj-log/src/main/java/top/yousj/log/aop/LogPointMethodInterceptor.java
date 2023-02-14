@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.slf4j.MDC;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author yousj
@@ -40,54 +42,60 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 
 	@Override
 	public Object invoke(MethodInvocation pjp) throws Throwable {
-		ServletRequestAttributes attributes = null;
-		RequestLog requestLog = null;
 		try {
-			attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-			if (attributes != null) {
-				requestLog = new RequestLog();
-				requestLog.setStartTime(new Date());
-				HttpServletRequest request = attributes.getRequest();
-				requestLog.setServerName(request.getServerName());
-				requestLog.setUri(request.getRequestURI());
-				requestLog.setClassName(pjp.getMethod().getDeclaringClass().getName());
-				requestLog.setMethodName(pjp.getMethod().getName());
-				requestLog.setRequestMethod(request.getMethod());
-				requestLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-				requestLog.setIp(getIpAddr(request));
-				Map<String, Object> requestParameterMap = new HashMap<>();
-				for (Object arg : pjp.getArguments()) {
-					if (arg == null
-						|| MultipartFile.class.isAssignableFrom(arg.getClass())
-						|| MultipartFile[].class.isAssignableFrom(arg.getClass())
-						|| ServletRequest.class.isAssignableFrom(arg.getClass())
-						|| ServletResponse.class.isAssignableFrom(arg.getClass())) {
-						continue;
+			ServletRequestAttributes attributes = null;
+			RequestLog requestLog = null;
+			try {
+				attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+				if (attributes != null) {
+					MDC.put(PropertyConstant.TRACE_ID, String.format("[%s]", UUID.randomUUID().toString()));
+					requestLog = new RequestLog();
+					requestLog.setStartTime(new Date());
+					HttpServletRequest request = attributes.getRequest();
+					requestLog.setServerName(request.getServerName());
+					requestLog.setUri(request.getRequestURI());
+					requestLog.setClassName(pjp.getMethod().getDeclaringClass().getName());
+					requestLog.setMethodName(pjp.getMethod().getName());
+					requestLog.setRequestMethod(request.getMethod());
+					requestLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+					requestLog.setIp(getIpAddr(request));
+					Map<String, Object> requestParameterMap = new HashMap<>();
+					for (Object arg : pjp.getArguments()) {
+						if (arg == null
+							|| MultipartFile.class.isAssignableFrom(arg.getClass())
+							|| MultipartFile[].class.isAssignableFrom(arg.getClass())
+							|| ServletRequest.class.isAssignableFrom(arg.getClass())
+							|| ServletResponse.class.isAssignableFrom(arg.getClass())) {
+							continue;
+						}
+						requestParameterMap.putAll(objectMapper.readValue(objectMapper.writeValueAsString(arg), Map.class));
 					}
-					requestParameterMap.putAll(objectMapper.readValue(objectMapper.writeValueAsString(arg), Map.class));
+					requestParameterMap.putAll(request.getParameterMap());
+					requestLog.setRequestParams(objectMapper.writeValueAsString(requestParameterMap));
+					Integer userId = UaaUtil.getUserId(request);
+					requestLog.setUid(userId);
+					MDC.put(UaaConstant.FORWARD_AUTH_HEADER_USER_ID, String.format("[%s]", userId));
 				}
-				requestParameterMap.putAll(request.getParameterMap());
-				requestLog.setRequestParams(objectMapper.writeValueAsString(requestParameterMap));
-				requestLog.setUid(UaaUtil.getUserId(request));
+			} catch (Exception ignored) {
 			}
-		} catch (Exception ignored) {
-		}
 
-		Object res = pjp.proceed();
-
-		try {
-			if (attributes != null) {
-				if (requestLog != null && res instanceof R) {
-					R r = (R) res;
-					requestLog.setResCode(r.getCode());
-					requestLog.setResMsg(r.getMsg());
+			Object res = pjp.proceed();
+			try {
+				if (attributes != null) {
+					if (requestLog != null && res instanceof R) {
+						R r = (R) res;
+						requestLog.setResCode(r.getCode());
+						requestLog.setResMsg(r.getMsg());
+					}
+					requestLog.setElapsedTime(ChronoUnit.MILLIS.between(requestLog.getStartTime().toInstant(), Instant.now()));
+					logPointHandler.handle(requestLog);
 				}
-				requestLog.setElapsedTime(ChronoUnit.MILLIS.between(requestLog.getStartTime().toInstant(), Instant.now()));
-				logPointHandler.handle(requestLog);
+			} catch (Exception ignored) {
 			}
-		} catch (Exception ignored) {
+			return res;
+		} finally {
+			MDC.clear();
 		}
-		return res;
 	}
 
 	public static String getIpAddr(HttpServletRequest request) {

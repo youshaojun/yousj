@@ -13,5 +13,6 @@ import static top.yousj.commons.constant.PropertyConstant.PREFIX;
 public class PropertyConstant {
 
 	public static final String LOG = PREFIX + "log";
+	public static final String TRACE_ID = "X-Trace-Id";
 
 }

@@ -13,9 +13,9 @@
 
 	<property name="DEFAULT_LOG_CHARSET" value="UTF-8"/>
 	<property name="CONSOLE_LOG_PATTERN"
-			  value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS,Asia/Shanghai}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+			  value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS,Asia/Shanghai}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }) %clr(%X{X-Trace-Id}) %clr(%X{X-User-ID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
 	<property name="FILE_LOG_PATTERN"
-			  value="${FILE_LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS,Asia/Shanghai} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+			  value="${FILE_LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS,Asia/Shanghai} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } %X{X-Trace-Id} %X{X-User-ID} - [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
