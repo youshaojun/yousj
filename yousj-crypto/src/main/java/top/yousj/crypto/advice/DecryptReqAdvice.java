@@ -45,7 +45,7 @@ public class DecryptReqAdvice extends RequestBodyAdviceAdapter {
 				byte[] body = new byte[inputMessage.getBody().available()];
 				inputMessage.getBody().read(body);
 				Decrypt decrypt = methodParameter.getMethodAnnotation(Decrypt.class);
-				String decryptBody = converter.convert(decrypt.handler(), false, body);
+				String decryptBody = converter.convert(decrypt.handler(), false, false, body);
 				return new ByteArrayInputStream(decryptBody.getBytes(StrPool.CHARSET_NAME));
 			}
 

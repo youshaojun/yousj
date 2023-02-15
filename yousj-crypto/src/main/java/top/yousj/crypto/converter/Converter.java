@@ -24,21 +24,17 @@ public class Converter {
 	private final HttpServletRequest request;
 	private final ObjectMapper objectMapper;
 
-	public String convert(Class<? extends CryptHandler> clazz, boolean encrypt, Object body) {
-		return convert(clazz, encrypt, false, body);
-	}
-
 	@SneakyThrows
 	@SuppressWarnings("unchecked")
-	public String convert(Class<? extends CryptHandler> clazz, boolean isEncrypt, boolean onlyData, Object body) {
+	public String convert(Class<? extends CryptHandler> clazz, boolean encrypt, boolean onlyData, Object body) {
 		if (Objects.isNull(body)) {
 			return null;
 		}
 		CryptHandler handler = SpringUtil.getBean(clazz);
-		String bodyStr = isEncrypt ? objectMapper.writeValueAsString(body) : new String((byte[]) body, StrPool.CHARSET_NAME);
+		String bodyStr = encrypt ? objectMapper.writeValueAsString(body) : new String((byte[]) body, StrPool.CHARSET_NAME);
 		KeyProperties keyProperties = keyPropertiesHolder.getKeyProperties(request);
-		if (!onlyData || !isEncrypt) {
-			return isEncrypt ? handler.encrypt(bodyStr, keyProperties) : handler.decrypt(bodyStr, keyProperties);
+		if (!onlyData || !encrypt) {
+			return encrypt ? handler.encrypt(bodyStr, keyProperties) : handler.decrypt(bodyStr, keyProperties);
 		}
 		R r = objectMapper.readValue(bodyStr, R.class);
 		Object data = r.getData();
