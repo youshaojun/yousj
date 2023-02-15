@@ -1,7 +1,7 @@
 package top.yousj.commons.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import top.yousj.commons.enums.ResultCode;
@@ -13,8 +13,9 @@ import top.yousj.commons.enums.ResultCode;
  * @since 2023-01-05
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class R<T> {
 
 	private int code;

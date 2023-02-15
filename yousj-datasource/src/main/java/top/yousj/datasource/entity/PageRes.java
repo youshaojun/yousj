@@ -2,9 +2,7 @@ package top.yousj.datasource.entity;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -14,23 +12,24 @@ import java.util.List;
  * @author yousj
  * @since 2023-01-05
  */
-@Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PageRes<T> implements Serializable {
 
 	private static final long serialVersionUID = 7868868017883272038L;
 
-	private final int num;
+	private int num;
 
-	private final int size;
+	private int size;
 
-	private final long total;
+	private long total;
 
-	private final int pages;
+	private int pages;
 
-	private final boolean hasNext;
+	private boolean hasNext;
 
-	private final List<T> data;
+	private List<T> data;
 
 	public static <T> PageRes<T> of(PageInfo<T> info) {
 		return new PageRes<>(info.getPageNum(), info.getPageSize(), info.getTotal(), info.getPages(), info.isHasNextPage(), info.getList());
