@@ -1,6 +1,6 @@
 package top.yousj.uaa.mapper;
 
-import top.yousj.datasource.mapper.CustomizeBaseMapper;
+import top.yousj.datasource.mapper.ICustomizeBaseMapper;
 import top.yousj.uaa.entity.po.UaaAuthUrlConfig;
 
 /**
@@ -11,6 +11,6 @@ import top.yousj.uaa.entity.po.UaaAuthUrlConfig;
  * @author yousj
  * @since 2023-01-15
  */
-public interface UaaAuthUrlConfigMapper extends CustomizeBaseMapper<UaaAuthUrlConfig> {
+public interface UaaAuthUrlConfigMapper extends ICustomizeBaseMapper<UaaAuthUrlConfig> {
 
 }

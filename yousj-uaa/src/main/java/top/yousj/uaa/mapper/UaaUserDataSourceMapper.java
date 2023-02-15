@@ -1,6 +1,6 @@
 package top.yousj.uaa.mapper;
 
-import top.yousj.datasource.mapper.CustomizeBaseMapper;
+import top.yousj.datasource.mapper.ICustomizeBaseMapper;
 import top.yousj.uaa.entity.po.UaaUserDataSource;
 
 /**
@@ -11,6 +11,6 @@ import top.yousj.uaa.entity.po.UaaUserDataSource;
  * @author yousj
  * @since 2023-01-15
  */
-public interface UaaUserDataSourceMapper extends CustomizeBaseMapper<UaaUserDataSource> {
+public interface UaaUserDataSourceMapper extends ICustomizeBaseMapper<UaaUserDataSource> {
 
 }

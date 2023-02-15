@@ -2,14 +2,14 @@ package top.yousj.datasource.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import top.yousj.datasource.mapper.CustomizeBaseMapper;
+import top.yousj.datasource.mapper.ICustomizeBaseMapper;
 import top.yousj.datasource.utils.SqlUtil;
 
 /**
  * @author yousj
  * @since 2023-02-06
  */
-public class ICustomizeServiceImpl<M extends CustomizeBaseMapper<T>, T> extends ServiceImpl<M, T> implements ICustomizeService<T> {
+public class CustomizeServiceImpl<M extends ICustomizeBaseMapper<T>, T> extends ServiceImpl<M, T> implements ICustomizeService<T> {
 
 	@Override
 	public int replaceInto(T entity) {

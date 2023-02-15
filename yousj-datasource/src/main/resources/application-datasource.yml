@@ -8,7 +8,7 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   global-config:
     banner: false
-    super-mapper-class: "${mybatis-plus.global-config.default-mapper-class:top.yousj.datasource.mapper.CustomizeBaseMapper}"
+    super-mapper-class: "${mybatis-plus.global-config.default-mapper-class:top.yousj.datasource.mapper.ICustomizeBaseMapper}"
 
 pagehelper:
   supportMethodsArguments: false
