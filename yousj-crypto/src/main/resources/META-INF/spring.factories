@@ -1,3 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+top.yousj.crypto.converter.Converter,\
+top.yousj.crypto.handler.AesCryptHandler,\
+top.yousj.crypto.handler.RsaCryptHandler,\
 top.yousj.crypto.advice.DecryptReqAdvice,\
-top.yousj.crypto.advice.EncryptResAdvice
+top.yousj.crypto.advice.EncryptResAdvice,

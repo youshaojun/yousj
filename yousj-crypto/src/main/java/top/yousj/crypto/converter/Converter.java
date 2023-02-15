@@ -1,15 +1,14 @@
-package top.yousj.crypto.advice;
+package top.yousj.crypto.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.stereotype.Component;
 import top.yousj.commons.constant.StrPool;
 import top.yousj.commons.entity.R;
 import top.yousj.commons.utils.SpringUtil;
 import top.yousj.crypto.handler.CryptHandler;
 import top.yousj.crypto.properties.KeyProperties;
-import top.yousj.crypto.properties.KeyPropertiesHolder;
+import top.yousj.crypto.properties.KeyPropertiesResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
@@ -18,11 +17,10 @@ import java.util.Objects;
  * @author yousj
  * @since 2023-02-10
  */
-@Component
 @RequiredArgsConstructor
 public class Converter {
 
-	private final KeyPropertiesHolder keyPropertiesHolder;
+	private final KeyPropertiesResolver keyPropertiesHolder;
 	private final HttpServletRequest request;
 	private final ObjectMapper objectMapper;
 

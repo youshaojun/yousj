@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author yousj
  * @since 2023-01-06
  */
-public interface KeyPropertiesHolder {
+public interface KeyPropertiesResolver {
 
 	KeyProperties getKeyProperties(String channel);
 
