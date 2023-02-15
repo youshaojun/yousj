@@ -13,6 +13,4 @@ public @interface Decrypt {
 
 	Class<? extends CryptHandler> handler() default RsaCryptHandler.class;
 
-	boolean onlyData() default false;
-
 }
