@@ -28,15 +28,15 @@ public class Converter {
 
 	@SneakyThrows
 	@SuppressWarnings("unchecked")
-	public String convert(Class<? extends CryptHandler> handler, boolean encrypt, boolean onlyData, Object body) {
+	public String convert(Class<? extends CryptHandler> clazz, boolean encrypt, boolean onlyData, Object body) {
 		if (Objects.isNull(body)) {
 			return null;
 		}
-		CryptHandler cryptHandler = SpringUtil.getBean(handler);
+		CryptHandler handler = SpringUtil.getBean(clazz);
 		String bodyStr = encrypt ? objectMapper.writeValueAsString(body) : new String((byte[]) body, StrPool.CHARSET_NAME);
 		KeyProperties keyProperties = keyPropertiesHolder.getKeyProperties(request);
 		if (!onlyData) {
-			return encrypt ? cryptHandler.encrypt(bodyStr, keyProperties) : cryptHandler.decrypt(bodyStr, keyProperties);
+			return encrypt ? handler.encrypt(bodyStr, keyProperties) : handler.decrypt(bodyStr, keyProperties);
 		}
 		R r = objectMapper.readValue(bodyStr, R.class);
 		Object data = r.getData();
@@ -44,7 +44,7 @@ public class Converter {
 			return bodyStr;
 		}
 		bodyStr = data.toString();
-		r.setData(encrypt ? cryptHandler.encrypt(bodyStr, keyProperties) : cryptHandler.decrypt(bodyStr, keyProperties));
+		r.setData(encrypt ? handler.encrypt(bodyStr, keyProperties) : handler.decrypt(bodyStr, keyProperties));
 		return objectMapper.writeValueAsString(r);
 	}
 
