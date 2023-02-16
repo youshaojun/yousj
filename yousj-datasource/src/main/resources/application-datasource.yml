@@ -45,7 +45,8 @@ spring:
       hikari:
         min-idle: ${spring.datasource.dynamic.properties.min-idle:${spring.datasource.dynamic.default-properties.min-idle}}
         max-pool-size: ${spring.datasource.dynamic.properties.max-pool-size:${spring.datasource.dynamic.default-properties.max-pool-size}}
-        connection-test-query: ${spring.datasource.dynamic.properties.connection-test-query:${spring.datasource.dynamic.default-properties.connection-test-query}}
+        # JDBC4驱动强烈建议不要配connectionTestQuery
+        # connection-test-query: ${spring.datasource.dynamic.properties.connection-test-query:${spring.datasource.dynamic.default-properties.connection-test-query}}
         validation-timeout: 30000
         keepalive-time: ${spring.datasource.dynamic.properties.keepalive-time:${spring.datasource.dynamic.default-properties.keepalive-time}}
         idle-timeout: ${spring.datasource.dynamic.properties.idle-timeout:${spring.datasource.dynamic.default-properties.idle-timeout}}
