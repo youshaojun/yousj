@@ -27,6 +27,11 @@ public class SecurityExceptionAdviceHandler extends AbstractExceptionAdviceHandl
 	}
 
 	@Override
+	public int getOrder() {
+		return 0;
+	}
+
+	@Override
 	public R<String> handle(Exception ex) {
 		if (ex instanceof BizException) {
 			return R.fail(((BizException) ex).getCode(), ex.getMessage());
