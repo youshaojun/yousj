@@ -15,13 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 
 @Component
 @RequiredArgsConstructor
-public class MultiServerMatchHandler implements CustomizeMatchHandler {
+public class UaaMatchHandler implements CustomizeMatchHandler {
 
 	private final SecurityProperties securityProperties;
 
 	@Override
 	public boolean matchAuthPermitUrls(HttpServletRequest request) {
-		return CustomizeConfig.MultiServer.AUTH_PERMIT_URLS.get(AppNameHolder.get()).stream().anyMatch(url -> new CustomizeAntPathRequestMatcher(url).matches(request));
+		return CustomizeConfig.Uaa.AUTH_PERMIT_URLS.get(AppNameHolder.get()).stream().anyMatch(url -> new CustomizeAntPathRequestMatcher(url).matches(request));
 	}
 
 	@Override
@@ -29,10 +29,10 @@ public class MultiServerMatchHandler implements CustomizeMatchHandler {
 		if (CustomizeConfig.IGNORE_URLS.stream().anyMatch(url -> new CustomizeAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
 			return true;
 		}
-		if (CustomizeConfig.MultiServer.SELF_IGNORE_URLS.get(AppNameHolder.get()).stream().anyMatch(url -> new CustomizeAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
+		if (CustomizeConfig.Uaa.SELF_IGNORE_URLS.get(AppNameHolder.get()).stream().anyMatch(url -> new CustomizeAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
 			return true;
 		}
-		if (CustomizeConfig.MultiServer.ALL_URLS.get(AppNameHolder.get()).stream().noneMatch(url -> new CustomizeAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
+		if (CustomizeConfig.Uaa.ALL_URLS.get(AppNameHolder.get()).stream().noneMatch(url -> new CustomizeAntPathRequestMatcher(url, request.getMethod()).matches(request))) {
 			throw new BizException(ResultCode.NOT_FOUND);
 		}
 		return false;
@@ -40,7 +40,7 @@ public class MultiServerMatchHandler implements CustomizeMatchHandler {
 
 	@Override
 	public SecurityProperties.Jwt getJwt() {
-		SecurityProperties.Jwt jwt = CustomizeConfig.MultiServer.JWT_CONFIG.getOrDefault(AppNameHolder.get(), securityProperties.getJwt());
+		SecurityProperties.Jwt jwt = CustomizeConfig.Uaa.JWT_CONFIG.getOrDefault(AppNameHolder.get(), securityProperties.getJwt());
 		jwt.setSignKey(RedisUtil.simple(AppNameHolder.get()) + jwt.getSignKey());
 		return jwt;
 	}

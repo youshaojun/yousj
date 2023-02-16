@@ -50,7 +50,7 @@ public class CustomizeConfig {
 	 * 单项目path过滤
 	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
-	public static class AloneServer {
+	public static class Alone {
 
 		/**
 		 * 全部的path, 不存在返回404
@@ -67,10 +67,10 @@ public class CustomizeConfig {
 	/**
 	 * 统一认证path过滤
 	 * key -> {@link UaaConstant#APP_NAME}
-	 * vale ->  path {@link AloneServer} 需要包含工程名称{@link org.springframework.boot.autoconfigure.web.ServerProperties.Servlet#contextPath}
+	 * vale ->  path {@link Alone} 需要包含工程名称{@link org.springframework.boot.autoconfigure.web.ServerProperties.Servlet#contextPath}
 	 */
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
-	public static class MultiServer {
+	public static class Uaa {
 
 		public static final Map<String, Set<String>> ALL_URLS = Maps.newConcurrentMap();
 

@@ -24,7 +24,7 @@ public class AloneMatchHandler implements CustomizeMatchHandler {
 
 	@Override
 	public boolean matchAuthPermitUrls(HttpServletRequest request) {
-		return CustomizeConfig.AloneServer.AUTH_PERMIT_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request));
+		return CustomizeConfig.Alone.AUTH_PERMIT_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url).matches(request));
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class AloneMatchHandler implements CustomizeMatchHandler {
 		if (CustomizeConfig.IGNORE_URLS.stream().anyMatch(url -> new AntPathRequestMatcher(url, request.getMethod()).matches(request))) {
 			return true;
 		}
-		if (CustomizeConfig.AloneServer.ALL_URLS.stream().noneMatch(url -> new AntPathRequestMatcher(url, request.getMethod()).matches(request))) {
+		if (CustomizeConfig.Alone.ALL_URLS.stream().noneMatch(url -> new AntPathRequestMatcher(url, request.getMethod()).matches(request))) {
 			throw new BizException(ResultCode.NOT_FOUND);
 		}
 		return false;
@@ -48,8 +48,8 @@ public class AloneMatchHandler implements CustomizeMatchHandler {
 
 	@PostConstruct
 	public void initAloneConfig() {
-		CustomizeConfig.AloneServer.ALL_URLS.addAll(SpringUtil.getMappingUrls());
-		CustomizeConfig.AloneServer.AUTH_PERMIT_URLS.add("/logout");
+		CustomizeConfig.Alone.ALL_URLS.addAll(SpringUtil.getMappingUrls());
+		CustomizeConfig.Alone.AUTH_PERMIT_URLS.add("/logout");
 	}
 
 }

@@ -58,8 +58,8 @@ public class ReloadCustomizeConfigServiceImpl {
 			Stream<UaaAuthUrlConfig> ignoreConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.IGNORE.getCode()));
 			Stream<UaaAuthUrlConfig> authConfig = urls.stream().filter(e -> Objects.equals(e.getUrlType(), UrlTypeEnum.AUTH.getCode()));
 
-			reload(appName, ignoreConfig, CustomizeConfig.MultiServer.SELF_IGNORE_URLS);
-			reload(appName, authConfig, CustomizeConfig.MultiServer.AUTH_PERMIT_URLS);
+			reload(appName, ignoreConfig, CustomizeConfig.Uaa.SELF_IGNORE_URLS);
+			reload(appName, authConfig, CustomizeConfig.Uaa.AUTH_PERMIT_URLS);
 		}
 
 		List<UaaUserDataSource> uaaUserDataSources = uaaUserDataSourceService.list(Wrappers.<UaaUserDataSource>lambdaQuery()
@@ -67,17 +67,17 @@ public class ReloadCustomizeConfigServiceImpl {
 
 		uaaUserDataSources.forEach(e -> {
 			try {
-				CustomizeConfig.MultiServer.ALL_URLS.put(e.getAppName(), (Set<String>) Objects.requireNonNull(restTemplate.getForObject(e.getQueryAllPathUrl(), R.class)).getData());
+				CustomizeConfig.Uaa.ALL_URLS.put(e.getAppName(), (Set<String>) Objects.requireNonNull(restTemplate.getForObject(e.getQueryAllPathUrl(), R.class)).getData());
 			} catch (Exception ignored) {
 			}
 		});
 
 	}
 
-	private void reload(String appName, Stream<UaaAuthUrlConfig> configs, Map<String, Set<String>> multipleConfig) {
-		Set<String> urls = multipleConfig.get(appName);
+	private void reload(String appName, Stream<UaaAuthUrlConfig> configs, Map<String, Set<String>> uaaConfig) {
+		Set<String> urls = uaaConfig.get(appName);
 		if (CollectionUtils.isEmpty(urls)) {
-			multipleConfig.put(appName, configs.map(UaaAuthUrlConfig::getAuthUrl).collect(Collectors.toSet()));
+			uaaConfig.put(appName, configs.map(UaaAuthUrlConfig::getAuthUrl).collect(Collectors.toSet()));
 			return;
 		}
 		configs.forEach(e -> {
