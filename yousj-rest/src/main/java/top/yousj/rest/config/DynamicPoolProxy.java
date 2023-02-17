@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestOperations;
 import top.yousj.commons.entity.R;
 import top.yousj.commons.exception.BizException;
+import top.yousj.commons.utils.FuncUtil;
 import top.yousj.rest.properties.OkhttpProperties;
 
 import java.net.InetSocketAddress;
@@ -100,7 +101,7 @@ public class DynamicPoolProxy {
 		Headers.Builder builder = new Headers.Builder()
 			.add(HttpHeaders.PROXY_AUTHORIZATION, Credentials.basic(acc, pwd))
 			.add(HttpHeaders.USER_AGENT, StringUtils.defaultIfBlank(userAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36"));
-		Optional.ofNullable(cookie).ifPresent(e -> builder.add(HttpHeaders.COOKIE, e));
+		FuncUtil.callIfNotNull(cookie, c -> builder.add(HttpHeaders.COOKIE, c));
 		return builder.build();
 	}
 
