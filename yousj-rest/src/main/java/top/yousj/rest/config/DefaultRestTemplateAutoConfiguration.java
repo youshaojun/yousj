@@ -20,14 +20,14 @@ public class DefaultRestTemplateAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(name = "restTemplate")
 	public RestOperations restTemplate() {
-		return RestConfigurer.createRestTemplate(false, okhttpProperties);
+		return RestConfigurer.create(false, okhttpProperties);
 	}
 
 	@Bean
 	@ConditionalOnMissingBean(name = "proxyRestTemplate")
 	@ConditionalOnProperty(prefix = PropertyConstant.OKHTTP, name = "proxy")
 	public RestOperations proxyRestTemplate() {
-		return RestConfigurer.createRestTemplate(true, okhttpProperties);
+		return RestConfigurer.create(true, okhttpProperties);
 	}
 
 }

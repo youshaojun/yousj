@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class RestConfigurer {
 
-	public static RestTemplate createRestTemplate(boolean useProxy, OkhttpProperties okhttpProperties) {
+	public static RestTemplate create(boolean useProxy, OkhttpProperties okhttpProperties) {
 		OkHttpClient.Builder httpClientBuilder = httpClientBuilder(okhttpProperties);
 		if (useProxy) {
 			setProxy(httpClientBuilder, okhttpProperties);
