@@ -1,0 +1,17 @@
+version: '3.3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    image: ${SERVER_NAME}:${SERVER_VERSION}
+    container_name: ${SERVER_NAME}
+    environment:
+      - app=${APP_NAME}
+      - JAVA_OPTS=${JAVA_OPTS}
+    volumes:
+      - "./logs:/home/logs/"
+    ports:
+      - 8080:8080
+      - 5005:5005
