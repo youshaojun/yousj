@@ -38,25 +38,6 @@ public class ProxyUtil {
 		ProxyUtil.okhttpProperties = okhttpProperties;
 	}
 
-	@SneakyThrows
-	@Retryable
-	public R<byte[]> dynamicPoolProxyCall(String url, HttpMethod httpMethod) {
-		return dynamicPoolProxyCall(url, httpMethod, Collections.emptyMap());
-	}
-
-	@SneakyThrows
-	@Retryable
-	public R<byte[]> dynamicPoolProxyCall(String url, HttpMethod httpMethod, Map<String, String> params) {
-		return dynamicPoolProxyCall(url, httpMethod, params, null);
-	}
-
-	@SneakyThrows
-	@Retryable
-	public R<byte[]> dynamicPoolProxyCall(String url, HttpMethod httpMethod, String userAgent) {
-		return dynamicPoolProxyCall(url, httpMethod, null, userAgent);
-	}
-
-	@SneakyThrows
 	@Retryable
 	public R<byte[]> dynamicPoolProxyCall(String url, HttpMethod httpMethod, Map<String, String> params, String userAgent) {
 		Objects.requireNonNull(url);
