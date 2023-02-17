@@ -1,4 +1,4 @@
-package top.yousj.uaa.service.impl;
+package top.yousj.uaa.config;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import static top.yousj.security.config.CustomizeConfig.IGNORE_URLS;
 @Service
 @EnableScheduling
 @RequiredArgsConstructor
-public class ReloadCustomizeConfigServiceImpl {
+public class ReloadCustomizeConfig {
 
 	private final RestTemplate restTemplate;
 	private final IUaaAuthUrlConfigService uaaAuthUrlConfigService;
