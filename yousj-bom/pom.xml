@@ -94,6 +94,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>top.yousj</groupId>
+				<artifactId>yousj-rest</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>io.vavr</groupId>
 				<artifactId>vavr</artifactId>
 				<version>${vavr.version}</version>

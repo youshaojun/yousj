@@ -1,0 +1,80 @@
+{
+  "groups": [
+    {
+      "name": "top.yousj.rest",
+      "description": "rest配置"
+    },
+    {
+      "name": "top.yousj.rest.okhttp",
+      "type": "top.yousj.rest.properties.OkhttpProperties",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties",
+      "description": "okhttp配置"
+    },
+    {
+      "name": "top.yousj.rest.okhttp.proxy",
+      "type": "top.yousj.rest.properties.OkhttpProperties$Proxy",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties",
+      "description": "静态IP代理配置"
+    },
+    {
+      "name": "top.yousj.rest.okhttp.pool",
+      "type": "top.yousj.rest.properties.OkhttpProperties$Pool",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties",
+      "description": "动态IP池代理配置"
+    }
+  ],
+  "properties": [
+    {
+      "name": "top.yousj.rest.okhttp.connect-timeout",
+      "type": "java.lang.Long",
+      "description": "连接超时时间 单位s",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties",
+      "defaultValue": 10
+    },
+    {
+      "name": "top.yousj.rest.okhttp.read-timeout",
+      "type": "java.lang.Long",
+      "description": "读超时时间 单位s",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties",
+      "defaultValue": 300
+    },
+    {
+      "name": "top.yousj.rest.okhttp.write-timeout",
+      "type": "java.lang.Long",
+      "description": "写超时时间 单位s",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties",
+      "defaultValue": 300
+    },
+    {
+      "name": "top.yousj.rest.okhttp.proxy.username",
+      "type": "java.lang.String",
+      "description": "账号",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties$Proxy"
+    },
+    {
+      "name": "top.yousj.rest.okhttp.proxy.password",
+      "type": "java.lang.String",
+      "description": "密码",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties$Proxy"
+    },
+    {
+      "name": "top.yousj.rest.okhttp.proxy.addr",
+      "type": "java.lang.String",
+      "description": "地址",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties$Proxy"
+    },
+    {
+      "name": "top.yousj.rest.okhttp.proxy.port",
+      "type": "java.lang.Integer",
+      "description": "端口",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties$Proxy"
+    },
+    {
+      "name": "top.yousj.rest.okhttp.pool.urls",
+      "type": "java.util.List<java.lang.String>",
+      "description": "获取IP池接口地址",
+      "sourceType": "top.yousj.rest.properties.OkhttpProperties$Pool"
+    }
+  ],
+  "hints": []
+}

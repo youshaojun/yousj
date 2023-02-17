@@ -5,66 +5,8 @@
       "type": "top.yousj.web.properties.WebProperties",
       "sourceType": "top.yousj.web.properties.WebProperties",
       "description": "web配置"
-    },
-    {
-      "name": "top.yousj.web.okhttp",
-      "type": "top.yousj.web.properties.WebProperties$Okhttp",
-      "sourceType": "top.yousj.web.properties.WebProperties",
-      "description": "okhttp配置"
-    },
-    {
-      "name": "top.yousj.web.okhttp.proxy",
-      "type": "top.yousj.web.properties.WebProperties$Okhttp$Proxy",
-      "sourceType": "top.yousj.web.properties.WebProperties$Okhttp",
-      "description": "代理配置"
     }
   ],
-  "properties": [
-    {
-      "name": "top.yousj.web.okhttp.connect-timeout",
-      "type": "java.lang.Long",
-      "description": "连接超时时间 单位s",
-      "sourceType": "top.yousj.web.properties.WebProperties$Okhttp",
-      "defaultValue": 10
-    },
-    {
-      "name": "top.yousj.web.okhttp.read-timeout",
-      "type": "java.lang.Long",
-      "description": "读超时时间 单位s",
-      "sourceType": "top.yousj.web.properties.WebProperties$Okhttp",
-      "defaultValue": 300
-    },
-    {
-      "name": "top.yousj.web.okhttp.write-timeout",
-      "type": "java.lang.Long",
-      "description": "写超时时间 单位s",
-      "sourceType": "top.yousj.web.properties.WebProperties$Okhttp",
-      "defaultValue": 300
-    },
-    {
-      "name": "top.yousj.web.okhttp.proxy.username",
-      "type": "java.lang.String",
-      "description": "账号",
-      "sourceType": "top.yousj.web.properties.WebProperties$Okhttp$Proxy"
-    },
-    {
-      "name": "top.yousj.web.okhttp.proxy.password",
-      "type": "java.lang.String",
-      "description": "密码",
-      "sourceType": "top.yousj.web.properties.WebProperties$Okhttp$Proxy"
-    },
-    {
-      "name": "top.yousj.web.okhttp.proxy.addr",
-      "type": "java.lang.String",
-      "description": "地址",
-      "sourceType": "top.yousj.web.properties.WebProperties$Okhttp$Proxy"
-    },
-    {
-      "name": "top.yousj.web.okhttp.proxy.port",
-      "type": "java.lang.Integer",
-      "description": "端口",
-      "sourceType": "top.yousj.web.properties.WebProperties$Okhttp$Proxy"
-    }
-  ],
+  "properties": [],
   "hints": []
 }

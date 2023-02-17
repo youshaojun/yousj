@@ -1,20 +1,14 @@
-package top.yousj.web.rest;
+package top.yousj.rest.config;
 
-import lombok.RequiredArgsConstructor;
-import okhttp3.*;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
+import okhttp3.Credentials;
+import okhttp3.OkHttpClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.DefaultResponseErrorHandler;
-import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
-import top.yousj.web.constant.PropertyConstant;
-import top.yousj.web.properties.WebProperties;
+import top.yousj.rest.properties.OkhttpProperties;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -25,36 +19,14 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author yousj
- * @since 2023-01-30
+ * @since 2023-02-17
  */
-@RequiredArgsConstructor
-@EnableConfigurationProperties(WebProperties.class)
-public class DefaultRestTemplateAutoConfiguration {
+public class RestConfigurer {
 
-	private final WebProperties webProperties;
-
-	@Bean
-	@ConditionalOnMissingBean(name = "restTemplate")
-	public RestOperations restTemplate() {
-		return buildDefaultRestTemplate(false);
-	}
-
-	@Bean
-	@ConditionalOnMissingBean(name = "proxyRestTemplate")
-	@ConditionalOnProperty(prefix = PropertyConstant.WEB, name = "okhttp.proxy")
-	public RestOperations proxyRestTemplate() {
-		return buildDefaultRestTemplate(true);
-	}
-
-	private RestTemplate buildDefaultRestTemplate(boolean useProxy) {
-		OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
-		httpClientBuilder
-			.retryOnConnectionFailure(false)
-			.connectTimeout(webProperties.getOkhttp().getConnectTimeout(), TimeUnit.SECONDS)
-			.readTimeout(webProperties.getOkhttp().getReadTimeout(), TimeUnit.SECONDS)
-			.writeTimeout(webProperties.getOkhttp().getWriteTimeout(), TimeUnit.SECONDS);
+	public static RestTemplate createRestTemplate(boolean useProxy, OkhttpProperties okhttpProperties) {
+		OkHttpClient.Builder httpClientBuilder = httpClientBuilder(okhttpProperties);
 		if (useProxy) {
-			setProxy(httpClientBuilder);
+			setProxy(httpClientBuilder, okhttpProperties);
 		}
 		OkHttp3ClientHttpRequestFactory requestFactory = new OkHttp3ClientHttpRequestFactory(httpClientBuilder.build());
 		RestTemplate restTemplate = new RestTemplate(requestFactory);
@@ -63,8 +35,18 @@ public class DefaultRestTemplateAutoConfiguration {
 		return restTemplate;
 	}
 
-	private void setProxy(OkHttpClient.Builder httpClientBuilder) {
-		WebProperties.Okhttp.Proxy proxy = webProperties.getOkhttp().getProxy();
+	public static OkHttpClient.Builder httpClientBuilder(OkhttpProperties okhttpProperties) {
+		OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+		httpClientBuilder
+			.retryOnConnectionFailure(false)
+			.connectTimeout(okhttpProperties.getConnectTimeout(), TimeUnit.SECONDS)
+			.readTimeout(okhttpProperties.getReadTimeout(), TimeUnit.SECONDS)
+			.writeTimeout(okhttpProperties.getWriteTimeout(), TimeUnit.SECONDS);
+		return httpClientBuilder;
+	}
+
+	public static void setProxy(OkHttpClient.Builder httpClientBuilder, OkhttpProperties okhttpProperties) {
+		OkhttpProperties.Proxy proxy = okhttpProperties.getProxy();
 		if (Objects.isNull(proxy)) {
 			return;
 		}
@@ -83,7 +65,7 @@ public class DefaultRestTemplateAutoConfiguration {
 		});
 	}
 
-	private void addMessageConverters(RestTemplate restTemplate) {
+	public static void addMessageConverters(RestTemplate restTemplate) {
 		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
 		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
 		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.TEXT_HTML));

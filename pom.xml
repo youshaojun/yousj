@@ -35,6 +35,7 @@
 		<module>yousj-web</module>
 		<module>yousj-uaa</module>
 		<module>yousj-freemarker</module>
+		<module>yousj-rest</module>
 	</modules>
 
 	<properties>
