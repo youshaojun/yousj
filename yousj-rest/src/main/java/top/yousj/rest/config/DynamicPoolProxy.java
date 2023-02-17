@@ -1,4 +1,4 @@
-package top.yousj.rest.utils;
+package top.yousj.rest.config;
 
 import lombok.Cleanup;
 import lombok.SneakyThrows;
@@ -10,12 +10,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Retryable;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestOperations;
 import top.yousj.commons.entity.R;
 import top.yousj.commons.exception.BizException;
-import top.yousj.rest.config.RestConfigurer;
 import top.yousj.rest.properties.OkhttpProperties;
 
 import java.net.InetSocketAddress;
@@ -26,26 +24,25 @@ import java.util.*;
  * @author yousj
  * @since 2023-02-17
  */
-@Component
-public class ProxyUtil {
+public class DynamicPoolProxy {
 
 	private static RestOperations restTemplate;
 	private static OkhttpProperties okhttpProperties;
 
 	@Autowired
-	public ProxyUtil(RestOperations restTemplate, OkhttpProperties okhttpProperties) {
-		ProxyUtil.restTemplate = restTemplate;
-		ProxyUtil.okhttpProperties = okhttpProperties;
+	public DynamicPoolProxy(RestOperations restTemplate, OkhttpProperties okhttpProperties) {
+		DynamicPoolProxy.restTemplate = restTemplate;
+		DynamicPoolProxy.okhttpProperties = okhttpProperties;
 	}
 
 	@Retryable
-	public R<byte[]> dynamicPoolProxyCall(String url, HttpMethod httpMethod, Map<String, String> params, String userAgent) {
+	public R<byte[]> call(String url, HttpMethod httpMethod, Map<String, String> params, String userAgent) {
 		Objects.requireNonNull(url);
 		return R.ok(call(url, httpMethod, null, params, userAgent, getProxy()));
 	}
 
 	@SneakyThrows
-	public byte[] call(String url, HttpMethod httpMethod, String cookie, Map<String, String> params, String userAgent, OkhttpProperties.Proxy proxy) {
+	private byte[] call(String url, HttpMethod httpMethod, String cookie, Map<String, String> params, String userAgent, OkhttpProperties.Proxy proxy) {
 		OkHttpClient.Builder httpClientBuilder = RestConfigurer.httpClientBuilder(okhttpProperties);
 		OkHttpClient okHttpClient = httpClientBuilder
 			.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxy.getAddr(), proxy.getPort())))
