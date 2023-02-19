@@ -55,9 +55,9 @@ public class DynamicPoolProxy {
 		@Cleanup Response execute = call.execute();
 		if (execute.isSuccessful()) {
 			return execute.body().bytes();
-		} else if (execute.isRedirect()) {
-			String setCookie = execute.header(HttpHeaders.SET_COOKIE);
-			return call(url, httpMethod, setCookie, params, userAgent, proxy);
+		}
+		if (execute.isRedirect()) {
+			return call(url, httpMethod, execute.header(HttpHeaders.SET_COOKIE), params, userAgent, proxy);
 		}
 		throw new BizException("代理请求失败");
 	}
@@ -74,8 +74,7 @@ public class DynamicPoolProxy {
 	}
 
 	public OkhttpProperties.Proxy getProxy() {
-		List<String> urls = okhttpProperties.getPool().getUrls();
-		for (String url : urls) {
+		for (String url : okhttpProperties.getPool().getUrls()) {
 			ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 			String body = responseEntity.getBody();
 			if (responseEntity.getStatusCode() != HttpStatus.OK || StringUtils.isEmpty(body)) {
