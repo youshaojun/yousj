@@ -17,7 +17,6 @@ import java.util.Map;
  */
 public class FreeMarkUtil {
 
-	@SneakyThrows
 	public static String asString(Map<String, Object> data, String templateName) {
 		return asString(data, templateName, FreeMarkerProperties.INSTANCE);
 	}
