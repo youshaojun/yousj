@@ -1,10 +1,11 @@
 package top.yousj.rest.config;
 
 import lombok.Cleanup;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestOperations;
 import top.yousj.commons.entity.R;
 import top.yousj.commons.exception.BizException;
 import top.yousj.commons.utils.FuncUtil;
+import top.yousj.rest.constant.PropertyConstant;
 import top.yousj.rest.properties.OkhttpProperties;
 
 import java.net.InetSocketAddress;
@@ -25,16 +27,12 @@ import java.util.*;
  * @author yousj
  * @since 2023-02-17
  */
+@RequiredArgsConstructor
+@ConditionalOnProperty(prefix = PropertyConstant.OKHTTP, name = "pool.urls")
 public class DynamicPoolProxy {
 
-	private static RestOperations restTemplate;
-	private static OkhttpProperties okhttpProperties;
-
-	@Autowired
-	public DynamicPoolProxy(RestOperations restTemplate, OkhttpProperties okhttpProperties) {
-		DynamicPoolProxy.restTemplate = restTemplate;
-		DynamicPoolProxy.okhttpProperties = okhttpProperties;
-	}
+	private final RestOperations restTemplate;
+	private final OkhttpProperties okhttpProperties;
 
 	@Retryable
 	public R<byte[]> call(String url, HttpMethod httpMethod, Map<String, String> params, String userAgent) {

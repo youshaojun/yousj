@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestOperations;
 import top.yousj.commons.entity.R;
 import top.yousj.security.config.CustomizeConfig;
 import top.yousj.uaa.entity.po.UaaAuthUrlConfig;
@@ -30,7 +30,7 @@ import static top.yousj.security.config.CustomizeConfig.IGNORE_URLS;
 @RequiredArgsConstructor
 public class ReloadCustomizeConfig {
 
-	private final RestTemplate restTemplate;
+	private final RestOperations restOperations;
 	private final IUaaAuthUrlConfigService uaaAuthUrlConfigService;
 	private final IUaaUserDataSourceService uaaUserDataSourceService;
 
@@ -67,7 +67,7 @@ public class ReloadCustomizeConfig {
 
 		uaaUserDataSources.forEach(e -> {
 			try {
-				CustomizeConfig.Uaa.ALL_URLS.put(e.getAppName(), (Set<String>) Objects.requireNonNull(restTemplate.getForObject(e.getQueryAllPathUrl(), R.class)).getData());
+				CustomizeConfig.Uaa.ALL_URLS.put(e.getAppName(), (Set<String>) Objects.requireNonNull(restOperations.getForObject(e.getQueryAllPathUrl(), R.class)).getData());
 			} catch (Exception ignored) {
 			}
 		});
