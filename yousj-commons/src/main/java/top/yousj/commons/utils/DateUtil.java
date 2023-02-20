@@ -72,14 +72,12 @@ public class DateUtil {
 	}
 
 	public static String join(Date start, Date end, String delimiter, String format) {
-		try {
+		return FuncUtil.call(() -> {
 			if (Objects.isNull(end)) {
 				return format(start, format);
 			}
 			return StringUtils.join(delimiter, Objects.isNull(start) ? StrPool.EMPTY : format(start, format), format(end, format));
-		} catch (Exception ignored) {
-		}
-		return StrPool.EMPTY;
+		}, StrPool.EMPTY);
 	}
 
 }
