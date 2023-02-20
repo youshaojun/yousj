@@ -32,6 +32,11 @@ public class LogProperties {
 		 */
 		private String pointcut;
 
+		/**
+		 * 请求参数长度限制, 超过限制丢弃, 0不限制
+		 */
+		private Integer requestParamsLimit = 0;
+
 	}
 
 }

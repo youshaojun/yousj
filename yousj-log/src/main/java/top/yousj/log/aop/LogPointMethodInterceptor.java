@@ -1,6 +1,5 @@
 package top.yousj.log.aop;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -14,9 +13,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import top.yousj.commons.constant.UaaConstant;
 import top.yousj.commons.entity.R;
-import top.yousj.commons.utils.IpUtil;
-import top.yousj.commons.utils.UaaUtil;
+import top.yousj.commons.utils.*;
 import top.yousj.log.constant.PropertyConstant;
+import top.yousj.log.properties.LogProperties;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -35,8 +34,8 @@ import java.util.*;
 @ConditionalOnProperty(prefix = PropertyConstant.LOG, name = "aop.pointcut")
 public class LogPointMethodInterceptor implements MethodInterceptor {
 
-	private final ObjectMapper objectMapper;
 	private final LogPointHandler logPointHandler;
+	private final LogProperties logProperties;
 
 	@Override
 	public Object invoke(MethodInvocation pjp) throws Throwable {
@@ -87,10 +86,15 @@ public class LogPointMethodInterceptor implements MethodInterceptor {
 					if (skip(arg)) {
 						continue;
 					}
-					requestParameterMap.putAll(objectMapper.readValue(objectMapper.writeValueAsString(arg), Map.class));
+					requestParameterMap.putAll(JsonUtil.fromJson(JsonUtil.toJson(arg), Map.class));
 				}
 				requestParameterMap.putAll(request.getParameterMap());
-				requestLog.setRequestParams(objectMapper.writeValueAsString(requestParameterMap));
+				String json = JsonUtil.toJson(requestParameterMap);
+				int length = json.length();
+				Integer limit = logProperties.getAop().getRequestParamsLimit();
+				if (length < limit || limit == 0) {
+					requestLog.setRequestParams(json);
+				}
 				Integer userId = UaaUtil.getUserId(request);
 				requestLog.setUid(userId);
 				MDC.put(UaaConstant.FORWARD_AUTH_HEADER_USER_ID, String.format("[%s]", userId));
