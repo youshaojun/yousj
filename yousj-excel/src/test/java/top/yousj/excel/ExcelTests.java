@@ -1,5 +1,6 @@
 package top.yousj.excel;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import top.yousj.commons.enums.FileTypeEnum;
@@ -13,6 +14,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class ExcelTests {
+
+	public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
 	/**
 	 * 设置高亮标记
@@ -42,8 +45,8 @@ public class ExcelTests {
 	void setUrlTest02() {
 		ExcelData excelData = new ExcelData("测试一下", Model03.class,
 			Arrays.asList(new Model03(),
-				new Model03("测试一下", ExcelUtil.OBJECT_MAPPER.writeValueAsString(new ExcelUtil.Hyperlink("测试一下", ""))),
-				new Model03("测试一下", ExcelUtil.OBJECT_MAPPER.writeValueAsString(new ExcelUtil.Hyperlink("测试一下", "https://www.baidu.com")))
+				new Model03("测试一下", OBJECT_MAPPER.writeValueAsString(new ExcelUtil.Hyperlink("测试一下", ""))),
+				new Model03("测试一下", OBJECT_MAPPER.writeValueAsString(new ExcelUtil.Hyperlink("测试一下", "https://www.baidu.com")))
 			));
 
 		ExcelUtil.writeWithSimpleColumnWidth(FileTypeEnum.XLSX, excelData,

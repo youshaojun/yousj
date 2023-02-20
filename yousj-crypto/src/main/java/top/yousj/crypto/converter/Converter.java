@@ -1,10 +1,10 @@
 package top.yousj.crypto.converter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import top.yousj.commons.constant.StrPool;
 import top.yousj.commons.entity.R;
+import top.yousj.commons.utils.JsonUtil;
 import top.yousj.commons.utils.SpringUtil;
 import top.yousj.crypto.handler.CryptHandler;
 import top.yousj.crypto.properties.KeyProperties;
@@ -22,7 +22,6 @@ public class Converter {
 
 	private final KeyPropertiesResolver keyPropertiesResolver;
 	private final HttpServletRequest request;
-	private final ObjectMapper objectMapper;
 
 	@SneakyThrows
 	@SuppressWarnings("unchecked")
@@ -31,7 +30,7 @@ public class Converter {
 			return null;
 		}
 		CryptHandler handler = SpringUtil.getBean(clazz);
-		String bodyStr = encrypt ? objectMapper.writeValueAsString(body) : new String((byte[]) body, StrPool.CHARSET_NAME);
+		String bodyStr = encrypt ? JsonUtil.toJson(body) : new String((byte[]) body, StrPool.CHARSET_NAME);
 		KeyProperties keyProperties = keyPropertiesResolver.getKeyProperties(request);
 		if (!encrypt) {
 			return handler.decrypt(bodyStr, keyProperties);
@@ -39,14 +38,15 @@ public class Converter {
 		if (!onlyData) {
 			return handler.encrypt(bodyStr, keyProperties);
 		}
-		R r = objectMapper.readValue(bodyStr, R.class);
+
+		R r = JsonUtil.fromJson(bodyStr, R.class);
 		Object data = r.getData();
 		if (Objects.isNull(data)) {
 			return bodyStr;
 		}
-		bodyStr = objectMapper.writeValueAsString(data);
+		bodyStr = JsonUtil.toJson(data);
 		r.setData(handler.encrypt(bodyStr, keyProperties));
-		return objectMapper.writeValueAsString(r);
+		return JsonUtil.toJson(r);
 	}
 
 }

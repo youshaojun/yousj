@@ -7,7 +7,6 @@ import com.alibaba.excel.write.handler.CellWriteHandler;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.style.AbstractCellStyleStrategy;
 import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Font;
@@ -27,8 +26,6 @@ import java.util.*;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExcelUtil {
-
-	public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
 	public static File write(FileTypeEnum fileTypeEnum, ExcelData data, CellWriteHandler... cellWriteHandlers) {
 		return write(fileTypeEnum, Collections.singletonList(data), StyleUtil.defaultStyle(), null, cellWriteHandlers);

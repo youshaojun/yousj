@@ -13,6 +13,7 @@ import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Hyperlink;
+import top.yousj.commons.utils.JsonUtil;
 import top.yousj.excel.utils.ExcelUtil;
 
 import java.util.List;
@@ -76,7 +77,7 @@ public class UrlCellWriteHandler implements CellWriteHandler {
 		}
 		// 列的值不是url
 		try {
-			ExcelUtil.Hyperlink hyperlinkProperties = ExcelUtil.OBJECT_MAPPER.readValue(cellValue, ExcelUtil.Hyperlink.class);
+			ExcelUtil.Hyperlink hyperlinkProperties = JsonUtil.fromJson(cellValue, ExcelUtil.Hyperlink.class);
 			cell.setCellValue(hyperlinkProperties.getCellValue());
 			String url = hyperlinkProperties.getUrl();
 			if (StringUtils.isBlank(url) || url.equals(ignoreStr)) {

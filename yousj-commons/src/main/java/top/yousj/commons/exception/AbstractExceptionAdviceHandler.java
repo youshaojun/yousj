@@ -1,13 +1,12 @@
 package top.yousj.commons.exception;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import top.yousj.commons.constant.StrPool;
 import top.yousj.commons.entity.R;
 import top.yousj.commons.enums.ResultCode;
+import top.yousj.commons.utils.JsonUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -18,9 +17,6 @@ import java.util.Objects;
  * @since 2023-01-16
  */
 public abstract class AbstractExceptionAdviceHandler implements ExceptionAdviceHandler {
-
-	@Autowired
-	private ObjectMapper objectMapper;
 
 	public boolean isHttpStatus() {
 		return false;
@@ -37,7 +33,7 @@ public abstract class AbstractExceptionAdviceHandler implements ExceptionAdviceH
 		response.setStatus(isHttpStatus() ? r.getCode() : HttpStatus.OK.value());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		PrintWriter writer = response.getWriter();
-		writer.write(objectMapper.writeValueAsString(r));
+		writer.write(JsonUtil.toJson(r));
 		writer.flush();
 		writer.close();
 	}
