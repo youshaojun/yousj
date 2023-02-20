@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -26,16 +25,15 @@ public class FuncUtil {
 		return defaultValue;
 	}
 
-	public static <T> void conditionCall(boolean condition, Supplier<T> supplier) {
-		if (condition) {
-			supplier.get();
-		}
+	public static <T> T callIfNotNull(Object o, Supplier<T> supplier) {
+		return conditionCall(Objects.nonNull(o), supplier);
 	}
 
-	public static <T> void callIfNotNull(T t, Consumer<T> consumer) {
-		if (Objects.nonNull(t)) {
-			consumer.accept(t);
+	public static <T> T conditionCall(boolean condition, Supplier<T> supplier) {
+		if (condition) {
+			return supplier.get();
 		}
+		return null;
 	}
 
 }

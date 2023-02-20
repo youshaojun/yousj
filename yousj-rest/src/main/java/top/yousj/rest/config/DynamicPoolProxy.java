@@ -98,7 +98,7 @@ public class DynamicPoolProxy {
 		Headers.Builder builder = new Headers.Builder()
 			.add(HttpHeaders.PROXY_AUTHORIZATION, Credentials.basic(acc, pwd))
 			.add(HttpHeaders.USER_AGENT, StringUtils.defaultIfBlank(userAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36"));
-		FuncUtil.callIfNotNull(cookie, c -> builder.add(HttpHeaders.COOKIE, c));
+		FuncUtil.callIfNotNull(cookie, () -> builder.add(HttpHeaders.COOKIE, cookie));
 		return builder.build();
 	}
 

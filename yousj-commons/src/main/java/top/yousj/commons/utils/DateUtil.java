@@ -29,11 +29,13 @@ public class DateUtil {
 	}
 
 	public static Date parseDate(String date) {
-		try {
-			return DateUtils.parseDate(date, PATTERN);
-		} catch (Exception ignored) {
-		}
-		return null;
+		return FuncUtil.callIfNotNull(date, () -> {
+			try {
+				return DateUtils.parseDate(date, PATTERN);
+			} catch (Exception ignored) {
+			}
+			return null;
+		});
 	}
 
 	public static String format(Date date) {
@@ -41,30 +43,26 @@ public class DateUtil {
 	}
 
 	public static String format(Date date, String format) {
-		if (date == null) {
+		return FuncUtil.callIfNotNull(date, () -> {
+			try {
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+				return simpleDateFormat.format(date);
+			} catch (Exception ignored) {
+			}
 			return null;
-		}
-		try {
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-			return simpleDateFormat.format(date);
-		} catch (Exception ignored) {
-		}
-		return null;
+		});
+
 	}
 
 	public static LocalDate date2LocalDate(Date date) {
-		if (date == null) {
-			return null;
-		}
-		ZoneId zoneId = ZoneId.systemDefault();
-		return date.toInstant().atZone(zoneId).toLocalDate();
+		return FuncUtil.callIfNotNull(date, () -> {
+			ZoneId zoneId = ZoneId.systemDefault();
+			return date.toInstant().atZone(zoneId).toLocalDate();
+		});
 	}
 
 	public static Date localDate2Date(LocalDate localDate) {
-		if (localDate == null) {
-			return null;
-		}
-		return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		return FuncUtil.callIfNotNull(localDate, () -> Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 	}
 
 	public static String join(Date start, Date end) {
