@@ -20,7 +20,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class Converter {
 
-	private final KeyPropertiesResolver keyPropertiesHolder;
+	private final KeyPropertiesResolver keyPropertiesResolver;
 	private final HttpServletRequest request;
 	private final ObjectMapper objectMapper;
 
@@ -32,16 +32,19 @@ public class Converter {
 		}
 		CryptHandler handler = SpringUtil.getBean(clazz);
 		String bodyStr = encrypt ? objectMapper.writeValueAsString(body) : new String((byte[]) body, StrPool.CHARSET_NAME);
-		KeyProperties keyProperties = keyPropertiesHolder.getKeyProperties(request);
-		if (!onlyData || !encrypt) {
-			return encrypt ? handler.encrypt(bodyStr, keyProperties) : handler.decrypt(bodyStr, keyProperties);
+		KeyProperties keyProperties = keyPropertiesResolver.getKeyProperties(request);
+		if (!encrypt) {
+			return handler.decrypt(bodyStr, keyProperties);
+		}
+		if (!onlyData) {
+			return handler.encrypt(bodyStr, keyProperties);
 		}
 		R r = objectMapper.readValue(bodyStr, R.class);
 		Object data = r.getData();
 		if (Objects.isNull(data)) {
 			return bodyStr;
 		}
-		bodyStr = data.toString();
+		bodyStr = objectMapper.writeValueAsString(data);
 		r.setData(handler.encrypt(bodyStr, keyProperties));
 		return objectMapper.writeValueAsString(r);
 	}
