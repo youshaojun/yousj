@@ -11,6 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResultCode {
 
+	OK(200, "ok"),
+
 	PARAM_NOT_MATCH(400, "参数不匹配！"),
 
 	UNAUTHORIZED(401, "请先登录！"),

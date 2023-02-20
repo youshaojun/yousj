@@ -23,15 +23,15 @@ public class R<T> {
 	private T data;
 
 	public static <T> R<T> ok(T data) {
-		return of(200, "ok", data);
+		return of(ResultCode.OK, data);
 	}
 
 	public static <T> R<T> ok() {
-		return of(200, "ok", null);
+		return of(ResultCode.OK, null);
 	}
 
 	public static <T> R<T> fail(T data) {
-		return of(500, null, data);
+		return of(ResultCode.SYSTEM_ERROR, data);
 	}
 
 	public static <T> R<T> fail(ResultCode resultCode) {
@@ -39,7 +39,7 @@ public class R<T> {
 	}
 
 	public static <T> R<T> fail(String msg) {
-		return of(500, msg, null);
+		return of(ResultCode.SYSTEM_ERROR.getCode(), msg, null);
 	}
 
 	public static <T> R<T> fail(int code, T data) {
@@ -60,6 +60,10 @@ public class R<T> {
 
 	public static <T> R<T> fail(int code, String msg) {
 		return of(code, msg, null);
+	}
+
+	public static <T> R<T> of(ResultCode resultCode, T data) {
+		return of(resultCode.getCode(), resultCode.getValue(), data);
 	}
 
 	private static <T> R<T> of(int code, String msg, T data) {
