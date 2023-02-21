@@ -26,7 +26,7 @@ public class LogPointAdvice {
 	@Bean
 	@ConditionalOnMissingBean
 	public LogPointHandler defaultLogPointHandler() {
-		return logMap -> log.info(JsonUtil.toJson(logMap));
+		return requestLog -> log.info(JsonUtil.toJson(requestLog));
 	}
 
 	@Bean
