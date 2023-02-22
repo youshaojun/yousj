@@ -18,6 +18,7 @@
 		<yousj-web.version>1.0.0</yousj-web.version>
 
 		<dynamic-datasource-spring-boot-starter.version>3.6.0</dynamic-datasource-spring-boot-starter.version>
+		<mybatis-plus-generator.version>3.5.3</mybatis-plus-generator.version>
 	</properties>
 
 	<dependencies>
@@ -39,9 +40,16 @@
 
 		<dependency>
 			<groupId>top.yousj</groupId>
+			<artifactId>yousj-freemarker</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>top.yousj</groupId>
 			<artifactId>yousj-web</artifactId>
 			<version>${yousj-web.version}</version>
 		</dependency>
+
+
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -69,6 +77,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-generator</artifactId>
+			<version>${mybatis-plus-generator.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>

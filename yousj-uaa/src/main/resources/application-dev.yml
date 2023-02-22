@@ -1,14 +1,14 @@
 spring:
   redis:
-    host: 127.0.0.1
-    password: 123456
+    host: 120.48.79.88
+    password: Ysj!@#qwe333&*66
   datasource:
     dynamic:
       primary: master
       strict: false
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/uaa?useUnicode=true&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8&useAffectedRows=true
+          url: jdbc:mysql://120.48.79.88:3306/uaa?useUnicode=true&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8&useAffectedRows=true
           username: root
-          password: root
+          password: Ysj666tY#iM
           driver-class-name: com.mysql.cj.jdbc.Driver
