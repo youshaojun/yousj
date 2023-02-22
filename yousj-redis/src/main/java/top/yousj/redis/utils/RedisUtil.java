@@ -7,13 +7,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
+import top.yousj.commons.utils.FuncUtil;
 import top.yousj.commons.utils.NumberUtil;
 import top.yousj.commons.utils.SpringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -44,8 +44,7 @@ public class RedisUtil {
 	}
 
 	public static Boolean exist(String key) {
-		Long expire = getExpire(key);
-		return Objects.nonNull(expire) && expire > 0;
+		return NumberUtil.gt0(getExpire(key));
 	}
 
 	public static void put(String key, Object v) {
@@ -72,17 +71,12 @@ public class RedisUtil {
 	public static void put(String key, Object v, long expire, TimeUnit timeUnit) {
 		BoundValueOperations<String, Object> oper = redisTemplate.boundValueOps(withKey(key));
 		oper.set(v);
-		if (expire > 0 && timeUnit != null) {
-			oper.expire(expire, timeUnit);
-		}
+		FuncUtil.conditionCall(expire > 0 && timeUnit != null, () -> oper.expire(expire, timeUnit));
 	}
 
 	public static void putIfAbsent(String key, Object v, long expire, TimeUnit timeUnit) {
 		BoundValueOperations<String, Object> oper = redisTemplate.boundValueOps(withKey(key));
-		Boolean ifAbsent = oper.setIfAbsent(v);
-		if (Objects.equals(ifAbsent, true) && expire > 0 && timeUnit != null) {
-			oper.expire(expire, timeUnit);
-		}
+		FuncUtil.conditionCall(Objects.equals(oper.setIfAbsent(v), true) && expire > 0 && timeUnit != null, () -> oper.expire(expire, timeUnit));
 	}
 
 	public static Boolean del(String key) {
@@ -105,51 +99,31 @@ public class RedisUtil {
 		return withKey(simple("search", "record", uid));
 	}
 
-	public void setSearchRecord(Integer uid, String searchStr) {
-		setSearchRecord(uid, searchStr, 10);
+	public static void setRecord(Integer uid, String searchStr) {
+		setRecord(uid, searchStr, 10);
 	}
 
-	/**
-	 * 保存用户搜索历史
-	 *
-	 * @param uid       用户id
-	 * @param searchStr 搜索信息
-	 */
-	public void setSearchRecord(Integer uid, String searchStr, int max) {
-		try {
+	public static void setRecord(Integer uid, String search, int max) {
+		FuncUtil.call(() -> {
 			ZSetOperations<String, String> zSetOperations = stringRedisTemplate.opsForZSet();
 			String key = getSearchRecordKey(uid);
-			zSetOperations.add(key, searchStr, System.currentTimeMillis());
+			zSetOperations.add(key, search, System.currentTimeMillis());
 			Long size = zSetOperations.size(key);
-			if (Objects.nonNull(size) && size > max) {
-				zSetOperations.reverseRangeWithScores(key, 0L, size - max - 1L);
-			}
-		} catch (Exception ignored) {
-		}
+			FuncUtil.conditionCall(Objects.nonNull(size) && size > max, () -> zSetOperations.reverseRangeWithScores(key, 0L, size - max - 1L));
+		});
 	}
 
-	public List<String> getSearchRecord(Integer uid) {
-		return getSearchRecord(uid, 10);
+	public static List<String> getRecord(Integer uid) {
+		return getRecord(uid, 10);
 	}
 
-	/**
-	 * 用户搜索历史
-	 */
-	public List<String> getSearchRecord(Integer uid, int max) {
+	public static List<String> getRecord(Integer uid, int max) {
 		List<String> searchRecordList = new ArrayList<>();
-		try {
-			Set<ZSetOperations.TypedTuple<String>> set = stringRedisTemplate.opsForZSet().reverseRangeWithScores(getSearchRecordKey(uid), 0L, max - 1L);
-			if (Objects.isNull(set)) return searchRecordList;
-			set.forEach(e -> searchRecordList.add(e.getValue()));
-		} catch (Exception ignored) {
-		}
+		FuncUtil.call(() -> FuncUtil.callIfNotNull(stringRedisTemplate.opsForZSet().reverseRangeWithScores(getSearchRecordKey(uid), 0L, max - 1L), s -> s.forEach(e -> searchRecordList.add(e.getValue()))));
 		return searchRecordList;
 	}
 
-	/**
-	 * 删除用户搜索历史
-	 */
-	public void deleteSearchRecord(Integer uid) {
+	public static void removeRecord(Integer uid) {
 		stringRedisTemplate.delete(getSearchRecordKey(uid));
 	}
 
