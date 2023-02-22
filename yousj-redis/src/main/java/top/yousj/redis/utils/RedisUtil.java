@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
+@SuppressWarnings("all")
 public class RedisUtil {
 
 	private static RedisTemplate<String, Object> redisTemplate;
