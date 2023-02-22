@@ -30,6 +30,7 @@ public class HttpSecurityConfig {
 			.formLogin()
 			// 关于动态加载配置(过于复杂) https://docs.spring.io/spring-security/site/docs/4.2.4.RELEASE/reference/htmlsingle/#appendix-faq-dynamic-url-metadata
 			// 全部由JwtAuthenticationFilter处理, 可动态加载配置
+			// TODO 考虑使用[sureness](https://github.com/dromara/sureness/blob/master/README_CN.md)代替security
 			//.and()
 			//.authorizeRequests()
 			//.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
