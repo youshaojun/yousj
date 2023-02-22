@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-top.yousj.redis.cache.CacheConfig,\
-top.yousj.redis.cache.RedisConfig
