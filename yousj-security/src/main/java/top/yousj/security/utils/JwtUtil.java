@@ -79,7 +79,7 @@ public class JwtUtil {
 	}
 
 	public static Boolean removeToken(String subject) {
-		return RedisUtil.del(customizeMatchHandler.getJwt().getSignKey() + subject);
+		return RedisUtil.remove(customizeMatchHandler.getJwt().getSignKey() + subject);
 	}
 
 	public static Boolean removeToken(HttpServletRequest request) {
