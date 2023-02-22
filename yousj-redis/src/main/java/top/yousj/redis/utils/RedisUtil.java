@@ -79,11 +79,11 @@ public class RedisUtil {
 		FuncUtil.conditionCall(Objects.equals(oper.setIfAbsent(v), true) && expire > 0 && timeUnit != null, () -> oper.expire(expire, timeUnit));
 	}
 
-	public static Boolean del(String key) {
+	public static Boolean remove(String key) {
 		return redisTemplate.delete(withKey(key));
 	}
 
-	public static void delHash(String key, String hashKey) {
+	public static void remove(String key, String hashKey) {
 		redisTemplate.opsForHash().delete(withKey(key), hashKey);
 	}
 
