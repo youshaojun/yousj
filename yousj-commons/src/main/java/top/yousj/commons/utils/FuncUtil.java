@@ -45,13 +45,13 @@ public class FuncUtil {
 
 	public static <T> T conditionCall(boolean condition, Supplier<T> supplier) {
 		if (condition) {
-			return supplier.get();
+			call(supplier);
 		}
 		return null;
 	}
 
 	public static <T> void callIfNotNull(T t, Consumer<T> consumer) {
-		callIfNotNull(t, ()-> consumer);
+		callIfNotNull(t, () -> consumer);
 	}
 
 }

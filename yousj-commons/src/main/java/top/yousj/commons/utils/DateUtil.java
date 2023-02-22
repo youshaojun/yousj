@@ -3,10 +3,11 @@ package top.yousj.commons.utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import top.yousj.commons.constant.StrPool;
+import top.yousj.commons.date.DatePattern;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -21,9 +22,6 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateUtil {
 
-	private static final String[] PATTERN = {"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy/MM/dd", "yyyy/MM/dd HH:mm", "yyyy/MM/dd HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "yyyy年MM月dd日", "yyyyMMdd"};
-
-
 	public static Date forever() {
 		return DateUtils.addMilliseconds(new Date(), Integer.MAX_VALUE);
 	}
@@ -31,7 +29,7 @@ public class DateUtil {
 	public static Date parseDate(String date) {
 		return FuncUtil.callIfNotNull(date, () -> {
 			try {
-				return DateUtils.parseDate(date, PATTERN);
+				return DateUtils.parseDate(date, DatePattern.PATTERN);
 			} catch (Exception ignored) {
 			}
 			return null;
@@ -39,26 +37,15 @@ public class DateUtil {
 	}
 
 	public static String format(Date date) {
-		return format(date, "yyyy-MM-dd");
+		return format(date, DatePattern.SIMPLE_DATETIME_PATTERN);
 	}
 
 	public static String format(Date date, String format) {
-		return FuncUtil.callIfNotNull(date, () -> {
-			try {
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-				return simpleDateFormat.format(date);
-			} catch (Exception ignored) {
-			}
-			return null;
-		});
-
+		return FuncUtil.callIfNotNull(date, () -> DateFormatUtils.format(date, format));
 	}
 
 	public static LocalDate date2LocalDate(Date date) {
-		return FuncUtil.callIfNotNull(date, () -> {
-			ZoneId zoneId = ZoneId.systemDefault();
-			return date.toInstant().atZone(zoneId).toLocalDate();
-		});
+		return FuncUtil.callIfNotNull(date, () -> date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 	}
 
 	public static Date localDate2Date(LocalDate localDate) {
@@ -66,16 +53,11 @@ public class DateUtil {
 	}
 
 	public static String join(Date start, Date end) {
-		return join(start, end, "至", "yyyy-MM-dd");
+		return join(start, end, "至", DatePattern.SIMPLE_DATETIME_PATTERN);
 	}
 
 	public static String join(Date start, Date end, String delimiter, String format) {
-		return FuncUtil.call(() -> {
-			if (Objects.isNull(end)) {
-				return format(start, format);
-			}
-			return StringUtils.join(delimiter, Objects.isNull(start) ? StrPool.EMPTY : format(start, format), format(end, format));
-		}, StrPool.EMPTY);
+		return FuncUtil.call(() -> Objects.isNull(end) ? format(start, format) : StringUtils.join(delimiter, Objects.isNull(start) ? StrPool.EMPTY : format(start, format), format(end, format)), StrPool.EMPTY);
 	}
 
 }
