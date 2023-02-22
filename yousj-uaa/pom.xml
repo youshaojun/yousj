@@ -34,6 +34,11 @@
 
 		<dependency>
 			<groupId>top.yousj</groupId>
+			<artifactId>yousj-rest</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>top.yousj</groupId>
 			<artifactId>yousj-web</artifactId>
 			<version>${yousj-web.version}</version>
 		</dependency>
