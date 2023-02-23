@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -18,7 +17,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-@Component
 public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextAware, EnvironmentAware {
 
 	private static ConfigurableListableBeanFactory beanFactory;
