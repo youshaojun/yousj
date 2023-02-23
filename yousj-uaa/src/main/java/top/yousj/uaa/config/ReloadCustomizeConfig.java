@@ -1,6 +1,7 @@
 package top.yousj.uaa.config;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestOperations;
 import top.yousj.commons.entity.R;
+import top.yousj.commons.utils.FuncUtil;
 import top.yousj.security.config.CustomizeConfig;
 import top.yousj.uaa.entity.po.UaaAuthUrlConfig;
 import top.yousj.uaa.entity.po.UaaUserDataSource;
@@ -65,12 +67,7 @@ public class ReloadCustomizeConfig {
 		List<UaaUserDataSource> uaaUserDataSources = uaaUserDataSourceService.list(Wrappers.<UaaUserDataSource>lambdaQuery()
 			.select(UaaUserDataSource::getId, UaaUserDataSource::getAppName, UaaUserDataSource::getQueryAllPathUrl));
 
-		uaaUserDataSources.forEach(e -> {
-			try {
-				CustomizeConfig.Uaa.ALL_URLS.put(e.getAppName(), (Set<String>) Objects.requireNonNull(restOperations.getForObject(e.getQueryAllPathUrl(), R.class)).getData());
-			} catch (Exception ignored) {
-			}
-		});
+		uaaUserDataSources.forEach(e -> Try.run(() -> CustomizeConfig.Uaa.ALL_URLS.put(e.getAppName(), (Set<String>) Objects.requireNonNull(restOperations.getForObject(e.getQueryAllPathUrl(), R.class)).getData())));
 
 	}
 
@@ -80,13 +77,7 @@ public class ReloadCustomizeConfig {
 			uaaConfig.put(appName, configs.map(UaaAuthUrlConfig::getAuthUrl).collect(Collectors.toSet()));
 			return;
 		}
-		configs.forEach(e -> {
-			if (Objects.equals(1, e.getIsDeleted())) {
-				urls.remove(e.getAuthUrl());
-				return;
-			}
-			urls.add(e.getAuthUrl());
-		});
+		configs.forEach(e -> FuncUtil.runnable(Objects.equals(1, e.getIsDeleted()), () -> urls.remove(e.getAuthUrl()), () -> urls.add(e.getAuthUrl())));
 	}
 
 }

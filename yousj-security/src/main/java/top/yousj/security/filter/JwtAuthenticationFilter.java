@@ -1,6 +1,7 @@
 package top.yousj.security.filter;
 
 import io.jsonwebtoken.JwtException;
+import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import top.yousj.commons.constant.UaaConstant;
 import top.yousj.commons.entity.R;
 import top.yousj.commons.enums.ResultCode;
+import top.yousj.commons.utils.FuncUtil;
 import top.yousj.commons.utils.UaaUtil;
 import top.yousj.redis.utils.RedisUtil;
 import top.yousj.security.handler.CustomizeMatchHandler;
@@ -93,15 +95,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private void setUid(HttpServletRequest request, HttpServletResponse response, String uid) {
-		try {
+		Try.run(() -> {
 			response.setHeader(UaaConstant.FORWARD_AUTH_HEADER_USER_ID, uid);
 			Map<String, String[]> parameterMap = request.getParameterMap();
 			Method method = parameterMap.getClass().getMethod("setLocked", Boolean.class);
 			method.invoke(parameterMap, Boolean.FALSE);
 			parameterMap.put(UaaConstant.UID, new String[]{uid});
 			method.invoke(parameterMap, Boolean.TRUE);
-		} catch (Exception ignored) {
-		}
+		});
 	}
 
 	private boolean hasPermission(HttpServletRequest request) {

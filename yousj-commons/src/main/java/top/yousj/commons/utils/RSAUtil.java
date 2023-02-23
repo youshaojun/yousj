@@ -1,5 +1,6 @@
 package top.yousj.commons.utils;
 
+import io.vavr.control.Try;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -7,15 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import top.yousj.commons.constant.StrPool;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
@@ -56,19 +52,14 @@ public class RSAUtil {
 	}
 
 	public static String decrypt(String str, String privateKey) {
-		byte[] inputByte;
-		String outStr = StrPool.EMPTY;
-		try {
-			inputByte = Base64.decodeBase64(str.getBytes(StrPool.CHARSET_NAME));
+		return Try.of(() -> {
+			byte[] inputByte = Base64.decodeBase64(str.getBytes(StrPool.CHARSET_NAME));
 			byte[] decoded = Base64.decodeBase64(privateKey);
 			RSAPrivateKey priKey = (RSAPrivateKey) KeyFactory.getInstance(CRYPTO_RSA).generatePrivate(new PKCS8EncodedKeySpec(decoded));
 			Cipher cipher = Cipher.getInstance(CRYPTO_RSA);
 			cipher.init(Cipher.DECRYPT_MODE, priKey);
-			outStr = new String(cipher.doFinal(inputByte));
-		} catch (UnsupportedEncodingException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		return outStr;
+			return new String(cipher.doFinal(inputByte));
+		}).get();
 	}
 
 }

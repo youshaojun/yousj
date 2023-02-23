@@ -1,5 +1,7 @@
 package top.yousj.commons.utils;
 
+import io.vavr.CheckedFunction0;
+import io.vavr.control.Try;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -14,44 +16,32 @@ import java.util.function.Supplier;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FuncUtil {
 
-	public static void call(Runnable runnable) {
-		conditionCall(true, runnable);
+	public static <T> T conditionCall(boolean condition, CheckedFunction0<? extends T> supplier) {
+		return condition ? Try.of(supplier).getOrNull() : null;
 	}
 
-	public static void conditionCall(boolean condition, Runnable runnable) {
-		try {
-			if (condition) {
-				runnable.run();
-			}
-		} catch (Exception ignored) {
-		}
-	}
-
-	public static <T> T call(Supplier<T> supplier) {
-		return call(supplier, null);
-	}
-
-	public static <T> T call(Supplier<T> supplier, T defaultValue) {
-		try {
-			return supplier.get();
-		} catch (Exception ignored) {
-		}
-		return defaultValue;
-	}
-
-	public static <T> T callIfNotNull(Object o, Supplier<T> supplier) {
+	public static <T> T callIfNotNull(Object o, CheckedFunction0<? extends T> supplier) {
 		return conditionCall(Objects.nonNull(o), supplier);
 	}
 
-	public static <T> T conditionCall(boolean condition, Supplier<T> supplier) {
-		if (condition) {
-			call(supplier);
+	public static <T> void callIfNotNull(T t, Consumer<T> consumer) {
+		if (Objects.nonNull(t)) {
+			Try.run(() -> consumer.accept(t));
 		}
-		return null;
 	}
 
-	public static <T> void callIfNotNull(T t, Consumer<T> consumer) {
-		callIfNotNull(t, () -> consumer);
+	public static void runnable(boolean condition, Runnable runnable) {
+		if (condition) {
+			Try.runRunnable(runnable);
+		}
+	}
+
+	public static void runnable(boolean condition, Runnable runnable, Runnable orElse) {
+		Try.runRunnable(condition ? runnable : orElse);
+	}
+
+	public static <T> T supplier(boolean condition, Supplier<T> supplier, Supplier<T> orElse) {
+		return Try.ofSupplier(condition ? supplier : orElse).getOrNull();
 	}
 
 }

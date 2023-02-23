@@ -1,6 +1,7 @@
 package top.yousj.redis.utils;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import io.vavr.control.Try;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -105,7 +106,7 @@ public class RedisUtil {
 	}
 
 	public static void setRecord(Integer uid, String search, int max) {
-		FuncUtil.call(() -> {
+		Try.runRunnable(() -> {
 			ZSetOperations<String, String> zSetOperations = stringRedisTemplate.opsForZSet();
 			String key = getSearchRecordKey(uid);
 			zSetOperations.add(key, search, System.currentTimeMillis());
@@ -120,12 +121,12 @@ public class RedisUtil {
 
 	public static List<String> getRecord(Integer uid, int max) {
 		List<String> searchRecordList = new ArrayList<>();
-		FuncUtil.call(() -> FuncUtil.callIfNotNull(stringRedisTemplate.opsForZSet().reverseRangeWithScores(getSearchRecordKey(uid), 0L, max - 1L), s -> s.forEach(e -> searchRecordList.add(e.getValue()))));
+		FuncUtil.callIfNotNull(stringRedisTemplate.opsForZSet().reverseRangeWithScores(getSearchRecordKey(uid), 0L, max - 1L), s -> s.forEach(e -> searchRecordList.add(e.getValue())));
 		return searchRecordList;
 	}
 
 	public static void removeRecord(Integer uid) {
-		stringRedisTemplate.delete(getSearchRecordKey(uid));
+		Try.runRunnable(() -> stringRedisTemplate.delete(getSearchRecordKey(uid)));
 	}
 
 }

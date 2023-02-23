@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.util.CollectionUtils;
 import top.yousj.commons.constant.PropertyConstant;
 import top.yousj.commons.properties.TimeCostProperties;
+import top.yousj.commons.utils.FuncUtil;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,11 +43,7 @@ public class TimeCostBeanPostProcessor implements BeanPostProcessor, Environment
 		}
 		Long start = costMap.get(beanName);
 		long cost = System.currentTimeMillis() - start;
-		if (cost > timeCostProperties.getThreshold()) {
-			costMap.put(beanName, cost);
-		} else {
-			costMap.remove(beanName);
-		}
+		FuncUtil.runnable(cost > timeCostProperties.getThreshold(), () -> costMap.put(beanName, cost), () -> costMap.remove(beanName));
 		return bean;
 	}
 

@@ -2,11 +2,12 @@ package top.yousj.commons.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.vavr.control.Try;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -35,31 +36,15 @@ public class JsonUtil {
 	}
 
 	public static boolean isJson(String json) {
-		if (StringUtils.isBlank(json)) {
-			return false;
-		}
-		try {
+		return Try.of(() -> {
 			objectMapper.readTree(json);
 			return true;
-		} catch (Exception e) {
-			return false;
-		}
+		}).getOrElse(false);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static String fromJsonMap(String json, String key) {
-		if (StringUtils.isEmpty(json)) {
-			return null;
-		}
-		String value;
-		try {
-			Map<String, String> map = fromJson(json, Map.class);
-			value = map.get(key);
-		} catch (Exception e) {
-			value = json;
-		}
-
-		return value;
+		return Try.of(() -> ((Map<String, String>) fromJson(json, Map.class)).get(key)).getOrElse(json);
 	}
 
 }

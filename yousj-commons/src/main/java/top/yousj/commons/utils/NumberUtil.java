@@ -4,9 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author yousj
@@ -25,14 +23,6 @@ public class NumberUtil {
 
 	public static boolean gt0(Integer value) {
 		return Objects.nonNull(value) && value > 0;
-	}
-
-	private Integer sum(Integer... params) {
-		return Arrays.stream(Optional.ofNullable(params).orElse(new Integer[]{})).filter(Objects::nonNull).reduce(Integer::sum).orElse(0);
-	}
-
-	private Long sum(Long... params) {
-		return Arrays.stream(Optional.ofNullable(params).orElse(new Long[]{})).filter(Objects::nonNull).reduce(Long::sum).orElse(0L);
 	}
 
 }

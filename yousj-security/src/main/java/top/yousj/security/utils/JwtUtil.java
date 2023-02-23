@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import top.yousj.commons.constant.StrPool;
 import top.yousj.commons.constant.UaaConstant;
 import top.yousj.commons.utils.DateUtil;
+import top.yousj.commons.utils.FuncUtil;
 import top.yousj.redis.utils.RedisUtil;
 import top.yousj.security.handler.CustomizeMatchHandler;
 import top.yousj.security.properties.SecurityProperties;
@@ -48,9 +49,7 @@ public class JwtUtil {
 			.claim(UaaConstant.UID, uid);
 		builder.setExpiration(DateUtil.forever());
 		String jwtToken = builder.compact();
-		if (jwt.isRenewal()) {
-			RedisUtil.put(jwt.getSignKey() + username, jwtToken, jwt.getTtl(), TimeUnit.MILLISECONDS);
-		}
+		FuncUtil.runnable(jwt.isRenewal(), ()->RedisUtil.put(jwt.getSignKey() + username, jwtToken, jwt.getTtl(), TimeUnit.MILLISECONDS));
 		return jwtToken;
 	}
 

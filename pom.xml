@@ -55,6 +55,8 @@
 		<org.reflections.version>0.9.11</org.reflections.version>
 		<jwt.version>0.9.1</jwt.version>
 		<jedis.version>3.8.0</jedis.version>
+		<vavr.version>0.10.4</vavr.version>
+		<streamex.version>0.8.1</streamex.version>
 	</properties>
 
 	<dependencies>
@@ -125,6 +127,16 @@
 				<groupId>io.jsonwebtoken</groupId>
 				<artifactId>jjwt</artifactId>
 				<version>${jwt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.vavr</groupId>
+				<artifactId>vavr</artifactId>
+				<version>${vavr.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>one.util</groupId>
+				<artifactId>streamex</artifactId>
+				<version>${streamex.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

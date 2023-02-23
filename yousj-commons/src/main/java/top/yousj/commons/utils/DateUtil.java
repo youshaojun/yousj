@@ -1,5 +1,6 @@
 package top.yousj.commons.utils;
 
+import io.vavr.control.Try;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -27,13 +28,7 @@ public class DateUtil {
 	}
 
 	public static Date parseDate(String date) {
-		return FuncUtil.callIfNotNull(date, () -> {
-			try {
-				return DateUtils.parseDate(date, DatePattern.PATTERN);
-			} catch (Exception ignored) {
-			}
-			return null;
-		});
+		return Try.of(() -> DateUtils.parseDate(date, DatePattern.PATTERN)).getOrNull();
 	}
 
 	public static String format(Date date) {
@@ -41,15 +36,15 @@ public class DateUtil {
 	}
 
 	public static String format(Date date, String format) {
-		return FuncUtil.callIfNotNull(date, () -> DateFormatUtils.format(date, format));
+		return Try.of(() -> DateFormatUtils.format(date, format)).getOrNull();
 	}
 
 	public static LocalDate date2LocalDate(Date date) {
-		return FuncUtil.callIfNotNull(date, () -> date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		return Try.of(() -> date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).getOrNull();
 	}
 
 	public static Date localDate2Date(LocalDate localDate) {
-		return FuncUtil.callIfNotNull(localDate, () -> Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		return Try.of(() -> Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())).getOrNull();
 	}
 
 	public static String join(Date start, Date end) {
@@ -57,7 +52,7 @@ public class DateUtil {
 	}
 
 	public static String join(Date start, Date end, String delimiter, String format) {
-		return FuncUtil.call(() -> Objects.isNull(end) ? format(start, format) : StringUtils.join(delimiter, Objects.isNull(start) ? StrPool.EMPTY : format(start, format), format(end, format)), StrPool.EMPTY);
+		return Try.of(() -> Objects.isNull(end) ? format(start, format) : StringUtils.join(delimiter, Objects.isNull(start) ? StrPool.EMPTY : format(start, format), format(end, format))).getOrNull();
 	}
 
 }
