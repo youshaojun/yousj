@@ -31,14 +31,15 @@ public class GeneratorCode {
 				.pathInfo(Collections.singletonMap(OutputFile.xml, dir + "resources\\mapper")))
 			.strategyConfig(builder -> builder
 				// 设置需要生成的表名
-				//.addInclude("uaa_user_data_source", "uaa_auth_url_config")
-				.addInclude("uaa_test")
+				.addInclude("uaa_user_data_source", "uaa_auth_url_config")
 				.entityBuilder()
 				//.idType(IdType.ASSIGN_ID)
 				.enableLombok()
 				.enableTableFieldAnnotation()
 				.mapperBuilder()
 				.superClass(ICustomizeBaseMapper.class)
+				.enableBaseResultMap()
+				.enableBaseColumnList()
 				.serviceBuilder()
 				.superServiceClass(ICustomizeService.class)
 				.superServiceImplClass(CustomizeServiceImpl.class))
