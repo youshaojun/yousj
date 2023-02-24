@@ -19,6 +19,7 @@
 
 		<dynamic-datasource-spring-boot-starter.version>3.6.0</dynamic-datasource-spring-boot-starter.version>
 		<mybatis-plus-generator.version>3.5.3</mybatis-plus-generator.version>
+		<jasypt-spring-boot-starter.version>3.0.4</jasypt-spring-boot-starter.version>
 	</properties>
 
 	<dependencies>
@@ -84,6 +85,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
@@ -100,6 +106,11 @@
 				<groupId>com.baomidou</groupId>
 				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
 				<version>${dynamic-datasource-spring-boot-starter.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-spring-boot-starter</artifactId>
+				<version>${jasypt-spring-boot-starter.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

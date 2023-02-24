@@ -1,8 +1,18 @@
 spring:
+  main:
+    allow-circular-references: true
   application:
     name: uaa
   profiles:
     active: "@spring.profiles.active@"
+
+jasypt:
+  encryptor:
+    property:
+      prefix: ENC@(
+      suffix: )
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
 
 top:
   yousj:

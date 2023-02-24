@@ -1,14 +1,14 @@
 spring:
   redis:
-    host: 120.48.79.88
-    password: Ysj!@#qwe333&*66
+    host: ENC@(wtMkwoLyoVLX8y/+ihGNI6Og0xuUnmF2)
+    password: ENC@(iJeH80RIfafHJ/3bhasp9HMwfHPEt0W8yI+ijZ7r4SM=)
   datasource:
     dynamic:
       primary: master
       strict: false
       datasource:
         master:
-          url: jdbc:mysql://120.48.79.88:3306/uaa?useUnicode=true&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8&useAffectedRows=true
-          username: root
-          password: Ysj666tY#iM
+          url: ENC@(LBs8v2C2f5iE57ElKKL4gbcJjDZILq6vGf4v/C7Vounp0NoCTJuHMfPfLLylc1rV4kHp//qs7nGCn6HsVAb/VtxHqPoqFY+tizT7GH7Cw7MT8L3ohakpdb7+8zCunu9ThHd0US4J8MhqtPcB3LtnjNM6gBe1BkfEmpUwBV1ALfu1ric0adwOx3SQXALX3RhJ)
+          username: ENC@(lHl5iL6vikTZLqQY/2cpOQ==)
+          password: ENC@(yO/h12JrfgzTRsc4ynLycx4nyY/rWMr3)
           driver-class-name: com.mysql.cj.jdbc.Driver
