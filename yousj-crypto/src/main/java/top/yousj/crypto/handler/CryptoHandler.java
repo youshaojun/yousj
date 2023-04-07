@@ -6,7 +6,7 @@ import top.yousj.crypto.properties.KeyProperties;
  * @author yousj
  * @since 2023-01-06
  */
-public interface CryptHandler {
+public interface CryptoHandler {
 
 	String encrypt(String body, KeyProperties keyProperties);
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import top.yousj.crypto.annotation.Encrypt;
 import top.yousj.crypto.constant.PropertyConstant;
-import top.yousj.crypto.converter.Converter;
+import top.yousj.crypto.converter.DataConverter;
 
 /**
  * @author yousj
@@ -25,7 +25,7 @@ import top.yousj.crypto.converter.Converter;
 @ConditionalOnProperty(prefix = PropertyConstant.CRYPTO, name = "encrypt.enable", havingValue = "true", matchIfMissing = true)
 public class EncryptResAdvice implements ResponseBodyAdvice<Object> {
 
-	private final Converter converter;
+	private final DataConverter dataConverter;
 
 	@Override
 	public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -36,6 +36,6 @@ public class EncryptResAdvice implements ResponseBodyAdvice<Object> {
 	@Override
 	public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 		Encrypt encrypt = methodParameter.getMethodAnnotation(Encrypt.class);
-		return converter.convert(encrypt.handler(), true, encrypt.onlyData(), body);
+		return dataConverter.convert(encrypt.handler(), true, encrypt.onlyData(), body);
 	}
 }

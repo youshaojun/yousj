@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface KeyPropertiesResolver {
 
-	KeyProperties getKeyProperties(String channel);
+	KeyProperties resolve(String channel);
 
-	default KeyProperties getKeyProperties(HttpServletRequest request) {
+	default KeyProperties resolve(HttpServletRequest request) {
 		String channel = request.getHeader(UaaConstant.APP_CHANNEL);
 		ParamAssertUtil.notNull(channel, "channel can't be null.");
-		return getKeyProperties(channel);
+		return resolve(channel);
 	}
 
 }

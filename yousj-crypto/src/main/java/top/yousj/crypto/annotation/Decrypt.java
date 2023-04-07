@@ -1,7 +1,7 @@
 package top.yousj.crypto.annotation;
 
-import top.yousj.crypto.handler.CryptHandler;
-import top.yousj.crypto.handler.RsaCryptHandler;
+import top.yousj.crypto.handler.CryptoHandler;
+import top.yousj.crypto.handler.RsaCryptoHandler;
 
 import java.lang.annotation.*;
 
@@ -11,6 +11,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Decrypt {
 
-	Class<? extends CryptHandler> handler() default RsaCryptHandler.class;
+	Class<? extends CryptoHandler> handler() default RsaCryptoHandler.class;
 
 }
