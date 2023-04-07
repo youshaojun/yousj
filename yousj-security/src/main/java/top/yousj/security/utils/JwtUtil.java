@@ -49,7 +49,7 @@ public class JwtUtil {
 			.claim(UaaConstant.UID, uid);
 		builder.setExpiration(DateUtil.forever());
 		String jwtToken = builder.compact();
-		FuncUtil.runnable(jwt.isRenewal(), ()->RedisUtil.put(jwt.getSignKey() + username, jwtToken, jwt.getTtl(), TimeUnit.MILLISECONDS));
+		FuncUtil.run(jwt.isRenewal(), ()->RedisUtil.put(jwt.getSignKey() + username, jwtToken, jwt.getTtl(), TimeUnit.MILLISECONDS));
 		return jwtToken;
 	}
 

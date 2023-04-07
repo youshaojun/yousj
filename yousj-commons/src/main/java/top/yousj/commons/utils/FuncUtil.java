@@ -30,13 +30,13 @@ public class FuncUtil {
 		}
 	}
 
-	public static void runnable(boolean condition, Runnable runnable) {
+	public static void run(boolean condition, Runnable runnable) {
 		if (condition) {
 			Try.runRunnable(runnable);
 		}
 	}
 
-	public static void runnable(boolean condition, Runnable runnable, Runnable orElse) {
+	public static void run(boolean condition, Runnable runnable, Runnable orElse) {
 		Try.runRunnable(condition ? runnable : orElse);
 	}
 

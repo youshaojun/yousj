@@ -77,7 +77,7 @@ public class ReloadCustomizeConfig {
 			uaaConfig.put(appName, configs.map(UaaAuthUrlConfig::getAuthUrl).collect(Collectors.toSet()));
 			return;
 		}
-		configs.forEach(e -> FuncUtil.runnable(Objects.equals(1, e.getIsDeleted()), () -> urls.remove(e.getAuthUrl()), () -> urls.add(e.getAuthUrl())));
+		configs.forEach(e -> FuncUtil.run(Objects.equals(1, e.getIsDeleted()), () -> urls.remove(e.getAuthUrl()), () -> urls.add(e.getAuthUrl())));
 	}
 
 }

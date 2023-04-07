@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
+import top.yousj.commons.utils.FuncUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,31 +26,27 @@ import java.util.Objects;
 @NoArgsConstructor
 public class MultiSheetUrlCellWriteHandler implements CellWriteHandler {
 
-	private List<MultiSheet> multiSheets;
+    private List<MultiSheet> multiSheets;
 
-	private String ignoreStr = "--";
+    private String ignoreStr = "--";
 
-	@Override
-	public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
-		for (MultiSheet e : multiSheets) {
-			if (StringUtils.equals(writeSheetHolder.getSheetName(), e.getSheetName())) {
-				if (!isHead && cell.getColumnIndex() == e.getColumnIndex() && !Objects.equals(cell.getStringCellValue(), ignoreStr)) {
-					UrlCellWriteHandler.setHyperlink(writeSheetHolder, cell, ignoreStr);
-				}
-				return;
-			}
-		}
-	}
+    @Override
+    public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
+        multiSheets.stream()
+            .filter(e -> (StringUtils.equals(writeSheetHolder.getSheetName(), e.getSheetName())))
+            .findFirst()
+            .ifPresent(e -> FuncUtil.run(!isHead && cell.getColumnIndex() == e.getColumnIndex() && !Objects.equals(cell.getStringCellValue(), ignoreStr), () -> UrlCellWriteHandler.setHyperlink(writeSheetHolder, cell, ignoreStr)));
+    }
 
-	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static class MultiSheet {
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MultiSheet {
 
-		private String sheetName;
+        private String sheetName;
 
-		private int columnIndex = 1;
+        private int columnIndex = 1;
 
-	}
+    }
 
 }

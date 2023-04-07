@@ -43,7 +43,7 @@ public class TimeCostBeanPostProcessor implements BeanPostProcessor, Environment
 		}
 		Long start = costMap.get(beanName);
 		long cost = System.currentTimeMillis() - start;
-		FuncUtil.runnable(cost > timeCostProperties.getThreshold(), () -> costMap.put(beanName, cost), () -> costMap.remove(beanName));
+		FuncUtil.run(cost > timeCostProperties.getThreshold(), () -> costMap.put(beanName, cost), () -> costMap.remove(beanName));
 		return bean;
 	}
 

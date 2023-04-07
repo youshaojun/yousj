@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
+import top.yousj.commons.utils.FuncUtil;
 import top.yousj.excel.utils.ExcelUtil;
 
 import java.util.List;
@@ -26,23 +27,20 @@ import java.util.Objects;
 @NoArgsConstructor
 public class ContentCellStylePostWriteHandler implements CellWriteHandler {
 
-	private String ignoreStr = "--";
+    private String ignoreStr = "--";
 
-	@Override
-	public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
-		boolean isHyperlink = Objects.nonNull(cell.getHyperlink());
-		if (isHyperlink) {
-			cell.setCellValue(ExcelUtil.mark(StringUtils.defaultIfBlank(cell.getStringCellValue(), ignoreStr), ExcelUtil.Mark.BLUE));
-			return;
-		}
-		if (!isHead && cell.getCellType() == CellType.STRING && (StringUtils.isBlank(cell.getStringCellValue()) || ignoreStr.equals(cell.getStringCellValue()))) {
-			cell.setCellValue(ExcelUtil.mark(ignoreStr, ExcelUtil.Mark.BLACK));
-		}
-	}
+    @Override
+    public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
+        if (Objects.nonNull(cell.getHyperlink())) {
+            cell.setCellValue(ExcelUtil.mark(StringUtils.defaultIfBlank(cell.getStringCellValue(), ignoreStr), ExcelUtil.Mark.BLUE));
+            return;
+        }
+        FuncUtil.run(!isHead && cell.getCellType() == CellType.STRING && (StringUtils.isBlank(cell.getStringCellValue()) || ignoreStr.equals(cell.getStringCellValue())), () -> cell.setCellValue(ExcelUtil.mark(ignoreStr, ExcelUtil.Mark.BLACK)));
+    }
 
-	@Override
-	public int order() {
-		return 999;
-	}
+    @Override
+    public int order() {
+        return 999;
+    }
 
 }
