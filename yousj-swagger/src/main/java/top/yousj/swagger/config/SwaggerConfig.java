@@ -15,7 +15,7 @@ import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 /**
  * @author yousj
@@ -25,44 +25,36 @@ import java.util.stream.Collectors;
 @EnableKnife4j
 @Configuration
 @Profile({"dev", "test"})
-@SuppressWarnings("all")
 public class SwaggerConfig {
 
-	static {
-		System.setProperty("spring.mvc.pathmatch.matching-strategy", "ant_path_matcher");
-	}
+    static {
+        System.setProperty("spring.mvc.pathmatch.matching-strategy", "ant_path_matcher");
+    }
 
-	public SwaggerConfig(List<Docket> dockets) {
-		dockets.forEach(e -> log.debug(" load swagger group [" + e.getGroupName() + "]"));
-	}
+    public SwaggerConfig(List<Docket> dockets) {
+        dockets.forEach(e -> log.debug(" load swagger group [" + e.getGroupName() + "]"));
+    }
 
-	@Bean
-	public BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
-		return new BeanPostProcessor() {
+    @Bean
+    @SuppressWarnings("all")
+    public BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
+        return new BeanPostProcessor() {
 
-			@Override
-			public Object postProcessAfterInitialization(Object bean, String beanName) {
-				if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof WebFluxRequestHandlerProvider) {
-					customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
-				}
-				return bean;
-			}
+            @Override
+            public Object postProcessAfterInitialization(Object bean, String beanName) {
+                if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof WebFluxRequestHandlerProvider) {
+                    getHandlerMappings(bean).removeIf(e -> Objects.isNull(e.getPatternParser()));
+                }
+                return bean;
+            }
 
-			private <T extends RequestMappingInfoHandlerMapping> void customizeSpringfoxHandlerMappings(List<T> mappings) {
-				List<T> copy = mappings.stream()
-					.filter(mapping -> mapping.getPatternParser() == null)
-					.collect(Collectors.toList());
-				mappings.clear();
-				mappings.addAll(copy);
-			}
-
-			@SneakyThrows
-			private List<RequestMappingInfoHandlerMapping> getHandlerMappings(Object bean) {
-				Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
-				field.setAccessible(true);
-				return (List<RequestMappingInfoHandlerMapping>) field.get(bean);
-			}
-		};
-	}
+            @SneakyThrows
+            private List<RequestMappingInfoHandlerMapping> getHandlerMappings(Object bean) {
+                Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
+                field.setAccessible(true);
+                return (List<RequestMappingInfoHandlerMapping>) field.get(bean);
+            }
+        };
+    }
 
 }
