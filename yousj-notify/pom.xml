@@ -11,5 +11,18 @@
 
     <artifactId>yousj-notify</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>top.yousj</groupId>
+            <artifactId>yousj-commons</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>top.yousj</groupId>
+            <artifactId>yousj-rest</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
