@@ -14,7 +14,7 @@ public class NotifyHelper {
     @SuppressWarnings("unchecked")
     public static Object send(@NotNull Message message) {
         NotifyTypeEnum notifyType = message.getNotifyType();
-        Assert.notNull(notifyType, "notifyType must be not null.");
+        Assert.notNull(notifyType, "notifyType must not be null.");
         AbstractNotify notifyBean = SpringUtil.getBean(notifyType.getClazz());
         Assert.notNull(notifyType, "notifyBean not found.");
         return notifyBean.send(message);
