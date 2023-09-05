@@ -45,27 +45,27 @@ public abstract class AbstractSender<M extends Message, C extends AlertConfig> {
         }
         if (message.isAtOnce()) {
             try {
-                save(message, config, MsgStatus.AT_ONCE);
+                save(message, MsgStatus.AT_ONCE);
                 doSend(message, config);
-                update(message, config, MsgStatus.SUCCESS, null);
+                update(message, MsgStatus.SUCCESS, null);
             } catch (Exception e) {
                 log.error(String.valueOf(message));
                 log.error("消息发送失败: ", e);
-                update(message, config, MsgStatus.FAILED, e.getMessage());
+                update(message, MsgStatus.FAILED, e.getMessage());
             }
         } else {
-            save(message, config, MsgStatus.WAITING);
+            save(message, MsgStatus.WAITING);
         }
         return message.getMsg();
     }
 
     protected abstract void doSend(M message, C config);
 
-    protected void save(M message, C config, MsgStatus status) {
+    public void save(M message, MsgStatus status) {
         // TODO save log
     }
 
-    protected void update(M message, C config, MsgStatus status, String errorMsg) {
+    public void update(M message, MsgStatus status, String errorMsg) {
         // TODO update log
     }
 

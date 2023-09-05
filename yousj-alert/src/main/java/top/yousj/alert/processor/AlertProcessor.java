@@ -3,7 +3,6 @@ package top.yousj.alert.processor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import top.yousj.alert.config.AlertConfig;
 import top.yousj.alert.enums.MsgStatus;
 import top.yousj.alert.model.Message;
 import top.yousj.alert.sender.AbstractSender;
@@ -20,9 +19,10 @@ public class AlertProcessor implements CommandLineRunner {
     private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Autowired
-    private Map<String, AbstractSender<Message, AlertConfig>> senderMap;
+    private Map<String, AbstractSender> senderMap;
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run(String... args) {
         // TODO 单线程排队发送消息
         executorService.execute(() -> {
@@ -32,17 +32,18 @@ public class AlertProcessor implements CommandLineRunner {
                 List<Message> messages = null;
                 messages.forEach(message -> {
                     // success
-                    MsgStatus status = MsgStatus.WAITING;
+                    MsgStatus status = MsgStatus.FAILED;
+                    String errorMsg = null;
+                    AbstractSender sender = senderMap.get(message.getAlertType().getName());
                     try {
-                        senderMap.get(message.getAlertType().getName()).send(message);
-                        status = MsgStatus.SUCCESS;
+                        sender.send(message);
+                        sender.update(message, MsgStatus.SUCCESS, null);
                     } catch (Exception e) {
                         log.error(String.valueOf(message));
                         log.error("send msg failed.", e);
-                        // failed
-                        status = MsgStatus.FAILED;
+                        errorMsg = e.getMessage();
                     }
-                    // TODO update log
+                    sender.update(message, status, errorMsg);
                 });
             }
         });
