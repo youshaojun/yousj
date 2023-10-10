@@ -2,6 +2,7 @@ package top.yousj.redis.cache;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
@@ -92,14 +93,15 @@ public class CacheConfig {
 		return generateRedisCacheConfiguration(null, null);
 	}
 
-	private RedisCacheConfiguration generateRedisCacheConfiguration(Duration entryTtl, String prefixKey) {
-		String prefixKeyWith = SpringUtil.getApplicationName() + ":spring:cache:";
-		return RedisCacheConfiguration.defaultCacheConfig()
-			.entryTtl(entryTtl == null ? Duration.ofHours(1L) : entryTtl)
-			.disableCachingNullValues()
-			.computePrefixWith((cacheName) -> prefixKey == null ? prefixKeyWith + simple(CacheConstant.COMMON) : prefixKeyWith + prefixKey)
-			.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string()))
-			.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisTemplateFactory.getValueSerializer()));
-	}
+    private RedisCacheConfiguration generateRedisCacheConfiguration(Duration entryTtl, String prefixKey) {
+
+        String prefixKeyWith = SpringUtil.getApplicationName() + ":spring:cache:";
+        return RedisCacheConfiguration.defaultCacheConfig()
+            .entryTtl(ObjectUtils.defaultIfNull(entryTtl, Duration.ofHours(1L)))
+            .disableCachingNullValues()
+            .computePrefixWith((cacheName) -> Objects.isNull(prefixKey) ? prefixKeyWith + simple(CacheConstant.COMMON) : prefixKeyWith + prefixKey)
+            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string()))
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisTemplateFactory.getValueSerializer()));
+    }
 
 }
