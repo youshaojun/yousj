@@ -1,4 +1,4 @@
-package top.yousj.redis.cache;
+package top.yousj.redis.support;
 
 import org.springframework.data.redis.cache.BatchStrategies;
 import org.springframework.data.redis.cache.BatchStrategy;
