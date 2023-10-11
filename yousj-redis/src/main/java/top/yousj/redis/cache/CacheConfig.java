@@ -58,7 +58,11 @@ public class CacheConfig {
 
 	@Bean
 	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-		return new RedisCacheManager(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory), defaultRedisCacheConfiguration(), getCacheConfigurations());
+	    // default RedisCacheWriter
+        // RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
+        // customize RedisCacheWriter
+        RedisCacheWriter redisCacheWriter = RedisCacheWriterCustomize.nonLockingRedisCacheWriter(redisConnectionFactory);
+        return new RedisCacheManager(redisCacheWriter, defaultRedisCacheConfiguration(), getCacheConfigurations());
 	}
 
 	private Map<String, RedisCacheConfiguration> getCacheConfigurations() {
