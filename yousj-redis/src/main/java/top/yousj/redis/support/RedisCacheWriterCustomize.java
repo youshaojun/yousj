@@ -26,12 +26,12 @@ public class RedisCacheWriterCustomize extends DefaultRedisCacheWriter {
     }
 
     /**
-     * TODO do something after {@link org.springframework.data.redis.cache.DefaultRedisCacheWriter#put}
+     * TODO do something after {@link DefaultRedisCacheWriter#put}
      */
     @Override
     public void put(String name, byte[] key, byte[] value, @Nullable Duration ttl) {
         super.put(name, key, value, ttl);
-        // TODO do something.
+        // do something.
     }
 
     public static RedisCacheWriter nonLockingRedisCacheWriter(RedisConnectionFactory connectionFactory) {

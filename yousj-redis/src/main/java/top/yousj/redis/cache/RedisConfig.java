@@ -25,4 +25,10 @@ public class RedisConfig {
 		return RedisTemplateFactory.create(redisConnectionFactory);
 	}
 
+    @Bean
+    @ConditionalOnMissingBean(name = {"redisTemplateCustomize"})
+    public RedisTemplate<String, Object> redisTemplateCustomize(RedisConnectionFactory redisConnectionFactory) {
+        return RedisTemplateFactory.customize(redisConnectionFactory);
+    }
+
 }
