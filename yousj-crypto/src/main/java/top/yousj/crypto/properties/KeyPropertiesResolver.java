@@ -1,7 +1,7 @@
 package top.yousj.crypto.properties;
 
 import top.yousj.commons.constant.UaaConstant;
-import top.yousj.commons.utils.ParamAssertUtil;
+import top.yousj.commons.utils.AssertUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +15,7 @@ public interface KeyPropertiesResolver {
 
 	default KeyProperties resolve(HttpServletRequest request) {
 		String channel = request.getHeader(UaaConstant.APP_CHANNEL);
-		ParamAssertUtil.notNull(channel, "channel can't be null.");
+		AssertUtil.notNull(channel, "channel can't be null.");
 		return resolve(channel);
 	}
 

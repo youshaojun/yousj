@@ -22,7 +22,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import top.yousj.commons.utils.ParamAssertUtil;
+import top.yousj.commons.utils.AssertUtil;
 import top.yousj.commons.utils.SpringUtil;
 import top.yousj.redis.RedisTemplateFactory;
 import top.yousj.redis.constant.CacheConstant;
@@ -83,7 +83,7 @@ public class CacheConfig {
 				continue;
 			}
 			String key = cacheable.key();
-			ParamAssertUtil.notBlank(key, "key is not be blank. ");
+			AssertUtil.notBlank(key, "key is not be blank. ");
 			String[] split = key.replace("'", "").split("#");
 			if (split.length < 2) {
 				continue;

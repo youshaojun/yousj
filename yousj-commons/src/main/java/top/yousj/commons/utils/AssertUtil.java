@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ParamAssertUtil {
+public class AssertUtil {
 
 	public static void notNull(Object data, String message) {
 		notNull(data, new BizException(message));
