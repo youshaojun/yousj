@@ -73,12 +73,12 @@ public class RedisUtil {
 	public static void put(String key, Object v, long expire, TimeUnit timeUnit) {
 		BoundValueOperations<String, Object> oper = redisTemplate.boundValueOps(withKey(key));
 		oper.set(v);
-		FuncUtil.conditionCall(expire > 0 && timeUnit != null, () -> oper.expire(expire, timeUnit));
+		FuncUtil.call(expire > 0 && timeUnit != null, () -> oper.expire(expire, timeUnit));
 	}
 
 	public static void putIfAbsent(String key, Object v, long expire, TimeUnit timeUnit) {
 		BoundValueOperations<String, Object> oper = redisTemplate.boundValueOps(withKey(key));
-		FuncUtil.conditionCall(Objects.equals(oper.setIfAbsent(v), true) && expire > 0 && timeUnit != null, () -> oper.expire(expire, timeUnit));
+		FuncUtil.call(Objects.equals(oper.setIfAbsent(v), true) && expire > 0 && timeUnit != null, () -> oper.expire(expire, timeUnit));
 	}
 
 	public static Boolean remove(String key) {
@@ -111,7 +111,7 @@ public class RedisUtil {
 			String key = getSearchRecordKey(uid);
 			zSetOperations.add(key, search, System.currentTimeMillis());
 			Long size = zSetOperations.size(key);
-			FuncUtil.conditionCall(Objects.nonNull(size) && size > max, () -> zSetOperations.reverseRangeWithScores(key, 0L, size - max - 1L));
+			FuncUtil.call(Objects.nonNull(size) && size > max, () -> zSetOperations.reverseRangeWithScores(key, 0L, size - max - 1L));
 		});
 	}
 

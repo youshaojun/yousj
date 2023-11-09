@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FuncUtil {
 
-    public static <T> T conditionCall(boolean condition, CheckedFunction0<? extends T> supplier) {
+    public static <T> T call(boolean condition, CheckedFunction0<? extends T> supplier) {
         return condition ? Try.of(supplier).getOrNull() : null;
     }
 
     public static <T> T callIfNotNull(Object o, CheckedFunction0<? extends T> supplier) {
-        return conditionCall(Objects.nonNull(o), supplier);
+        return call(Objects.nonNull(o), supplier);
     }
 
     public static <T> void callIfNotNull(T t, Consumer<T> consumer) {
