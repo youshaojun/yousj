@@ -40,9 +40,9 @@ public class FileUtil {
 		return createPath(dir, fileTypeEnum.name().toLowerCase());
 	}
 
-	public static String createPath(String dir, String suffix) {
-		return dir + "/" + DateFormatUtils.format(new Date(), "yyyyMMdd") + "/" + UUID.randomUUID().toString() + "." + suffix;
-	}
+    public static String createPath(String dir, String suffix) {
+        return String.format("%s/%s/%s.%s", dir, DateFormatUtils.format(new Date(), "yyyyMMdd"), UUID.randomUUID().toString(), suffix);
+    }
 
 	@SneakyThrows
 	public static File mkdirs(File file) {
@@ -58,16 +58,13 @@ public class FileUtil {
 	}
 
 	@SneakyThrows
-	public static File getResources(String path) {
-		Objects.requireNonNull(path);
-		InputStream input = FileUtil.class.getClassLoader().getResourceAsStream(path);
-		if (Objects.isNull(input)) {
-			return null;
-		}
-		String[] split = path.split("\\.");
-		File file = new File(createPath(split[split.length - 1]));
-		Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		return file;
+    public static File getResources(String path) {
+        InputStream input = FileUtil.class.getClassLoader().getResourceAsStream(Objects.requireNonNull(path));
+        AssertUtil.notNull(input, String.format("file[%s] is not exist.", path));
+        String[] split = path.split("\\.");
+        File file = new File(createPath(split[split.length - 1]));
+        Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        return file;
 	}
 
 }
