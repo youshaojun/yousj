@@ -46,6 +46,14 @@ public class FuncUtil {
         Try.runRunnable(condition ? runnable : orElse);
     }
 
+    public static <T> T supplier(Supplier<T> supplier, T defaultValue) {
+        try {
+            return supplier.get();
+        } catch (Exception ignored) {
+            return defaultValue;
+        }
+    }
+
     public static <T> T supplier(boolean condition, Supplier<T> supplier, Supplier<T> orElse) {
         return Try.ofSupplier(condition ? supplier : orElse).getOrNull();
     }
